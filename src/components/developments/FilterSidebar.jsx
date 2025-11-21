@@ -45,7 +45,7 @@ const FilterSidebar = ({ isOpen, onClose, filters, onFiltersChange }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="lg:hidden fixed inset-0 bg-black/50 z-40"
+            className="lg:hidden fixed inset-0 bg-black/50 z-40 backdrop-blur-sm"
           />
         )}
       </AnimatePresence>
@@ -60,16 +60,16 @@ const FilterSidebar = ({ isOpen, onClose, filters, onFiltersChange }) => {
           initial={{ x: -320 }}
           animate={{ x: isOpen || window.innerWidth >= 1024 ? 0 : -320 }}
           transition={{ duration: 0.3 }}
-          className="h-full lg:h-auto bg-white lg:bg-gray-50 lg:rounded-xl p-6 shadow-xl lg:shadow-lg border-r lg:border lg:border-gray-200 overflow-y-auto"
+          className="h-full lg:h-auto bg-white rounded-2xl p-6 shadow-sm border border-gray-100 overflow-y-auto"
         >
           {/* Header */}
           <div className="flex justify-between items-center mb-6">
-            <h3 className="text-lg font-semibold text-slate-800">Filters</h3>
+            <h3 className="text-lg font-bold text-premium-black">Filters</h3>
             <div className="flex items-center space-x-2">
               {hasActiveFilters && (
                 <button
                   onClick={clearAllFilters}
-                  className="text-amber-600 hover:text-amber-700 text-sm font-medium flex items-center space-x-1"
+                  className="text-premium-blue hover:text-blue-700 text-sm font-medium flex items-center space-x-1"
                 >
                   <SafeIcon icon={FiRefreshCw} className="text-xs" />
                   <span>Clear All</span>
@@ -77,7 +77,7 @@ const FilterSidebar = ({ isOpen, onClose, filters, onFiltersChange }) => {
               )}
               <button
                 onClick={onClose}
-                className="lg:hidden p-1 text-slate-400 hover:text-slate-600"
+                className="lg:hidden p-1 text-gray-400 hover:text-premium-black"
               >
                 <SafeIcon icon={FiX} className="text-xl" />
               </button>
@@ -86,33 +86,33 @@ const FilterSidebar = ({ isOpen, onClose, filters, onFiltersChange }) => {
 
           {/* Location Filter */}
           <div className="mb-6">
-            <label className="flex items-center space-x-2 text-sm font-medium text-slate-700 mb-3">
-              <SafeIcon icon={FiMapPin} className="text-amber-500" />
+            <label className="flex items-center space-x-2 text-sm font-bold text-premium-black mb-3">
+              <SafeIcon icon={FiMapPin} className="text-premium-blue" />
               <span>Location</span>
             </label>
             <div className="space-y-2">
-              <label className="flex items-center">
+              <label className="flex items-center group cursor-pointer">
                 <input
                   type="radio"
                   name="location"
                   value=""
                   checked={filters.location === ''}
                   onChange={(e) => handleFilterChange('location', e.target.value)}
-                  className="w-4 h-4 text-amber-600 bg-gray-100 border-gray-300 focus:ring-amber-500"
+                  className="w-4 h-4 text-premium-blue border-gray-300 focus:ring-premium-blue"
                 />
-                <span className="ml-2 text-sm text-slate-600">All Locations</span>
+                <span className="ml-2 text-sm text-premium-charcoal group-hover:text-premium-blue transition-colors">All Locations</span>
               </label>
               {locations.map((location) => (
-                <label key={location} className="flex items-center">
+                <label key={location} className="flex items-center group cursor-pointer">
                   <input
                     type="radio"
                     name="location"
                     value={location}
                     checked={filters.location === location}
                     onChange={(e) => handleFilterChange('location', e.target.value)}
-                    className="w-4 h-4 text-amber-600 bg-gray-100 border-gray-300 focus:ring-amber-500"
+                    className="w-4 h-4 text-premium-blue border-gray-300 focus:ring-premium-blue"
                   />
-                  <span className="ml-2 text-sm text-slate-600">{location}</span>
+                  <span className="ml-2 text-sm text-premium-charcoal group-hover:text-premium-blue transition-colors">{location}</span>
                 </label>
               ))}
             </div>
@@ -120,33 +120,33 @@ const FilterSidebar = ({ isOpen, onClose, filters, onFiltersChange }) => {
 
           {/* Price Range Filter */}
           <div className="mb-6">
-            <label className="flex items-center space-x-2 text-sm font-medium text-slate-700 mb-3">
-              <SafeIcon icon={FiDollarSign} className="text-amber-500" />
+            <label className="flex items-center space-x-2 text-sm font-bold text-premium-black mb-3">
+              <SafeIcon icon={FiDollarSign} className="text-premium-blue" />
               <span>Price Range</span>
             </label>
             <div className="space-y-2">
-              <label className="flex items-center">
+              <label className="flex items-center group cursor-pointer">
                 <input
                   type="radio"
                   name="priceRange"
                   value=""
                   checked={filters.priceRange === ''}
                   onChange={(e) => handleFilterChange('priceRange', e.target.value)}
-                  className="w-4 h-4 text-amber-600 bg-gray-100 border-gray-300 focus:ring-amber-500"
+                  className="w-4 h-4 text-premium-blue border-gray-300 focus:ring-premium-blue"
                 />
-                <span className="ml-2 text-sm text-slate-600">Any Price</span>
+                <span className="ml-2 text-sm text-premium-charcoal group-hover:text-premium-blue transition-colors">Any Price</span>
               </label>
               {priceRanges.map((range) => (
-                <label key={range} className="flex items-center">
+                <label key={range} className="flex items-center group cursor-pointer">
                   <input
                     type="radio"
                     name="priceRange"
                     value={range}
                     checked={filters.priceRange === range}
                     onChange={(e) => handleFilterChange('priceRange', e.target.value)}
-                    className="w-4 h-4 text-amber-600 bg-gray-100 border-gray-300 focus:ring-amber-500"
+                    className="w-4 h-4 text-premium-blue border-gray-300 focus:ring-premium-blue"
                   />
-                  <span className="ml-2 text-sm text-slate-600">{range}</span>
+                  <span className="ml-2 text-sm text-premium-charcoal group-hover:text-premium-blue transition-colors">{range}</span>
                 </label>
               ))}
             </div>
@@ -154,33 +154,33 @@ const FilterSidebar = ({ isOpen, onClose, filters, onFiltersChange }) => {
 
           {/* Property Type Filter */}
           <div className="mb-6">
-            <label className="flex items-center space-x-2 text-sm font-medium text-slate-700 mb-3">
-              <SafeIcon icon={FiHome} className="text-amber-500" />
+            <label className="flex items-center space-x-2 text-sm font-bold text-premium-black mb-3">
+              <SafeIcon icon={FiHome} className="text-premium-blue" />
               <span>Property Type</span>
             </label>
             <div className="space-y-2">
-              <label className="flex items-center">
+              <label className="flex items-center group cursor-pointer">
                 <input
                   type="radio"
                   name="propertyType"
                   value=""
                   checked={filters.propertyType === ''}
                   onChange={(e) => handleFilterChange('propertyType', e.target.value)}
-                  className="w-4 h-4 text-amber-600 bg-gray-100 border-gray-300 focus:ring-amber-500"
+                  className="w-4 h-4 text-premium-blue border-gray-300 focus:ring-premium-blue"
                 />
-                <span className="ml-2 text-sm text-slate-600">All Types</span>
+                <span className="ml-2 text-sm text-premium-charcoal group-hover:text-premium-blue transition-colors">All Types</span>
               </label>
               {propertyTypes.map((type) => (
-                <label key={type} className="flex items-center">
+                <label key={type} className="flex items-center group cursor-pointer">
                   <input
                     type="radio"
                     name="propertyType"
                     value={type}
                     checked={filters.propertyType === type}
                     onChange={(e) => handleFilterChange('propertyType', e.target.value)}
-                    className="w-4 h-4 text-amber-600 bg-gray-100 border-gray-300 focus:ring-amber-500"
+                    className="w-4 h-4 text-premium-blue border-gray-300 focus:ring-premium-blue"
                   />
-                  <span className="ml-2 text-sm text-slate-600">{type}</span>
+                  <span className="ml-2 text-sm text-premium-charcoal group-hover:text-premium-blue transition-colors">{type}</span>
                 </label>
               ))}
             </div>
@@ -188,33 +188,33 @@ const FilterSidebar = ({ isOpen, onClose, filters, onFiltersChange }) => {
 
           {/* Status Filter */}
           <div className="mb-6">
-            <label className="flex items-center space-x-2 text-sm font-medium text-slate-700 mb-3">
-              <SafeIcon icon={FiClock} className="text-amber-500" />
+            <label className="flex items-center space-x-2 text-sm font-bold text-premium-black mb-3">
+              <SafeIcon icon={FiClock} className="text-premium-blue" />
               <span>Development Status</span>
             </label>
             <div className="space-y-2">
-              <label className="flex items-center">
+              <label className="flex items-center group cursor-pointer">
                 <input
                   type="radio"
                   name="status"
                   value=""
                   checked={filters.status === ''}
                   onChange={(e) => handleFilterChange('status', e.target.value)}
-                  className="w-4 h-4 text-amber-600 bg-gray-100 border-gray-300 focus:ring-amber-500"
+                  className="w-4 h-4 text-premium-blue border-gray-300 focus:ring-premium-blue"
                 />
-                <span className="ml-2 text-sm text-slate-600">Any Status</span>
+                <span className="ml-2 text-sm text-premium-charcoal group-hover:text-premium-blue transition-colors">Any Status</span>
               </label>
               {statuses.map((status) => (
-                <label key={status} className="flex items-center">
+                <label key={status} className="flex items-center group cursor-pointer">
                   <input
                     type="radio"
                     name="status"
                     value={status}
                     checked={filters.status === status}
                     onChange={(e) => handleFilterChange('status', e.target.value)}
-                    className="w-4 h-4 text-amber-600 bg-gray-100 border-gray-300 focus:ring-amber-500"
+                    className="w-4 h-4 text-premium-blue border-gray-300 focus:ring-premium-blue"
                   />
-                  <span className="ml-2 text-sm text-slate-600">{status}</span>
+                  <span className="ml-2 text-sm text-premium-charcoal group-hover:text-premium-blue transition-colors">{status}</span>
                 </label>
               ))}
             </div>
@@ -222,17 +222,17 @@ const FilterSidebar = ({ isOpen, onClose, filters, onFiltersChange }) => {
 
           {/* Active Filters Summary */}
           {hasActiveFilters && (
-            <div className="border-t border-gray-200 pt-4">
-              <h4 className="text-sm font-medium text-slate-700 mb-2">Active Filters:</h4>
+            <div className="border-t border-gray-100 pt-4">
+              <h4 className="text-sm font-bold text-premium-black mb-2">Active Filters:</h4>
               <div className="space-y-1">
                 {Object.entries(filters).map(([key, value]) => {
                   if (!value) return null;
                   return (
-                    <div key={key} className="flex items-center justify-between text-xs">
-                      <span className="text-slate-600 capitalize">{key}: {value}</span>
+                    <div key={key} className="flex items-center justify-between text-xs bg-premium-slate-50 px-3 py-2 rounded-lg">
+                      <span className="text-premium-charcoal capitalize"><span className="font-semibold">{key.replace(/([A-Z])/g, ' $1').trim()}:</span> {value}</span>
                       <button
                         onClick={() => handleFilterChange(key, '')}
-                        className="text-amber-600 hover:text-amber-700"
+                        className="text-gray-400 hover:text-red-500"
                       >
                         <SafeIcon icon={FiX} className="text-xs" />
                       </button>

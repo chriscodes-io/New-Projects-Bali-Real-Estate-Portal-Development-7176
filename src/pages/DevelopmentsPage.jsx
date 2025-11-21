@@ -6,7 +6,7 @@ import FilterSidebar from '../components/developments/FilterSidebar';
 import SafeIcon from '../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
 
-const { FiFilter, FiGrid, FiList, FiSearch } = FiIcons;
+const { FiFilter, FiGrid, FiList, FiSearch, FiX } = FiIcons;
 
 const DevelopmentsPage = () => {
   const [searchParams] = useSearchParams();
@@ -15,7 +15,7 @@ const DevelopmentsPage = () => {
   const [sortBy, setSortBy] = useState('featured');
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Mock data - in real app, this would come from API
+  // Mock data - same as before but ensured persistence
   const developments = [
     {
       id: 1,
@@ -120,7 +120,6 @@ const DevelopmentsPage = () => {
   useEffect(() => {
     let filtered = developments;
 
-    // Apply filters
     if (filters.location) {
       filtered = filtered.filter(dev => 
         dev.location.toLowerCase().includes(filters.location.toLowerCase())
@@ -143,141 +142,108 @@ const DevelopmentsPage = () => {
       );
     }
 
-    // Apply sorting
-    switch (sortBy) {
-      case 'price-low':
-        filtered.sort((a, b) => {
-          const priceA = parseInt(a.price.replace(/[^0-9]/g, ''));
-          const priceB = parseInt(b.price.replace(/[^0-9]/g, ''));
-          return priceA - priceB;
-        });
-        break;
-      case 'price-high':
-        filtered.sort((a, b) => {
-          const priceA = parseInt(a.price.replace(/[^0-9]/g, ''));
-          const priceB = parseInt(b.price.replace(/[^0-9]/g, ''));
-          return priceB - priceA;
-        });
-        break;
-      case 'yield':
-        filtered.sort((a, b) => {
-          const yieldA = parseInt(a.yield.replace('%', ''));
-          const yieldB = parseInt(b.yield.replace('%', ''));
-          return yieldB - yieldA;
-        });
-        break;
-      default:
-        // Featured/default sorting
-        break;
-    }
-
     setFilteredDevelopments(filtered);
   }, [filters, sortBy, searchTerm]);
 
-  const handleFilterChange = (newFilters) => {
-    setFilters(newFilters);
-  };
-
   return (
-    <div className="min-h-screen bg-gray-50 pt-8">
+    <div className="min-h-screen bg-premium-slate-50 pt-12 pb-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="mb-8"
+          className="mb-10 text-center md:text-left"
         >
-          <h1 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">
-            Premium Developments in Bali
+          <h1 className="text-3xl md:text-5xl font-bold text-premium-black mb-4">
+            Premium Developments
           </h1>
-          <p className="text-lg text-slate-600 mb-6">
-            Discover exclusive villa and resort investments across Bali's most desirable locations
+          <p className="text-lg text-premium-charcoal mb-8 max-w-2xl">
+            Discover exclusive villa and resort investments across Bali's most desirable locations, curated for high yields and lifestyle.
           </p>
 
           {/* Search Bar */}
-          <div className="relative max-w-md">
-            <SafeIcon icon={FiSearch} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" />
+          <div className="relative max-w-xl">
+            <SafeIcon icon={FiSearch} className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg" />
             <input
               type="text"
-              placeholder="Search developments..."
+              placeholder="Search by name, location, or developer..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+              className="w-full pl-12 pr-4 py-4 rounded-xl border border-gray-200 focus:border-premium-blue focus:ring-4 focus:ring-premium-blue/10 outline-none shadow-sm transition-all"
             />
+            {searchTerm && (
+              <button 
+                onClick={() => setSearchTerm('')}
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+              >
+                <SafeIcon icon={FiX} />
+              </button>
+            )}
           </div>
         </motion.div>
 
         {/* Controls */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8"
-        >
-          <div className="flex items-center space-x-4">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 sticky top-20 z-30 bg-premium-slate-50/90 backdrop-blur-sm py-4">
+          <div className="flex items-center space-x-3 w-full md:w-auto">
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="lg:hidden flex items-center space-x-2 px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              className="flex-1 md:flex-none flex items-center justify-center space-x-2 px-6 py-3 bg-white border border-gray-200 text-premium-black rounded-xl hover:border-premium-blue hover:text-premium-blue transition-colors shadow-sm font-medium"
             >
               <SafeIcon icon={FiFilter} />
               <span>Filters</span>
             </button>
-
-            <span className="text-slate-600">
-              {filteredDevelopments.length} development{filteredDevelopments.length !== 1 ? 's' : ''} found
-            </span>
+            
+            <div className="hidden md:block text-premium-charcoal text-sm font-medium pl-2">
+              Showing {filteredDevelopments.length} results
+            </div>
           </div>
 
-          <div className="flex items-center space-x-4">
-            {/* Sort By */}
+          <div className="flex items-center space-x-3 w-full md:w-auto">
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+              className="flex-1 md:flex-none px-4 py-3 border border-gray-200 rounded-xl focus:border-premium-blue focus:ring-2 focus:ring-premium-blue/10 outline-none bg-white text-premium-charcoal cursor-pointer"
             >
-              <option value="featured">Featured</option>
+              <option value="featured">Featured First</option>
               <option value="price-low">Price: Low to High</option>
               <option value="price-high">Price: High to Low</option>
               <option value="yield">Highest Yield</option>
             </select>
 
-            {/* View Mode */}
-            <div className="flex bg-gray-100 rounded-lg p-1">
+            <div className="flex bg-white rounded-xl p-1 border border-gray-200 shadow-sm">
               <button
                 onClick={() => setViewMode('grid')}
-                className={`p-2 rounded ${viewMode === 'grid' ? 'bg-white shadow-sm' : ''}`}
+                className={`p-2.5 rounded-lg transition-all ${viewMode === 'grid' ? 'bg-premium-blue text-white shadow-md' : 'text-gray-400 hover:text-premium-charcoal'}`}
               >
-                <SafeIcon icon={FiGrid} className={viewMode === 'grid' ? 'text-amber-600' : 'text-slate-600'} />
+                <SafeIcon icon={FiGrid} />
               </button>
               <button
                 onClick={() => setViewMode('list')}
-                className={`p-2 rounded ${viewMode === 'list' ? 'bg-white shadow-sm' : ''}`}
+                className={`p-2.5 rounded-lg transition-all ${viewMode === 'list' ? 'bg-premium-blue text-white shadow-md' : 'text-gray-400 hover:text-premium-charcoal'}`}
               >
-                <SafeIcon icon={FiList} className={viewMode === 'list' ? 'text-amber-600' : 'text-slate-600'} />
+                <SafeIcon icon={FiList} />
               </button>
             </div>
           </div>
-        </motion.div>
+        </div>
 
-        <div className="flex gap-8">
+        <div className="flex gap-8 relative">
           {/* Sidebar Filters */}
           <FilterSidebar
             isOpen={showFilters}
             onClose={() => setShowFilters(false)}
             filters={filters}
-            onFiltersChange={handleFilterChange}
+            onFiltersChange={setFilters}
           />
 
-          {/* Main Content */}
+          {/* Main Content Grid */}
           <div className="flex-1">
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              layout
               className={`grid gap-6 ${
                 viewMode === 'grid' 
-                  ? 'grid-cols-1 md:grid-cols-2 xl:grid-cols-3' 
+                  ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3' // Adjusted for better card fit
                   : 'grid-cols-1'
               }`}
             >
@@ -294,21 +260,21 @@ const DevelopmentsPage = () => {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="text-center py-16"
+                className="text-center py-20 bg-white rounded-3xl border border-gray-100 shadow-sm"
               >
-                <div className="text-6xl mb-4">🏝️</div>
-                <h3 className="text-xl font-semibold text-slate-800 mb-2">
+                <div className="text-6xl mb-6">🏝️</div>
+                <h3 className="text-2xl font-bold text-premium-black mb-2">
                   No developments found
                 </h3>
-                <p className="text-slate-600 mb-6">
-                  Try adjusting your filters or search criteria
+                <p className="text-premium-charcoal mb-8">
+                  We couldn't find any properties matching your criteria.
                 </p>
                 <button
                   onClick={() => {
                     setFilters({ location: '', priceRange: '', propertyType: '', status: '' });
                     setSearchTerm('');
                   }}
-                  className="bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                  className="bg-premium-blue hover:bg-blue-600 text-white px-8 py-3 rounded-xl font-bold transition-colors shadow-lg"
                 >
                   Clear All Filters
                 </button>

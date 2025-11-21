@@ -7,130 +7,47 @@ const { FiTrendingUp, FiGlobe, FiUsers, FiShield, FiSun, FiDollarSign } = FiIcon
 
 const WhyInvestSection = () => {
   const benefits = [
-    {
-      icon: FiTrendingUp,
-      title: "High Rental Yields",
-      description: "Average returns of 12-18% annually from tourism and long-term rentals",
-      stat: "15%+ Average Yield"
-    },
-    {
-      icon: FiGlobe,
-      title: "Tourism Demand",
-      description: "Bali attracts 6+ million visitors annually with consistent growth trends",
-      stat: "6M+ Annual Visitors"
-    },
-    {
-      icon: FiSun,
-      title: "Lifestyle Investment",
-      description: "Own a piece of paradise while generating passive income",
-      stat: "Year-round Paradise"
-    },
-    {
-      icon: FiDollarSign,
-      title: "Capital Appreciation",
-      description: "Property values have grown 8-12% annually in prime locations",
-      stat: "10% Annual Growth"
-    },
-    {
-      icon: FiUsers,
-      title: "Expat Community",
-      description: "Growing international community provides rental demand",
-      stat: "50k+ Expats"
-    },
-    {
-      icon: FiShield,
-      title: "Trusted Developers",
-      description: "All projects vetted by our team for quality and legitimacy",
-      stat: "100% Verified"
-    }
+    { icon: FiTrendingUp, title: "High Rental Yields", description: "Average returns of 12-18% annually.", stat: "15%+ Yield" },
+    { icon: FiGlobe, title: "Tourism Demand", description: "6+ million visitors annually.", stat: "6M+ Visitors" },
+    { icon: FiSun, title: "Lifestyle Investment", description: "Own a piece of paradise.", stat: "Paradise" },
+    { icon: FiDollarSign, title: "Capital Appreciation", description: "Property values grow 8-12% annually.", stat: "10% Growth" },
+    { icon: FiUsers, title: "Expat Community", description: "Strong long-term rental demand.", stat: "50k+ Expats" },
+    { icon: FiShield, title: "Trusted Developers", description: "All projects vetted by our team.", stat: "100% Verified" }
   ];
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-24 bg-premium-slate-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-800 mb-6">
-            Why Invest in Bali?
-          </h2>
-          <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-            Bali offers a unique combination of lifestyle, returns, and growth potential that makes it 
-            one of the world's most attractive property investment destinations
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold text-premium-black mb-6">Why Invest in Bali?</h2>
+          <p className="text-xl text-premium-charcoal max-w-3xl mx-auto">
+            Bali offers a unique combination of lifestyle, returns, and growth.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {benefits.map((benefit, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
               whileHover={{ y: -5 }}
-              className="group bg-gradient-to-br from-slate-50 to-white p-8 rounded-2xl border border-gray-100 hover:border-amber-200 hover:shadow-lg transition-all duration-300"
+              className="bg-white p-8 rounded-3xl shadow-sm hover:shadow-xl transition-all border border-gray-100 group"
             >
-              <div className="flex items-center justify-between mb-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-amber-400 to-amber-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <SafeIcon icon={benefit.icon} className="text-white text-xl" />
+              <div className="flex justify-between items-start mb-6">
+                <div className="w-14 h-14 bg-premium-blue/10 rounded-2xl flex items-center justify-center group-hover:bg-premium-blue transition-colors duration-300">
+                  <SafeIcon icon={benefit.icon} className="text-premium-blue text-2xl group-hover:text-white transition-colors" />
                 </div>
-                <span className="text-sm font-bold text-amber-600 bg-amber-50 px-3 py-1 rounded-full">
+                <span className="bg-premium-slate-50 text-premium-charcoal text-xs font-bold px-3 py-1.5 rounded-full border border-gray-200">
                   {benefit.stat}
                 </span>
               </div>
-              
-              <h3 className="text-xl font-bold text-slate-800 mb-3 group-hover:text-amber-600 transition-colors">
-                {benefit.title}
-              </h3>
-              
-              <p className="text-slate-600 leading-relaxed">
-                {benefit.description}
-              </p>
+              <h3 className="text-xl font-bold text-premium-black mb-3">{benefit.title}</h3>
+              <p className="text-premium-charcoal text-sm">{benefit.description}</p>
             </motion.div>
           ))}
         </div>
-
-        {/* Additional Stats Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          viewport={{ once: true }}
-          className="mt-16 bg-gradient-to-r from-slate-800 to-slate-900 rounded-2xl p-8 md:p-12 text-white"
-        >
-          <div className="text-center mb-8">
-            <h3 className="text-2xl md:text-3xl font-bold mb-4">
-              Bali Investment by the Numbers
-            </h3>
-            <p className="text-slate-300 text-lg">
-              Key statistics that make Bali a compelling investment destination
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-amber-400 mb-2">$2.8B</div>
-              <div className="text-slate-300 text-sm">Tourism Revenue 2023</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-amber-400 mb-2">85%</div>
-              <div className="text-slate-300 text-sm">Hotel Occupancy Rate</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-amber-400 mb-2">25%</div>
-              <div className="text-slate-300 text-sm">Property Value Growth</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-amber-400 mb-2">30+</div>
-              <div className="text-slate-300 text-sm">New Projects Monthly</div>
-            </div>
-          </div>
-        </motion.div>
       </div>
     </section>
   );

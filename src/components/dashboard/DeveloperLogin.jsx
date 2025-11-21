@@ -37,15 +37,14 @@ const DeveloperLogin = ({ onLogin }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        }} />
+    <div className="min-h-screen bg-premium-slate-50 flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Background Shapes */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
+        <div className="absolute -top-24 -right-24 w-96 h-96 bg-premium-blue/10 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 -left-24 w-72 h-72 bg-premium-periwinkle/10 rounded-full blur-3xl"></div>
       </div>
 
-      <div className="relative w-full max-w-md">
+      <div className="relative w-full max-w-md z-10">
         {/* Back Button */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
@@ -55,7 +54,7 @@ const DeveloperLogin = ({ onLogin }) => {
         >
           <Link
             to="/"
-            className="inline-flex items-center space-x-2 text-white/70 hover:text-white transition-colors"
+            className="inline-flex items-center space-x-2 text-premium-charcoal hover:text-premium-blue transition-colors font-medium"
           >
             <SafeIcon icon={FiArrowLeft} />
             <span>Back to Home</span>
@@ -67,18 +66,18 @@ const DeveloperLogin = ({ onLogin }) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="bg-white rounded-2xl shadow-2xl p-8 border border-gray-100"
+          className="bg-white rounded-3xl shadow-xl shadow-premium-blue/5 p-8 border border-white"
         >
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-gradient-to-br from-slate-800 to-amber-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-              <SafeIcon icon={FiBuilding} className="text-white text-2xl" />
+            <div className="w-16 h-16 bg-gradient-to-br from-premium-blue to-premium-periwinkle rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-premium-blue/20">
+              <SafeIcon icon={FiBuilding} className="text-white text-3xl" />
             </div>
             
-            <h1 className="text-2xl font-bold text-slate-800 mb-2">
+            <h1 className="text-2xl font-bold text-premium-black mb-2">
               {isSignUp ? 'Create Developer Account' : 'Developer Portal'}
             </h1>
-            <p className="text-slate-600">
+            <p className="text-premium-charcoal">
               {isSignUp 
                 ? 'Join our platform and start generating leads for your projects'
                 : 'Sign in to manage your projects and leads'
@@ -87,38 +86,38 @@ const DeveloperLogin = ({ onLogin }) => {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             {isSignUp && (
               <>
                 {/* Company Name */}
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">
-                    Company Name *
+                  <label className="block text-sm font-bold text-premium-black mb-2">
+                    Company Name <span className="text-red-500">*</span>
                   </label>
                   <input
                     {...register('company', { required: 'Company name is required' })}
                     type="text"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-premium-blue/20 focus:border-premium-blue outline-none transition-all bg-premium-slate-50 focus:bg-white"
                     placeholder="Your Development Company"
                   />
                   {errors.company && (
-                    <p className="mt-1 text-sm text-red-600">{errors.company.message}</p>
+                    <p className="mt-1 text-sm text-red-500">{errors.company.message}</p>
                   )}
                 </div>
 
                 {/* Contact Name */}
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">
-                    Contact Name *
+                  <label className="block text-sm font-bold text-premium-black mb-2">
+                    Contact Name <span className="text-red-500">*</span>
                   </label>
                   <input
                     {...register('name', { required: 'Name is required' })}
                     type="text"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-premium-blue/20 focus:border-premium-blue outline-none transition-all bg-premium-slate-50 focus:bg-white"
                     placeholder="Your Full Name"
                   />
                   {errors.name && (
-                    <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
+                    <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>
                   )}
                 </div>
               </>
@@ -126,11 +125,11 @@ const DeveloperLogin = ({ onLogin }) => {
 
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
-                Email Address *
+              <label className="block text-sm font-bold text-premium-black mb-2">
+                Email Address <span className="text-red-500">*</span>
               </label>
               <div className="relative">
-                <SafeIcon icon={FiMail} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" />
+                <SafeIcon icon={FiMail} className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
                 <input
                   {...register('email', { 
                     required: 'Email is required',
@@ -140,22 +139,22 @@ const DeveloperLogin = ({ onLogin }) => {
                     }
                   })}
                   type="email"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors"
+                  className="w-full pl-11 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-premium-blue/20 focus:border-premium-blue outline-none transition-all bg-premium-slate-50 focus:bg-white"
                   placeholder="your.email@company.com"
                 />
               </div>
               {errors.email && (
-                <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+                <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
               )}
             </div>
 
             {/* Password */}
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
-                Password *
+              <label className="block text-sm font-bold text-premium-black mb-2">
+                Password <span className="text-red-500">*</span>
               </label>
               <div className="relative">
-                <SafeIcon icon={FiLock} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" />
+                <SafeIcon icon={FiLock} className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
                 <input
                   {...register('password', { 
                     required: 'Password is required',
@@ -165,19 +164,19 @@ const DeveloperLogin = ({ onLogin }) => {
                     }
                   })}
                   type={showPassword ? 'text' : 'password'}
-                  className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors"
+                  className="w-full pl-11 pr-12 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-premium-blue/20 focus:border-premium-blue outline-none transition-all bg-premium-slate-50 focus:bg-white"
                   placeholder="Enter your password"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-premium-black transition-colors"
                 >
                   <SafeIcon icon={showPassword ? FiEyeOff : FiEye} />
                 </button>
               </div>
               {errors.password && (
-                <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
+                <p className="mt-1 text-sm text-red-500">{errors.password.message}</p>
               )}
             </div>
 
@@ -185,17 +184,17 @@ const DeveloperLogin = ({ onLogin }) => {
               <>
                 {/* Phone */}
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">
-                    Phone Number *
+                  <label className="block text-sm font-bold text-premium-black mb-2">
+                    Phone Number <span className="text-red-500">*</span>
                   </label>
                   <input
                     {...register('phone', { required: 'Phone number is required' })}
                     type="tel"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-premium-blue/20 focus:border-premium-blue outline-none transition-all bg-premium-slate-50 focus:bg-white"
                     placeholder="+62 123 456 789"
                   />
                   {errors.phone && (
-                    <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>
+                    <p className="mt-1 text-sm text-red-500">{errors.phone.message}</p>
                   )}
                 </div>
 
@@ -204,21 +203,21 @@ const DeveloperLogin = ({ onLogin }) => {
                   <input
                     {...register('terms', { required: 'You must accept the terms' })}
                     type="checkbox"
-                    className="mt-1 w-4 h-4 text-amber-600 bg-gray-100 border-gray-300 rounded focus:ring-amber-500"
+                    className="mt-1 w-4 h-4 text-premium-blue border-gray-300 rounded focus:ring-premium-blue"
                   />
-                  <label className="text-sm text-slate-600">
+                  <label className="text-sm text-premium-charcoal">
                     I agree to the{' '}
-                    <a href="#" className="text-amber-600 hover:text-amber-700 underline">
+                    <a href="#" className="text-premium-blue hover:text-blue-700 font-medium">
                       Terms of Service
                     </a>{' '}
                     and{' '}
-                    <a href="#" className="text-amber-600 hover:text-amber-700 underline">
+                    <a href="#" className="text-premium-blue hover:text-blue-700 font-medium">
                       Privacy Policy
                     </a>
                   </label>
                 </div>
                 {errors.terms && (
-                  <p className="mt-1 text-sm text-red-600">{errors.terms.message}</p>
+                  <p className="mt-1 text-sm text-red-500">{errors.terms.message}</p>
                 )}
               </>
             )}
@@ -227,7 +226,7 @@ const DeveloperLogin = ({ onLogin }) => {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-gradient-to-r from-slate-800 to-slate-900 hover:from-slate-700 hover:to-slate-800 text-white py-4 px-6 rounded-lg font-semibold text-lg transition-all duration-300 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+              className="w-full bg-premium-purple hover:bg-purple-600 text-white py-4 px-6 rounded-xl font-bold text-lg transition-all duration-300 flex items-center justify-center space-x-2 disabled:opacity-70 disabled:cursor-not-allowed shadow-premium-cta hover:shadow-xl hover:-translate-y-0.5"
             >
               {isLoading ? (
                 <>
@@ -244,15 +243,15 @@ const DeveloperLogin = ({ onLogin }) => {
           </form>
 
           {/* Footer */}
-          <div className="mt-8 pt-6 border-t border-gray-200 text-center">
-            <p className="text-slate-600">
+          <div className="mt-8 pt-6 border-t border-gray-100 text-center">
+            <p className="text-premium-charcoal">
               {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '}
               <button
                 onClick={() => {
                   setIsSignUp(!isSignUp);
                   reset();
                 }}
-                className="text-amber-600 hover:text-amber-700 font-medium underline"
+                className="text-premium-purple hover:text-purple-700 font-bold ml-1"
               >
                 {isSignUp ? 'Sign In' : 'Create Account'}
               </button>
@@ -260,7 +259,7 @@ const DeveloperLogin = ({ onLogin }) => {
             
             {!isSignUp && (
               <p className="mt-2">
-                <a href="#" className="text-amber-600 hover:text-amber-700 text-sm underline">
+                <a href="#" className="text-gray-400 hover:text-premium-blue text-sm transition-colors">
                   Forgot your password?
                 </a>
               </p>
@@ -268,8 +267,8 @@ const DeveloperLogin = ({ onLogin }) => {
           </div>
 
           {/* Demo Notice */}
-          <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
-            <p className="text-amber-800 text-sm text-center">
+          <div className="mt-6 p-4 bg-blue-50 border border-blue-100 rounded-xl">
+            <p className="text-premium-blue text-sm text-center font-medium">
               <strong>Demo Notice:</strong> Use any email and password to access the demo dashboard
             </p>
           </div>

@@ -17,7 +17,7 @@ const DevelopmentDetail = () => {
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState('overview');
 
-  // Mock data - in real app, this would be fetched based on ID
+  // Mock data
   const development = {
     id: 1,
     name: "Oceanview Villa Resort",
@@ -29,7 +29,7 @@ const DevelopmentDetail = () => {
     type: "Villa",
     units: 24,
     developer: "Bali Premium Developments",
-    description: "Discover luxury living at its finest with our exclusive oceanview villa resort in Uluwatu. This premium development offers breathtaking views of the Indian Ocean, world-class amenities, and exceptional investment returns. Each villa is meticulously designed with modern architecture while respecting traditional Balinese aesthetics.",
+    description: "Discover luxury living at its finest with our exclusive oceanview villa resort in Uluwatu. This premium development offers breathtaking views of the Indian Ocean, world-class amenities, and exceptional investment returns.",
     keyFacts: {
       totalUnits: 24,
       unitSizes: "120-280 sqm",
@@ -74,10 +74,6 @@ const DevelopmentDetail = () => {
       {
         original: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
         thumbnail: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
-      },
-      {
-        original: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-        thumbnail: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
       }
     ]
   };
@@ -85,13 +81,13 @@ const DevelopmentDetail = () => {
   const getStatusColor = (status) => {
     switch (status) {
       case 'Off-plan':
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-premium-blue/10 text-premium-blue border-premium-blue/20';
       case 'Under Construction':
-        return 'bg-amber-100 text-amber-800';
+        return 'bg-indigo-50 text-indigo-600 border border-indigo-100';
       case 'Completed':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-50 text-green-600 border border-green-100';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-gray-50 text-gray-600';
     }
   };
 
@@ -104,7 +100,7 @@ const DevelopmentDetail = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-8">
+    <div className="min-h-screen bg-premium-slate-50 pt-8 pb-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -115,45 +111,43 @@ const DevelopmentDetail = () => {
         >
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-6">
             <div>
-              <div className="flex items-center space-x-3 mb-2">
-                <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(development.status)}`}>
+              <div className="flex items-center space-x-3 mb-3">
+                <span className={`px-3 py-1 rounded-full text-xs font-bold border ${getStatusColor(development.status)}`}>
                   {development.status}
                 </span>
-                <div className="bg-amber-500 text-white px-3 py-1 rounded-full text-sm font-bold flex items-center space-x-1">
+                <div className="bg-gradient-to-r from-premium-blue to-premium-periwinkle text-white px-3 py-1 rounded-full text-xs font-bold flex items-center space-x-1 shadow-md">
                   <SafeIcon icon={FiTrendingUp} />
                   <span>{development.yield} Yield</span>
                 </div>
               </div>
               
-              <h1 className="text-3xl md:text-4xl font-bold text-slate-800 mb-2">
+              <h1 className="text-3xl md:text-4xl font-bold text-premium-black mb-2">
                 {development.name}
               </h1>
               
-              <div className="flex items-center space-x-4 text-slate-600">
+              <div className="flex flex-wrap items-center gap-4 text-premium-charcoal">
                 <div className="flex items-center space-x-2">
-                  <SafeIcon icon={FiMapPin} className="text-amber-500" />
+                  <SafeIcon icon={FiMapPin} className="text-premium-blue" />
                   <span>{development.location}</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <SafeIcon icon={FiHome} className="text-amber-500" />
+                  <SafeIcon icon={FiHome} className="text-premium-blue" />
                   <span>{development.type}</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <SafeIcon icon={FiUsers} className="text-amber-500" />
+                  <SafeIcon icon={FiUsers} className="text-premium-blue" />
                   <span>{development.developer}</span>
                 </div>
               </div>
             </div>
             
-            <div className="flex items-center space-x-4">
-              <button className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+            <div className="flex flex-col items-end gap-2">
+              <div className="text-3xl font-bold text-premium-black">{development.price}</div>
+              <div className="text-premium-charcoal font-medium">{development.units} units available</div>
+              <button className="flex items-center space-x-2 text-premium-blue hover:text-blue-700 font-bold text-sm bg-white px-4 py-2 rounded-lg border border-gray-100 shadow-sm hover:shadow-md transition-all">
                 <SafeIcon icon={FiShare2} />
-                <span>Share</span>
+                <span>Share Development</span>
               </button>
-              <div className="text-right">
-                <div className="text-3xl font-bold text-slate-800">{development.price}</div>
-                <div className="text-slate-600">{development.units} units available</div>
-              </div>
             </div>
           </div>
         </motion.div>
@@ -166,7 +160,7 @@ const DevelopmentDetail = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="bg-white rounded-xl shadow-lg overflow-hidden"
+              className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden"
             >
               <ImageGallery
                 items={development.images}
@@ -182,10 +176,10 @@ const DevelopmentDetail = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="bg-white rounded-xl shadow-lg p-8"
+              className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8"
             >
-              <h2 className="text-2xl font-bold text-slate-800 mb-4">About This Development</h2>
-              <p className="text-slate-600 leading-relaxed text-lg">{development.description}</p>
+              <h2 className="text-xl font-bold text-premium-black mb-4">About This Development</h2>
+              <p className="text-premium-charcoal leading-relaxed text-lg">{development.description}</p>
             </motion.div>
 
             {/* Key Facts */}
@@ -193,16 +187,16 @@ const DevelopmentDetail = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="bg-white rounded-xl shadow-lg p-8"
+              className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8"
             >
-              <h2 className="text-2xl font-bold text-slate-800 mb-6">Key Facts</h2>
+              <h2 className="text-xl font-bold text-premium-black mb-6">Key Facts</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {Object.entries(development.keyFacts).map(([key, value]) => (
-                  <div key={key} className="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
-                    <span className="font-medium text-slate-700 capitalize">
+                  <div key={key} className="flex justify-between items-center p-4 bg-premium-slate-50 rounded-xl border border-gray-100">
+                    <span className="font-bold text-premium-charcoal capitalize text-sm">
                       {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
                     </span>
-                    <span className="font-semibold text-slate-800">{value}</span>
+                    <span className="font-bold text-premium-black">{value}</span>
                   </div>
                 ))}
               </div>
@@ -213,19 +207,19 @@ const DevelopmentDetail = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="bg-white rounded-xl shadow-lg overflow-hidden"
+              className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden"
             >
               {/* Tab Navigation */}
-              <div className="border-b border-gray-200">
-                <nav className="flex space-x-8 px-8">
+              <div className="border-b border-gray-100">
+                <nav className="flex space-x-8 px-8 overflow-x-auto">
                   {tabs.map((tab) => (
                     <button
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id)}
-                      className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
+                      className={`py-4 px-1 border-b-2 font-bold text-sm transition-colors whitespace-nowrap ${
                         activeTab === tab.id
-                          ? 'border-amber-500 text-amber-600'
-                          : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300'
+                          ? 'border-premium-blue text-premium-blue'
+                          : 'border-transparent text-gray-400 hover:text-premium-charcoal'
                       }`}
                     >
                       {tab.label}
@@ -238,13 +232,13 @@ const DevelopmentDetail = () => {
               <div className="p-8">
                 {activeTab === 'overview' && (
                   <div>
-                    <h3 className="text-xl font-bold text-slate-800 mb-4">Project Overview</h3>
-                    <p className="text-slate-600 leading-relaxed mb-6">{development.description}</p>
+                    <h3 className="text-lg font-bold text-premium-black mb-4">Project Overview</h3>
+                    <p className="text-premium-charcoal leading-relaxed mb-6">{development.description}</p>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
-                        <h4 className="font-semibold text-slate-800 mb-3">Location Highlights</h4>
-                        <ul className="space-y-2 text-slate-600">
+                        <h4 className="font-bold text-premium-black mb-3">Location Highlights</h4>
+                        <ul className="space-y-2 text-premium-charcoal">
                           <li>• 5 minutes to Uluwatu Beach</li>
                           <li>• 15 minutes to Ngurah Rai Airport</li>
                           <li>• Walking distance to restaurants</li>
@@ -252,8 +246,8 @@ const DevelopmentDetail = () => {
                         </ul>
                       </div>
                       <div>
-                        <h4 className="font-semibold text-slate-800 mb-3">Investment Benefits</h4>
-                        <ul className="space-y-2 text-slate-600">
+                        <h4 className="font-bold text-premium-black mb-3">Investment Benefits</h4>
+                        <ul className="space-y-2 text-premium-charcoal">
                           <li>• High rental demand area</li>
                           <li>• Strong capital appreciation</li>
                           <li>• Professional management</li>
@@ -266,16 +260,16 @@ const DevelopmentDetail = () => {
 
                 {activeTab === 'amenities' && (
                   <div>
-                    <h3 className="text-xl font-bold text-slate-800 mb-6">Resort Amenities</h3>
+                    <h3 className="text-lg font-bold text-premium-black mb-6">Resort Amenities</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       {development.amenities.map((amenity, index) => (
-                        <div key={index} className="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg">
-                          <div className="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <SafeIcon icon={amenity.icon} className="text-amber-600" />
+                        <div key={index} className="flex items-start space-x-4 p-4 bg-premium-slate-50 rounded-xl border border-gray-100">
+                          <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center flex-shrink-0 shadow-sm text-premium-blue">
+                            <SafeIcon icon={amenity.icon} className="text-lg" />
                           </div>
                           <div>
-                            <h4 className="font-semibold text-slate-800">{amenity.name}</h4>
-                            <p className="text-slate-600 text-sm">{amenity.description}</p>
+                            <h4 className="font-bold text-premium-black">{amenity.name}</h4>
+                            <p className="text-premium-charcoal text-sm">{amenity.description}</p>
                           </div>
                         </div>
                       ))}
@@ -285,20 +279,20 @@ const DevelopmentDetail = () => {
 
                 {activeTab === 'floorplans' && (
                   <div>
-                    <h3 className="text-xl font-bold text-slate-800 mb-6">Floor Plans & Layouts</h3>
+                    <h3 className="text-lg font-bold text-premium-black mb-6">Floor Plans & Layouts</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="bg-gray-50 rounded-lg p-6 text-center">
-                        <h4 className="font-semibold text-slate-800 mb-2">2 Bedroom Villa</h4>
-                        <p className="text-slate-600 mb-4">120 sqm • 200 sqm plot</p>
-                        <button className="flex items-center space-x-2 mx-auto bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-lg transition-colors">
+                      <div className="bg-premium-slate-50 rounded-xl border border-gray-100 p-6 text-center">
+                        <h4 className="font-bold text-premium-black mb-2">2 Bedroom Villa</h4>
+                        <p className="text-premium-charcoal mb-4">120 sqm • 200 sqm plot</p>
+                        <button className="flex items-center space-x-2 mx-auto bg-premium-purple hover:bg-purple-600 text-white px-4 py-2 rounded-lg transition-all font-medium text-sm shadow-premium-cta">
                           <SafeIcon icon={FiDownload} />
                           <span>Download PDF</span>
                         </button>
                       </div>
-                      <div className="bg-gray-50 rounded-lg p-6 text-center">
-                        <h4 className="font-semibold text-slate-800 mb-2">4 Bedroom Villa</h4>
-                        <p className="text-slate-600 mb-4">280 sqm • 500 sqm plot</p>
-                        <button className="flex items-center space-x-2 mx-auto bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-lg transition-colors">
+                      <div className="bg-premium-slate-50 rounded-xl border border-gray-100 p-6 text-center">
+                        <h4 className="font-bold text-premium-black mb-2">4 Bedroom Villa</h4>
+                        <p className="text-premium-charcoal mb-4">280 sqm • 500 sqm plot</p>
+                        <button className="flex items-center space-x-2 mx-auto bg-premium-purple hover:bg-purple-600 text-white px-4 py-2 rounded-lg transition-all font-medium text-sm shadow-premium-cta">
                           <SafeIcon icon={FiDownload} />
                           <span>Download PDF</span>
                         </button>
@@ -309,18 +303,19 @@ const DevelopmentDetail = () => {
 
                 {activeTab === 'payment' && (
                   <div>
-                    <h3 className="text-xl font-bold text-slate-800 mb-6">Payment Schedule</h3>
+                    <h3 className="text-lg font-bold text-premium-black mb-6">Payment Schedule</h3>
                     <div className="space-y-4">
                       {Object.entries(development.paymentPlan).map(([stage, description]) => (
-                        <div key={stage} className="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
-                          <span className="font-medium text-slate-700 capitalize">{stage}</span>
-                          <span className="font-semibold text-slate-800">{description}</span>
+                        <div key={stage} className="flex justify-between items-center p-4 bg-premium-slate-50 rounded-xl border border-gray-100">
+                          <span className="font-bold text-premium-charcoal capitalize">{stage}</span>
+                          <span className="font-bold text-premium-black">{description}</span>
                         </div>
                       ))}
                     </div>
-                    <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
-                      <p className="text-amber-800 text-sm">
-                        <strong>Note:</strong> Flexible payment terms available. Contact us to discuss customized payment plans.
+                    <div className="mt-6 p-4 bg-blue-50 border border-blue-100 rounded-xl">
+                      <p className="text-blue-800 text-sm flex items-start gap-2">
+                        <SafeIcon icon={FiTrendingUp} className="mt-1" />
+                        <span><strong>Note:</strong> Flexible payment terms available. Contact us to discuss customized payment plans suited to your investment goals.</span>
                       </p>
                     </div>
                   </div>
@@ -328,26 +323,26 @@ const DevelopmentDetail = () => {
 
                 {activeTab === 'investment' && (
                   <div>
-                    <h3 className="text-xl font-bold text-slate-800 mb-6">Investment Highlights</h3>
+                    <h3 className="text-lg font-bold text-premium-black mb-6">Investment Highlights</h3>
                     <div className="space-y-4 mb-6">
                       {development.investmentHighlights.map((highlight, index) => (
                         <div key={index} className="flex items-center space-x-3">
-                          <SafeIcon icon={FiStar} className="text-amber-500 flex-shrink-0" />
-                          <span className="text-slate-700">{highlight}</span>
+                          <SafeIcon icon={FiStar} className="text-premium-blue flex-shrink-0" />
+                          <span className="text-premium-charcoal font-medium">{highlight}</span>
                         </div>
                       ))}
                     </div>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="bg-gradient-to-br from-amber-50 to-amber-100 p-6 rounded-lg">
-                        <h4 className="font-semibold text-amber-800 mb-2">Rental Yield</h4>
-                        <div className="text-2xl font-bold text-amber-900 mb-1">12-18%</div>
-                        <p className="text-amber-700 text-sm">Annual rental returns</p>
+                      <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-2xl border border-blue-100">
+                        <h4 className="font-bold text-blue-900 mb-2">Rental Yield</h4>
+                        <div className="text-3xl font-bold text-premium-blue mb-1">12-18%</div>
+                        <p className="text-blue-800 text-sm">Annual rental returns</p>
                       </div>
-                      <div className="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-lg">
-                        <h4 className="font-semibold text-green-800 mb-2">Capital Growth</h4>
-                        <div className="text-2xl font-bold text-green-900 mb-1">8-12%</div>
-                        <p className="text-green-700 text-sm">Annual appreciation</p>
+                      <div className="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-2xl border border-green-100">
+                        <h4 className="font-bold text-green-900 mb-2">Capital Growth</h4>
+                        <div className="text-3xl font-bold text-green-700 mb-1">8-12%</div>
+                        <p className="text-green-800 text-sm">Annual appreciation</p>
                       </div>
                     </div>
                   </div>
@@ -358,7 +353,7 @@ const DevelopmentDetail = () => {
 
           {/* Sidebar - Lead Capture Form */}
           <div className="lg:col-span-1">
-            <div className="sticky top-8">
+            <div className="sticky top-24">
               <LeadCaptureForm development={development} />
             </div>
           </div>

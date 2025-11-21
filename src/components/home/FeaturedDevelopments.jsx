@@ -58,7 +58,8 @@ const FeaturedDevelopments = () => {
       location: "Ubud",
       price: "From $280k",
       status: "Off-plan",
-      completion: "Q1 2026",yield: "12%",
+      completion: "Q1 2026",
+      yield: "12%",
       image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
       type: "Villa",
       featured: true,
@@ -71,11 +72,11 @@ const FeaturedDevelopments = () => {
       case 'Off-plan':
         return 'bg-premium-blue/10 text-premium-blue border border-premium-blue/20';
       case 'Under Construction':
-        return 'bg-amber-100 text-amber-800 border border-amber-200';
+        return 'bg-indigo-50 text-indigo-600 border border-indigo-100';
       case 'Completed':
-        return 'bg-green-100 text-green-800 border border-green-200';
+        return 'bg-green-50 text-green-600 border border-green-100';
       default:
-        return 'bg-gray-100 text-gray-600';
+        return 'bg-gray-50 text-gray-600';
     }
   };
 
@@ -176,7 +177,7 @@ const FeaturedDevelopments = () => {
                       </div>
                       <Link
                         to={`/development/${project.id}`}
-                        className="group/btn bg-premium-black text-white hover:bg-premium-blue px-4 py-2 rounded-lg transition-all duration-300 flex items-center space-x-2 font-medium"
+                        className="group/btn bg-premium-purple hover:bg-purple-600 text-white px-4 py-2 rounded-lg transition-all duration-300 flex items-center space-x-2 font-medium shadow-premium-cta"
                       >
                         <SafeIcon icon={FiEye} />
                         <span className="text-sm">View Details</span>
@@ -198,7 +199,7 @@ const FeaturedDevelopments = () => {
         >
           <Link
             to="/developments"
-            className="inline-flex items-center space-x-2 bg-premium-blue hover:bg-blue-600 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+            className="inline-flex items-center space-x-2 bg-premium-purple hover:bg-purple-600 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 shadow-premium-cta hover:shadow-xl transform hover:-translate-y-1"
           >
             <span>View All Developments</span>
             <SafeIcon icon={FiTrendingUp} />

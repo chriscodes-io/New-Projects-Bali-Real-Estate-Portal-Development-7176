@@ -56,7 +56,7 @@ const DeveloperDashboard = () => {
       case 'payments':
         return <PaymentSettings />;
       case 'settings':
-        return <div className="p-8">Account Settings (Coming Soon)</div>;
+        return <div className="p-8 text-premium-charcoal">Account Settings (Coming Soon)</div>;
       default:
         return <DashboardOverview />;
     }
@@ -67,7 +67,7 @@ const DeveloperDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-premium-slate-50 flex">
       {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
         <div
@@ -78,30 +78,30 @@ const DeveloperDashboard = () => {
 
       {/* Sidebar */}
       <div className={`
-        fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out
+        fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white shadow-lg lg:shadow-none lg:border-r border-gray-200 transform transition-transform duration-300 ease-in-out
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className="p-6 border-b border-gray-200">
+          <div className="p-6 border-b border-gray-100">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-slate-800 to-amber-600 rounded-lg flex items-center justify-center">
+                <div className="w-10 h-10 bg-gradient-to-br from-premium-blue to-premium-periwinkle rounded-lg flex items-center justify-center shadow-lg shadow-premium-blue/20">
                   <SafeIcon icon={FiBuilding} className="text-white" />
                 </div>
-                <div>
-                  <h2 className="font-semibold text-slate-800 text-sm truncate">
+                <div className="min-w-0">
+                  <h2 className="font-bold text-premium-black text-sm truncate">
                     {user.name}
                   </h2>
-                  <span className="text-xs text-amber-600 font-medium">
-                    {user.plan} Plan
+                  <span className="text-xs text-premium-blue font-medium bg-premium-blue/10 px-2 py-0.5 rounded-full">
+                    {user.plan}
                   </span>
                 </div>
               </div>
               
               <button
                 onClick={() => setSidebarOpen(false)}
-                className="lg:hidden p-1 text-slate-400 hover:text-slate-600"
+                className="lg:hidden p-1 text-gray-400 hover:text-premium-blue"
               >
                 <SafeIcon icon={FiX} />
               </button>
@@ -110,7 +110,7 @@ const DeveloperDashboard = () => {
 
           {/* Navigation */}
           <nav className="flex-1 p-4">
-            <ul className="space-y-2">
+            <ul className="space-y-1">
               {menuItems.map((item) => (
                 <li key={item.id}>
                   <button
@@ -118,14 +118,14 @@ const DeveloperDashboard = () => {
                       setActiveTab(item.id);
                       setSidebarOpen(false);
                     }}
-                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 text-left ${
+                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 text-left font-medium ${
                       activeTab === item.id
-                        ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                        : 'text-slate-600 hover:text-slate-800 hover:bg-gray-50'
+                        ? 'bg-premium-blue text-white shadow-md shadow-premium-blue/20'
+                        : 'text-premium-charcoal hover:text-premium-blue hover:bg-premium-blue/5'
                     }`}
                   >
                     <SafeIcon icon={item.icon} />
-                    <span className="font-medium">{item.label}</span>
+                    <span>{item.label}</span>
                   </button>
                 </li>
               ))}
@@ -133,43 +133,43 @@ const DeveloperDashboard = () => {
           </nav>
 
           {/* Footer */}
-          <div className="p-4 border-t border-gray-200">
+          <div className="p-4 border-t border-gray-100">
             <button
               onClick={handleLogout}
-              className="w-full flex items-center space-x-3 px-4 py-3 text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+              className="w-full flex items-center space-x-3 px-4 py-3 text-premium-charcoal hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors font-medium"
             >
               <SafeIcon icon={FiLogOut} />
-              <span className="font-medium">Logout</span>
+              <span>Logout</span>
             </button>
           </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col h-screen overflow-hidden">
         {/* Top Bar */}
-        <header className="bg-white shadow-sm border-b border-gray-200 px-6 py-4">
+        <header className="bg-white shadow-sm border-b border-gray-200 px-8 py-4 shrink-0">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <button
                 onClick={() => setSidebarOpen(true)}
-                className="lg:hidden p-2 text-slate-600 hover:text-slate-800 hover:bg-gray-100 rounded-lg"
+                className="lg:hidden p-2 text-premium-charcoal hover:text-premium-blue hover:bg-premium-blue/5 rounded-lg"
               >
                 <SafeIcon icon={FiMenu} />
               </button>
               
-              <h1 className="text-2xl font-bold text-slate-800">
+              <h1 className="text-2xl font-bold text-premium-black">
                 {menuItems.find(item => item.id === activeTab)?.label || 'Dashboard'}
               </h1>
             </div>
 
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-slate-600">
-                Welcome back, {user.name.split(' ')[0]}
+              <span className="text-sm text-premium-charcoal hidden sm:block">
+                Welcome back, <span className="font-semibold text-premium-black">{user.name.split(' ')[0]}</span>
               </span>
               
-              <div className="w-8 h-8 bg-gradient-to-br from-slate-800 to-amber-600 rounded-full flex items-center justify-center">
-                <span className="text-white text-sm font-medium">
+              <div className="w-10 h-10 bg-gradient-to-br from-premium-black to-gray-800 rounded-full flex items-center justify-center shadow-md border-2 border-white">
+                <span className="text-white text-sm font-bold">
                   {user.name.charAt(0)}
                 </span>
               </div>
@@ -178,12 +178,13 @@ const DeveloperDashboard = () => {
         </header>
 
         {/* Content Area */}
-        <main className="flex-1 overflow-auto">
+        <main className="flex-1 overflow-y-auto bg-premium-slate-50">
           <motion.div
             key={activeTab}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
+            className="h-full"
           >
             {renderContent()}
           </motion.div>

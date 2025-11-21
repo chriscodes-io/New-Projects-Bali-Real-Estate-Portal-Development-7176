@@ -12,11 +12,12 @@ const HeroSection = () => {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img
-          src="https://images.unsplash.com/photo-1537953773345-d172ccf13cf1?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
-          alt="Luxury Bali Villa"
-          className="w-full h-full object-cover opacity-40"
+          src="https://file-uploads.teacdn.co/1a3227934c362537/1741124762756-489654869.jpg"
+          alt="Luxury Bali Beach Club"
+          className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-premium-black/80 via-premium-black/50 to-premium-black/90"></div>
+        {/* Lighter gradient filter to show more of the image as requested */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/70"></div>
       </div>
 
       {/* Content */}
@@ -32,10 +33,10 @@ const HeroSection = () => {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="inline-flex items-center space-x-2 bg-premium-blue/20 backdrop-blur-sm border border-premium-blue/50 rounded-full px-6 py-2 text-premium-blue"
+            className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-6 py-2 text-white shadow-lg"
           >
-            <SafeIcon icon={FiTrendingUp} className="text-sm" />
-            <span className="text-sm font-medium tracking-wide text-white">Premium Investment Opportunities</span>
+            <SafeIcon icon={FiTrendingUp} className="text-sm text-premium-periwinkle" />
+            <span className="text-sm font-medium tracking-wide">Premium Investment Opportunities</span>
           </motion.div>
 
           {/* Main Heading */}
@@ -43,11 +44,11 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.8 }}
-            className="text-5xl md:text-7xl font-bold text-white leading-tight tracking-tight"
+            className="text-5xl md:text-7xl font-bold text-white leading-tight tracking-tight drop-shadow-lg"
           >
             Invest in New
             <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-premium-blue to-premium-periwinkle">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-premium-blue via-premium-periwinkle to-white">
               Bali Villas & Resorts
             </span>
           </motion.h1>
@@ -57,7 +58,7 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.8 }}
-            className="text-xl md:text-2xl text-premium-powder max-w-3xl mx-auto leading-relaxed font-light"
+            className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed font-light drop-shadow-md"
           >
             Discover exclusive off-plan and completed developments with high rental yields. 
             Connect directly with trusted developers and secure your slice of paradise.
@@ -71,16 +72,16 @@ const HeroSection = () => {
             className="flex flex-wrap justify-center gap-8 md:gap-16 text-center pt-4"
           >
             <div className="space-y-1">
-              <div className="text-3xl md:text-4xl font-bold text-white">15%+</div>
-              <div className="text-premium-powder/80 text-sm uppercase tracking-wider">Average Yield</div>
+              <div className="text-3xl md:text-4xl font-bold text-white drop-shadow-md">15%+</div>
+              <div className="text-white/80 text-sm uppercase tracking-wider font-medium">Average Yield</div>
             </div>
             <div className="space-y-1">
-              <div className="text-3xl md:text-4xl font-bold text-white">50+</div>
-              <div className="text-premium-powder/80 text-sm uppercase tracking-wider">Premium Projects</div>
+              <div className="text-3xl md:text-4xl font-bold text-white drop-shadow-md">50+</div>
+              <div className="text-white/80 text-sm uppercase tracking-wider font-medium">Premium Projects</div>
             </div>
             <div className="space-y-1">
-              <div className="text-3xl md:text-4xl font-bold text-white">25+</div>
-              <div className="text-premium-powder/80 text-sm uppercase tracking-wider">Trusted Developers</div>
+              <div className="text-3xl md:text-4xl font-bold text-white drop-shadow-md">25+</div>
+              <div className="text-white/80 text-sm uppercase tracking-wider font-medium">Trusted Developers</div>
             </div>
           </motion.div>
 
@@ -93,7 +94,7 @@ const HeroSection = () => {
           >
             <Link
               to="/developments"
-              className="group bg-premium-blue hover:bg-blue-600 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 flex items-center space-x-2 shadow-[0_0_20px_rgba(82,153,211,0.3)] hover:shadow-[0_0_30px_rgba(82,153,211,0.5)] transform hover:-translate-y-1"
+              className="group bg-premium-purple hover:bg-purple-600 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 flex items-center space-x-2 shadow-premium-cta hover:shadow-xl transform hover:-translate-y-1"
             >
               <span>Browse Developments</span>
               <SafeIcon icon={FiArrowRight} className="group-hover:translate-x-1 transition-transform" />
@@ -101,7 +102,7 @@ const HeroSection = () => {
             
             <Link
               to="/about"
-              className="group border border-white/20 hover:border-white/50 text-white hover:bg-white/5 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 flex items-center space-x-2"
+              className="group border border-white/30 hover:border-white text-white hover:bg-white/10 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 flex items-center space-x-2 backdrop-blur-sm"
             >
               <SafeIcon icon={FiGlobe} />
               <span>List Your Project</span>
@@ -120,12 +121,12 @@ const HeroSection = () => {
         <motion.div
           animate={{ y: [0, 10, 0] }}
           transition={{ repeat: Infinity, duration: 2 }}
-          className="w-6 h-10 border-2 border-premium-powder/30 rounded-full flex justify-center"
+          className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center"
         >
           <motion.div
             animate={{ y: [0, 12, 0] }}
             transition={{ repeat: Infinity, duration: 2 }}
-            className="w-1 h-3 bg-premium-blue rounded-full mt-2"
+            className="w-1 h-3 bg-white rounded-full mt-2"
           />
         </motion.div>
       </motion.div>

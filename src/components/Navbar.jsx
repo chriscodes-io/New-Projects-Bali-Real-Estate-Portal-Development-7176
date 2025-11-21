@@ -50,7 +50,7 @@ const Navbar = () => {
             
             <Link
               to="/developer-dashboard"
-              className="bg-premium-black text-white px-5 py-2.5 rounded-lg hover:bg-gray-800 transition-colors flex items-center space-x-2 font-semibold text-sm shadow-lg"
+              className="bg-premium-purple hover:bg-purple-600 text-white px-5 py-2.5 rounded-lg transition-all duration-300 flex items-center space-x-2 font-semibold text-sm shadow-premium-cta hover:shadow-lg hover:-translate-y-0.5"
             >
               <SafeIcon icon={FiUser} className="text-sm" />
               <span>Developer Login</span>
@@ -96,7 +96,7 @@ const Navbar = () => {
                   <Link
                     to="/developer-dashboard"
                     onClick={() => setIsOpen(false)}
-                    className="flex items-center justify-center space-x-3 px-4 py-3 bg-premium-black text-white rounded-lg hover:bg-gray-800 transition-colors w-full"
+                    className="flex items-center justify-center space-x-3 px-4 py-3 bg-premium-purple text-white rounded-lg hover:bg-purple-600 transition-colors w-full shadow-md"
                   >
                     <SafeIcon icon={FiUser} />
                     <span>Developer Login</span>

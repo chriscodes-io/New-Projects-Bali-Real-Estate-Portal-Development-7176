@@ -1,66 +1,116 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import SafeIcon from '../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
 
+// Import Sub-components
+import AdminOverview from '../components/admin/AdminOverview';
+import AdminLeads from '../components/admin/AdminLeads';
+import AdminBlog from '../components/admin/AdminBlog';
+import AdminSettings from '../components/admin/AdminSettings';
+
 const { 
-  FiUsers, FiBuilding, FiDollarSign, FiSettings, FiCheck, FiX, FiSearch,
-  FiTrendingUp, FiActivity, FiLogOut
+  FiUsers, FiBuilding, FiDollarSign, FiSettings, FiSearch,
+  FiTrendingUp, FiActivity, FiLogOut, FiEdit3, FiMenu, FiX, FiShield
 } = FiIcons;
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('overview');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const stats = [
-    { label: 'Pending Approvals', value: '12', icon: FiCheck, color: 'text-amber-600 bg-amber-100' },
-    { label: 'Total Developers', value: '45', icon: FiUsers, color: 'text-blue-600 bg-blue-100' },
-    { label: 'Total Projects', value: '156', icon: FiBuilding, color: 'text-green-600 bg-green-100' },
-    { label: 'Monthly Revenue', value: '$24.5k', icon: FiDollarSign, color: 'text-purple-600 bg-purple-100' },
+  const menuItems = [
+    { id: 'overview', label: 'Overview', icon: FiActivity },
+    { id: 'leads', label: 'Leads & Scoring', icon: FiTrendingUp },
+    { id: 'developers', label: 'Developers', icon: FiUsers },
+    { id: 'projects', label: 'Projects', icon: FiBuilding },
+    { id: 'blog', label: 'Blog Management', icon: FiEdit3 },
+    { id: 'settings', label: 'System Settings', icon: FiSettings },
   ];
 
-  const pendingDevelopers = [
-    { id: 1, name: 'Bali Luxury Estates', email: 'contact@baliluxury.com', date: '2024-02-20' },
-    { id: 2, name: 'Ubud Development Co', email: 'info@ubuddev.com', date: '2024-02-19' },
-  ];
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'overview': return <AdminOverview />;
+      case 'leads': return <AdminLeads />;
+      case 'blog': return <AdminBlog />;
+      case 'settings': return <AdminSettings />;
+      default: 
+        return (
+          <div className="flex flex-col items-center justify-center h-96 text-premium-charcoal bg-white rounded-3xl border border-gray-100 border-dashed">
+            <SafeIcon icon={FiSettings} className="text-5xl mb-4 text-gray-200" />
+            <h3 className="text-lg font-bold text-premium-black">Coming Soon</h3>
+            <p>The {activeTab} module is currently under development.</p>
+          </div>
+        );
+    }
+  };
 
   return (
     <div className="min-h-screen bg-premium-slate-50 flex">
-      {/* Sidebar - Light or Dark? Let's go Dark for Admin usually, or keep Light for consistency. Light logic here. */}
-      <div className="w-64 bg-white border-r border-gray-200 flex flex-col h-screen sticky top-0">
+      {/* Mobile Sidebar Overlay */}
+      <AnimatePresence>
+        {sidebarOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Sidebar */}
+      <div className={`
+        fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white shadow-lg lg:shadow-none lg:border-r border-gray-200 transform transition-transform duration-300 ease-in-out flex flex-col h-screen
+        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+      `}>
+        {/* Header */}
         <div className="p-6 border-b border-gray-100">
-          <h1 className="text-xl font-bold flex items-center gap-2 text-premium-black">
-            <div className="w-8 h-8 bg-premium-blue rounded flex items-center justify-center">
-              <SafeIcon icon={FiActivity} className="text-white" />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-premium-blue to-premium-periwinkle rounded-xl flex items-center justify-center shadow-lg shadow-premium-blue/20">
+                <SafeIcon icon={FiShield} className="text-white text-xl" />
+              </div>
+              <div>
+                <h1 className="font-bold text-premium-black leading-tight">Admin<br/>Portal</h1>
+              </div>
             </div>
-            <span>Admin Panel</span>
-          </h1>
-        </div>
-        <nav className="p-4 space-y-2 flex-1">
-          {['overview', 'developers', 'projects', 'leads', 'settings'].map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg capitalize transition-colors ${
-                activeTab === tab 
-                  ? 'bg-premium-blue text-white shadow-sm' 
-                  : 'text-premium-charcoal hover:bg-gray-50'
-              }`}
+            <button 
+              onClick={() => setSidebarOpen(false)}
+              className="lg:hidden text-gray-400 hover:text-premium-black"
             >
-              <SafeIcon 
-                icon={
-                  tab === 'overview' ? FiActivity :
-                  tab === 'developers' ? FiUsers :
-                  tab === 'projects' ? FiBuilding :
-                  tab === 'leads' ? FiTrendingUp :
-                  FiSettings
-                } 
-              />
-              <span>{tab}</span>
+              <SafeIcon icon={FiX} />
             </button>
-          ))}
+          </div>
+        </div>
+
+        {/* Navigation */}
+        <nav className="flex-1 p-4 overflow-y-auto">
+          <ul className="space-y-1">
+            {menuItems.map((item) => (
+              <li key={item.id}>
+                <button
+                  onClick={() => {
+                    setActiveTab(item.id);
+                    setSidebarOpen(false);
+                  }}
+                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all duration-200 ${
+                    activeTab === item.id
+                      ? 'bg-premium-purple text-white shadow-md shadow-premium-purple/20'
+                      : 'text-premium-charcoal hover:bg-gray-50 hover:text-premium-blue'
+                  }`}
+                >
+                  <SafeIcon icon={item.icon} />
+                  <span>{item.label}</span>
+                </button>
+              </li>
+            ))}
+          </ul>
         </nav>
+
+        {/* Footer */}
         <div className="p-4 border-t border-gray-100">
-          <button className="w-full flex items-center space-x-3 px-4 py-3 text-premium-charcoal hover:text-red-600 hover:bg-red-50 transition-colors rounded-lg">
+          <button className="w-full flex items-center space-x-3 px-4 py-3 text-premium-charcoal hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors font-medium">
             <SafeIcon icon={FiLogOut} />
             <span>Logout</span>
           </button>
@@ -68,88 +118,49 @@ const AdminDashboard = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 p-8">
-        <header className="flex justify-between items-center mb-8">
-          <h2 className="text-2xl font-bold text-premium-black capitalize">{activeTab}</h2>
-          <div className="flex items-center space-x-4">
-            <div className="relative">
-              <SafeIcon icon={FiSearch} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-              <input 
-                type="text" 
-                placeholder="Search..." 
-                className="pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-premium-blue outline-none bg-white"
-              />
+      <div className="flex-1 flex flex-col h-screen overflow-hidden">
+        {/* Top Bar */}
+        <header className="bg-white shadow-sm border-b border-gray-200 px-6 py-4 shrink-0">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={() => setSidebarOpen(true)}
+                className="lg:hidden p-2 text-premium-charcoal hover:text-premium-black bg-gray-50 rounded-lg"
+              >
+                <SafeIcon icon={FiMenu} />
+              </button>
+              <h2 className="text-2xl font-bold text-premium-black capitalize">
+                {menuItems.find(i => i.id === activeTab)?.label}
+              </h2>
             </div>
-            <div className="w-10 h-10 bg-premium-blue text-white rounded-full flex items-center justify-center font-bold shadow-sm">
-              AD
+
+            <div className="flex items-center space-x-4">
+              <div className="relative hidden md:block">
+                <SafeIcon icon={FiSearch} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <input 
+                  type="text" 
+                  placeholder="Search..." 
+                  className="pl-10 pr-4 py-2 rounded-xl border border-gray-200 focus:ring-2 focus:ring-premium-blue/20 outline-none bg-premium-slate-50 w-64 focus:bg-white transition-all"
+                />
+              </div>
+              <div className="w-10 h-10 bg-gradient-to-br from-premium-blue to-premium-periwinkle text-white rounded-full flex items-center justify-center font-bold shadow-md cursor-pointer hover:shadow-lg transition-all">
+                AD
+              </div>
             </div>
           </div>
         </header>
 
-        {/* Overview Content */}
-        {activeTab === 'overview' && (
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+        {/* Content Area */}
+        <main className="flex-1 overflow-y-auto p-6 md:p-8">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="space-y-8"
+            transition={{ duration: 0.3 }}
           >
-            {/* Stats */}
-            <div className="grid grid-cols-4 gap-6">
-              {stats.map((stat, index) => (
-                <div key={index} className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-                  <div className="flex justify-between items-start mb-4">
-                    <div className={`p-3 rounded-lg ${stat.color}`}>
-                      <SafeIcon icon={stat.icon} className="text-xl" />
-                    </div>
-                    <span className="text-2xl font-bold text-premium-black">{stat.value}</span>
-                  </div>
-                  <h3 className="text-premium-charcoal text-sm">{stat.label}</h3>
-                </div>
-              ))}
-            </div>
-
-            {/* Pending Approvals */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-              <div className="p-6 border-b border-gray-100">
-                <h3 className="font-bold text-premium-black">Pending Developer Approvals</h3>
-              </div>
-              <table className="w-full">
-                <thead className="bg-gray-50 text-left text-sm text-gray-500">
-                  <tr>
-                    <th className="px-6 py-4 font-medium">Company Name</th>
-                    <th className="px-6 py-4 font-medium">Email</th>
-                    <th className="px-6 py-4 font-medium">Registered Date</th>
-                    <th className="px-6 py-4 font-medium text-right">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100">
-                  {pendingDevelopers.map((dev) => (
-                    <tr key={dev.id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 font-medium text-premium-black">{dev.name}</td>
-                      <td className="px-6 py-4 text-premium-charcoal">{dev.email}</td>
-                      <td className="px-6 py-4 text-premium-charcoal">{dev.date}</td>
-                      <td className="px-6 py-4 text-right space-x-2">
-                        <button className="p-2 bg-green-100 text-green-600 rounded hover:bg-green-200 transition-colors">
-                          <SafeIcon icon={FiCheck} />
-                        </button>
-                        <button className="p-2 bg-red-100 text-red-600 rounded hover:bg-red-200 transition-colors">
-                          <SafeIcon icon={FiX} />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            {renderContent()}
           </motion.div>
-        )}
-
-        {activeTab !== 'overview' && (
-          <div className="bg-white p-12 rounded-xl shadow-sm border border-gray-200 text-center text-premium-charcoal">
-            <SafeIcon icon={FiSettings} className="text-4xl mx-auto mb-4 text-gray-300" />
-            <p>This section is under development.</p>
-          </div>
-        )}
+        </main>
       </div>
     </div>
   );

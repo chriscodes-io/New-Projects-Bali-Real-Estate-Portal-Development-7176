@@ -9,7 +9,7 @@ const DashboardOverview = () => {
   const stats = [
     { title: 'Total Projects', value: '4', change: '+1', changeType: 'positive', icon: FiTrendingUp, color: 'bg-blue-100 text-blue-600' },
     { title: 'Total Leads', value: '127', change: '+23', changeType: 'positive', icon: FiUsers, color: 'bg-green-100 text-green-600' },
-    { title: 'Revenue Generated', value: '$45,600', change: '+15%', changeType: 'positive', icon: FiDollarSign, color: 'bg-amber-100 text-amber-600' },
+    { title: 'Revenue Generated', value: '$45,600', change: '+15%', changeType: 'positive', icon: FiDollarSign, color: 'bg-indigo-100 text-indigo-600' },
     { title: 'Profile Views', value: '2,341', change: '+8%', changeType: 'positive', icon: FiEye, color: 'bg-purple-100 text-purple-600' }
   ];
 
@@ -29,7 +29,7 @@ const DashboardOverview = () => {
     switch (status) {
       case 'New': return 'bg-green-100 text-green-800';
       case 'Contacted': return 'bg-blue-100 text-blue-800';
-      case 'Qualified': return 'bg-amber-100 text-amber-800';
+      case 'Qualified': return 'bg-indigo-100 text-indigo-800';
       default: return 'bg-gray-100 text-gray-800';
     }
   };
