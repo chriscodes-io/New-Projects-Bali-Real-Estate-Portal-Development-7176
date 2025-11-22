@@ -12,6 +12,10 @@ out/
 # Logs
 logs
 *.log
+
+# Logs
+logs
+*.log
 # Dependencies / build
 node_modules/
 dist/
