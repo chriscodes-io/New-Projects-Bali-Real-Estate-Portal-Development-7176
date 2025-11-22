@@ -1,2 +1,41 @@
-# New-Projects-Bali-Real-Estate-Portal-Development-7176
-Repository created by Greta
+# New Projects Bali — Real Estate Portal
+
+A modern portal for listing new real estate projects in Bali.
+
+## About
+Short description: a Vite + React frontend for browsing, filtering, and viewing new-property projects in Bali. Deployed to Vercel: https://new-projects-bali.vercel.app
+
+## Quick start (local)
+1. Clone
+   git clone https://github.com/chriscodes-io/New-Projects-Bali-Real-Estate-Portal-Development-7176.git
+2. Install
+   npm install
+3. Environment
+   - Create a `.env.local` file with required variables (API keys, etc.)
+   - Example:
+     NEXT_PUBLIC_API_URL=https://api.example.com
+4. Run (development)
+   npm run dev
+5. Build
+   npm run build
+6. Test
+   npm run test
+
+## Scripts (recommended)
+- npm run dev — start dev server
+- npm run build — production build (runs lint first)
+- npm start — run production build (if applicable)
+- npm run lint — run ESLint
+- npm run format — run Prettier (if configured)
+- npm run test — run tests (add a test runner like vitest/jest)
+
+## Recommended next steps
+- Add a LICENSE (MIT or another license you prefer)
+- Add CONTRIBUTING.md and CODEOWNERS
+- Add Husky + lint-staged for pre-commit formatting/lint
+- Add basic tests (Vitest/Jest) and coverage
+- Enable Dependabot for dependency updates
+
+## Contact / Maintainers
+- Owner: chriscodes-io
+- Project lead / author: (update as needed)
