@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import ImageGallery from 'react-image-gallery';
 import LeadCaptureForm from '../components/development/LeadCaptureForm';
 import SafeIcon from '../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
-import 'react-image-gallery/styles/css/image-gallery.css';
 
 const { 
   FiMapPin, FiCalendar, FiTrendingUp, FiUsers, FiHome, FiStar,
   FiWifi, FiCar, FiShield, FiCoffee, FiActivity, FiDroplet,
-  FiDownload, FiPhone, FiMail, FiShare2
+  FiDownload, FiPhone, FiMail, FiShare2, FiChevronLeft, FiChevronRight
 } = FiIcons;
 
 const DevelopmentDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview');
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   // Mock data
   const development = {
@@ -63,18 +63,9 @@ const DevelopmentDetail = () => {
       "Easy financing options available"
     ],
     images: [
-      {
-        original: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-        thumbnail: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
-      },
-      {
-        original: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-        thumbnail: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
-      },
-      {
-        original: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-        thumbnail: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
-      }
+      "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+      "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
     ]
   };
 
@@ -91,6 +82,19 @@ const DevelopmentDetail = () => {
     }
   };
 
+  const handlePrevImage = () => {
+    setCurrentImageIndex((prev) => (prev === 0 ? development.images.length - 1 : prev - 1));
+  };
+
+  const handleNextImage = () => {
+    setCurrentImageIndex((prev) => (prev === development.images.length - 1 ? 0 : prev + 1));
+  };
+
+  const handleGoBack = () => {
+    navigate('/developments');
+    window.scrollTo(0, 0);
+  };
+
   const tabs = [
     { id: 'overview', label: 'Overview' },
     { id: 'amenities', label: 'Amenities' },
@@ -102,6 +106,17 @@ const DevelopmentDetail = () => {
   return (
     <div className="min-h-screen bg-premium-slate-50 pt-8 pb-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Back Button */}
+        <motion.button
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          onClick={handleGoBack}
+          className="mb-8 flex items-center gap-2 text-premium-blue hover:text-blue-700 font-bold transition-colors"
+        >
+          <SafeIcon icon={FiChevronLeft} />
+          Back to Developments
+        </motion.button>
+
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -144,9 +159,9 @@ const DevelopmentDetail = () => {
             <div className="flex flex-col items-end gap-2">
               <div className="text-3xl font-bold text-premium-black">{development.price}</div>
               <div className="text-premium-charcoal font-medium">{development.units} units available</div>
-              <button className="flex items-center space-x-2 text-premium-blue hover:text-blue-700 font-bold text-sm bg-white px-4 py-2 rounded-lg border border-gray-100 shadow-sm hover:shadow-md transition-all">
+              <button className="flex items-center space-x-2 text-premium-blue hover:text-blue-700 font-bold text-sm bg-white px-4 py-2 rounded-lg border border-gray-100 shadow-sm hover:shadow-md transition-all cursor-pointer min-h-[44px]">
                 <SafeIcon icon={FiShare2} />
-                <span>Share Development</span>
+                <span>Share</span>
               </button>
             </div>
           </div>
@@ -162,13 +177,47 @@ const DevelopmentDetail = () => {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden"
             >
-              <ImageGallery
-                items={development.images}
-                showThumbnails={true}
-                showPlayButton={false}
-                showFullscreenButton={true}
-                autoPlay={false}
-              />
+              <div className="relative aspect-video bg-gray-200 overflow-hidden">
+                <img
+                  src={development.images[currentImageIndex]}
+                  alt={`${development.name} - Image ${currentImageIndex + 1}`}
+                  className="w-full h-full object-cover transition-opacity duration-500"
+                />
+                
+                {/* Navigation Buttons */}
+                <button
+                  onClick={handlePrevImage}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-premium-black p-3 rounded-full shadow-lg transition-all cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
+                >
+                  <SafeIcon icon={FiChevronLeft} className="text-xl" />
+                </button>
+                <button
+                  onClick={handleNextImage}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-premium-black p-3 rounded-full shadow-lg transition-all cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
+                >
+                  <SafeIcon icon={FiChevronRight} className="text-xl" />
+                </button>
+
+                {/* Image Counter */}
+                <div className="absolute bottom-4 right-4 bg-black/60 text-white px-3 py-1 rounded-full text-sm font-medium">
+                  {currentImageIndex + 1} / {development.images.length}
+                </div>
+              </div>
+
+              {/* Thumbnails */}
+              <div className="flex gap-2 p-4 bg-gray-50 overflow-x-auto">
+                {development.images.map((image, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setCurrentImageIndex(idx)}
+                    className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all cursor-pointer ${
+                      idx === currentImageIndex ? 'border-premium-blue' : 'border-gray-200'
+                    }`}
+                  >
+                    <img src={image} alt={`Thumbnail ${idx + 1}`} className="w-full h-full object-cover" />
+                  </button>
+                ))}
+              </div>
             </motion.div>
 
             {/* Description */}
@@ -216,7 +265,7 @@ const DevelopmentDetail = () => {
                     <button
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id)}
-                      className={`py-4 px-1 border-b-2 font-bold text-sm transition-colors whitespace-nowrap ${
+                      className={`py-4 px-1 border-b-2 font-bold text-sm transition-colors whitespace-nowrap cursor-pointer ${
                         activeTab === tab.id
                           ? 'border-premium-blue text-premium-blue'
                           : 'border-transparent text-gray-400 hover:text-premium-charcoal'
@@ -284,7 +333,7 @@ const DevelopmentDetail = () => {
                       <div className="bg-premium-slate-50 rounded-xl border border-gray-100 p-6 text-center">
                         <h4 className="font-bold text-premium-black mb-2">2 Bedroom Villa</h4>
                         <p className="text-premium-charcoal mb-4">120 sqm • 200 sqm plot</p>
-                        <button className="flex items-center space-x-2 mx-auto bg-premium-purple hover:bg-purple-600 text-white px-4 py-2 rounded-lg transition-all font-medium text-sm shadow-premium-cta">
+                        <button className="flex items-center space-x-2 mx-auto bg-premium-purple hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-all font-medium text-sm shadow-lg cursor-pointer min-h-[44px]">
                           <SafeIcon icon={FiDownload} />
                           <span>Download PDF</span>
                         </button>
@@ -292,7 +341,7 @@ const DevelopmentDetail = () => {
                       <div className="bg-premium-slate-50 rounded-xl border border-gray-100 p-6 text-center">
                         <h4 className="font-bold text-premium-black mb-2">4 Bedroom Villa</h4>
                         <p className="text-premium-charcoal mb-4">280 sqm • 500 sqm plot</p>
-                        <button className="flex items-center space-x-2 mx-auto bg-premium-purple hover:bg-purple-600 text-white px-4 py-2 rounded-lg transition-all font-medium text-sm shadow-premium-cta">
+                        <button className="flex items-center space-x-2 mx-auto bg-premium-purple hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-all font-medium text-sm shadow-lg cursor-pointer min-h-[44px]">
                           <SafeIcon icon={FiDownload} />
                           <span>Download PDF</span>
                         </button>
@@ -314,7 +363,7 @@ const DevelopmentDetail = () => {
                     </div>
                     <div className="mt-6 p-4 bg-blue-50 border border-blue-100 rounded-xl">
                       <p className="text-blue-800 text-sm flex items-start gap-2">
-                        <SafeIcon icon={FiTrendingUp} className="mt-1" />
+                        <SafeIcon icon={FiTrendingUp} className="mt-1 flex-shrink-0" />
                         <span><strong>Note:</strong> Flexible payment terms available. Contact us to discuss customized payment plans suited to your investment goals.</span>
                       </p>
                     </div>
