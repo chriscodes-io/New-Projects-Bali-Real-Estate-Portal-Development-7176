@@ -4,176 +4,96 @@ import { Link } from 'react-router-dom';
 import SafeIcon from '../../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
 
-const { FiMapPin, FiCalendar, FiTrendingUp, FiEye, FiBuilding, FiUsers } = FiIcons;
+const { FiMapPin, FiMaximize, FiHome, FiTrendingUp, FiArrowRight } = FiIcons;
 
-const DevelopmentCard = ({ development, viewMode }) => {
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'Off-plan':
-        return 'bg-premium-blue/10 text-premium-blue border border-premium-blue/20';
-      case 'Under Construction':
-        return 'bg-indigo-50 text-indigo-600 border border-indigo-100';
-      case 'Completed':
-        return 'bg-green-50 text-green-600 border border-green-100';
-      default:
-        return 'bg-gray-50 text-gray-600';
-    }
-  };
+const DevelopmentCard = ({ development }) => {
+  const {
+    id,
+    title,
+    location,
+    price,
+    roi,
+    image,
+    type,
+    beds,
+    size,
+    completion
+  } = development;
 
-  if (viewMode === 'list') {
-    return (
-      <motion.div
-        whileHover={{ y: -2 }}
-        transition={{ duration: 0.3 }}
-        className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group border border-gray-100"
-      >
-        <div className="flex flex-col md:flex-row">
-          {/* Image */}
-          <div className="relative h-64 md:h-48 md:w-80 flex-shrink-0 overflow-hidden">
-            <img
-              src={development.image}
-              alt={development.name}
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-            
-            <div className={`absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold backdrop-blur-md bg-white/90 ${getStatusColor(development.status)}`}>
-              {development.status}
-            </div>
-            
-            <div className="absolute top-4 right-4 bg-premium-blue text-white px-3 py-1 rounded-full text-xs font-bold flex items-center space-x-1 shadow-lg">
-              <SafeIcon icon={FiTrendingUp} />
-              <span>{development.yield} Yield</span>
-            </div>
-          </div>
-
-          {/* Content */}
-          <div className="flex-1 p-6">
-            <div className="flex justify-between items-start mb-3">
-              <div>
-                <h3 className="text-xl font-bold text-premium-black group-hover:text-premium-blue transition-colors mb-1">
-                  {development.name}
-                </h3>
-                <div className="flex items-center space-x-2 text-premium-charcoal mb-2">
-                  <SafeIcon icon={FiMapPin} className="text-premium-blue text-sm" />
-                  <span className="text-sm">{development.location}</span>
-                  <span className="text-gray-300">•</span>
-                  <span className="text-sm">{development.type}</span>
-                </div>
-              </div>
-              <div className="text-right">
-                <div className="text-xl font-bold text-premium-black mb-1">
-                  {development.price}
-                </div>
-                <div className="text-sm text-gray-400">{development.units} Units</div>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-              <div className="flex items-center space-x-2 text-premium-charcoal">
-                <SafeIcon icon={FiCalendar} className="text-premium-blue text-sm" />
-                <span className="text-sm">{development.completion}</span>
-              </div>
-              <div className="flex items-center space-x-2 text-premium-charcoal">
-                <SafeIcon icon={FiUsers} className="text-premium-blue text-sm" />
-                <span className="text-sm">{development.developer}</span>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap gap-2 mb-4">
-              {development.amenities.slice(0, 4).map((amenity, index) => (
-                <span key={index} className="bg-premium-slate-50 text-premium-charcoal px-2 py-1 rounded text-xs border border-gray-100">
-                  {amenity}
-                </span>
-              ))}
-            </div>
-
-            <div className="flex justify-end items-center">
-              <Link
-                to={`/development/${development.id}`}
-                className="bg-premium-purple hover:bg-purple-600 text-white px-6 py-2 rounded-lg transition-all duration-300 flex items-center space-x-2 font-medium shadow-premium-cta"
-              >
-                <SafeIcon icon={FiEye} />
-                <span>View Details</span>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </motion.div>
-    );
-  }
-
-  // Grid view
   return (
     <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
       whileHover={{ y: -5 }}
       transition={{ duration: 0.3 }}
-      className="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group border border-gray-100 flex flex-col h-full"
+      className="group bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-xl hover:shadow-premium-blue/10 transition-all duration-300 flex flex-col h-full"
     >
-      {/* Image */}
-      <div className="relative h-64 overflow-hidden">
+      {/* Image Container - Aspect Ratio 4:3 */}
+      <div className="relative aspect-[4/3] overflow-hidden bg-gray-200">
         <img
-          src={development.image}
-          alt={development.name}
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+          src={image}
+          alt={title}
+          className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+          loading="lazy"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
         
-        <div className={`absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold backdrop-blur-md bg-white/90 ${getStatusColor(development.status)}`}>
-          {development.status}
+        {/* Badge Overlays */}
+        <div className="absolute top-3 left-3">
+          <span className="px-3 py-1 bg-white/90 backdrop-blur-sm text-premium-black text-xs font-bold rounded-lg shadow-sm">
+            {type}
+          </span>
         </div>
         
-        <div className="absolute top-4 right-4 bg-premium-blue text-white px-3 py-1 rounded-full text-xs font-bold flex items-center space-x-1 shadow-lg">
-          <SafeIcon icon={FiTrendingUp} />
-          <span>{development.yield} Yield</span>
+        <div className="absolute top-3 right-3">
+          <span className="px-3 py-1 bg-green-500 text-white text-xs font-bold rounded-lg shadow-sm flex items-center gap-1">
+            <SafeIcon icon={FiTrendingUp} className="text-[10px]" />
+            {roi}% ROI
+          </span>
+        </div>
+
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4 pt-12">
+          <p className="text-white font-bold text-lg truncate drop-shadow-sm">{price.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })}</p>
         </div>
       </div>
 
       {/* Content */}
-      <div className="p-6 flex-1 flex flex-col">
-        <div className="flex justify-between items-start mb-3">
-          <h3 className="text-lg font-bold text-premium-black group-hover:text-premium-blue transition-colors line-clamp-1">
-            {development.name}
+      <div className="p-5 flex flex-col flex-grow">
+        {/* Title & Location */}
+        <div className="mb-4">
+          <h3 className="text-lg font-bold text-premium-black mb-1 line-clamp-1 group-hover:text-premium-purple transition-colors">
+            {title}
           </h3>
-          <span className="text-xs text-gray-400 whitespace-nowrap ml-2">{development.units} Units</span>
-        </div>
-        
-        <div className="flex items-center space-x-2 text-premium-charcoal mb-3 text-sm">
-          <SafeIcon icon={FiMapPin} className="text-premium-blue flex-shrink-0" />
-          <span className="truncate">{development.location}</span>
-          <span className="text-gray-300">•</span>
-          <span className="truncate">{development.type}</span>
-        </div>
-
-        <div className="space-y-2 mb-4">
-          <div className="flex items-center space-x-2 text-premium-charcoal text-sm">
-            <SafeIcon icon={FiCalendar} className="text-premium-blue flex-shrink-0" />
-            <span>{development.completion}</span>
-          </div>
-          <div className="flex items-center space-x-2 text-premium-charcoal text-sm">
-            <SafeIcon icon={FiBuilding} className="text-premium-blue flex-shrink-0" />
-            <span className="truncate">{development.developer}</span>
+          <div className="flex items-center text-premium-charcoal text-sm">
+            <SafeIcon icon={FiMapPin} className="mr-1 text-premium-blue" />
+            <span className="truncate">{location}</span>
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-1 mb-4 mt-auto">
-          {development.amenities.slice(0, 3).map((amenity, index) => (
-            <span key={index} className="bg-premium-slate-50 text-premium-charcoal px-2 py-1 rounded text-xs border border-gray-100">
-              {amenity}
-            </span>
-          ))}
+        {/* Features Grid */}
+        <div className="grid grid-cols-3 gap-2 py-4 border-t border-b border-gray-100 mb-4">
+          <div className="flex flex-col items-center justify-center text-center p-2 bg-premium-slate-50 rounded-lg">
+            <SafeIcon icon={FiHome} className="text-premium-blue mb-1" />
+            <span className="text-xs font-bold text-premium-black">{beds} Beds</span>
+          </div>
+          <div className="flex flex-col items-center justify-center text-center p-2 bg-premium-slate-50 rounded-lg">
+            <SafeIcon icon={FiMaximize} className="text-premium-blue mb-1" />
+            <span className="text-xs font-bold text-premium-black">{size}m²</span>
+          </div>
+          <div className="flex flex-col items-center justify-center text-center p-2 bg-premium-slate-50 rounded-lg">
+            <span className="text-[10px] font-bold text-premium-blue mb-1 px-1.5 py-0.5 bg-blue-100 rounded">Ready</span>
+            <span className="text-xs font-bold text-premium-black truncate w-full">{completion}</span>
+          </div>
         </div>
 
-        <div className="flex justify-between items-center pt-4 border-t border-gray-50">
-          <div className="text-xl font-bold text-premium-black">
-            {development.price}
-          </div>
+        {/* Action Button - Pushed to bottom */}
+        <div className="mt-auto">
           <Link
-            to={`/development/${development.id}`}
-            className="bg-premium-purple hover:bg-purple-600 text-white px-4 py-2 rounded-lg transition-all duration-300 flex items-center space-x-2 shadow-premium-cta"
+            to={`/development/${id}`}
+            className="w-full flex items-center justify-center gap-2 py-3 bg-premium-purple text-white rounded-xl font-bold text-sm hover:bg-purple-700 transition-colors shadow-premium-cta min-h-[44px]"
           >
-            <SafeIcon icon={FiEye} />
-            <span className="text-sm font-medium">Details</span>
+            <span>View Details</span>
+            <SafeIcon icon={FiArrowRight} />
           </Link>
         </div>
       </div>

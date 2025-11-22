@@ -4,42 +4,43 @@ import { Toaster } from 'react-hot-toast';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import AIChatWidget from './components/common/AIChatWidget';
-
-// Pages
 import HomePage from './pages/HomePage';
 import DevelopmentsPage from './pages/DevelopmentsPage';
 import DevelopmentDetail from './pages/DevelopmentDetail';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
-import DeveloperDashboard from './pages/DeveloperDashboard';
-import AdminDashboard from './pages/AdminDashboard';
 import BlogPage from './pages/BlogPage';
 import BlogPost from './pages/BlogPost';
-
+import DeveloperDashboard from './pages/DeveloperDashboard';
+import AdminDashboard from './pages/AdminDashboard';
+import LoginPage from './pages/LoginPage'; // New Import
 import './App.css';
 
 function App() {
   return (
-    <div className="flex flex-col min-h-screen">
-      <Toaster position="top-center" />
-      
+    <>
+      <Toaster position="top-center" reverseOrder={false} />
       <Routes>
-        {/* Public Routes with Layout */}
-        <Route path="/" element={<><Navbar /><HomePage /><AIChatWidget /><Footer /></>} />
-        <Route path="/developments" element={<><Navbar /><DevelopmentsPage /><AIChatWidget /><Footer /></>} />
-        <Route path="/development/:id" element={<><Navbar /><DevelopmentDetail /><AIChatWidget /><Footer /></>} />
-        <Route path="/about" element={<><Navbar /><AboutPage /><AIChatWidget /><Footer /></>} />
-        <Route path="/contact" element={<><Navbar /><ContactPage /><AIChatWidget /><Footer /></>} />
+        {/* Public Routes */}
+        <Route path="/" element={<><Navbar /><HomePage /><Footer /></>} />
+        <Route path="/developments" element={<><Navbar /><DevelopmentsPage /><Footer /></>} />
+        <Route path="/development/:id" element={<><Navbar /><DevelopmentDetail /><Footer /></>} />
+        <Route path="/about" element={<><Navbar /><AboutPage /><Footer /></>} />
+        <Route path="/contact" element={<><Navbar /><ContactPage /><Footer /></>} />
+        <Route path="/blog" element={<><Navbar /><BlogPage /><Footer /></>} />
+        <Route path="/blog/:id" element={<><Navbar /><BlogPost /><Footer /></>} />
         
-        {/* Blog Routes */}
-        <Route path="/blog" element={<><Navbar /><BlogPage /><AIChatWidget /><Footer /></>} />
-        <Route path="/blog/:id" element={<><Navbar /><BlogPost /><AIChatWidget /><Footer /></>} />
+        {/* Unified Login Route */}
+        <Route path="/login" element={<><Navbar /><LoginPage /><Footer /></>} />
 
-        {/* Dashboard Routes (No Footer/Nav/Chat typically, or different layout) */}
-        <Route path="/developer-dashboard/*" element={<DeveloperDashboard />} />
-        <Route path="/admin-dashboard/*" element={<AdminDashboard />} />
+        {/* Dashboard Routes - No Navbar/Footer */}
+        <Route path="/developer-dashboard" element={<DeveloperDashboard />} />
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
       </Routes>
-    </div>
+
+      {/* AI Chat Widget */}
+      <AIChatWidget />
+    </>
   );
 }
 

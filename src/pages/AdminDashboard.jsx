@@ -1,63 +1,91 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
+import AdminOverview from '../components/admin/AdminOverview';
+import AdminLeads from '../components/admin/AdminLeads';
+import AdminDevelopers from '../components/admin/AdminDevelopers';
+import AdminBlog from '../components/admin/AdminBlog';
+import AdminSettings from '../components/admin/AdminSettings';
+import AdminSubscriptions from '../components/admin/AdminSubscriptions';
+import AdminFinance from '../components/admin/AdminFinance';
 import SafeIcon from '../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
 
-// Import Sub-components
-import AdminOverview from '../components/admin/AdminOverview';
-import AdminLeads from '../components/admin/AdminLeads';
-import AdminBlog from '../components/admin/AdminBlog';
-import AdminSettings from '../components/admin/AdminSettings';
-
-const { 
-  FiUsers, FiBuilding, FiDollarSign, FiSettings, FiSearch,
-  FiTrendingUp, FiActivity, FiLogOut, FiEdit3, FiMenu, FiX, FiShield
-} = FiIcons;
+const { FiActivity, FiTrendingUp, FiBuilding, FiBookOpen, FiSettings, FiLogOut, FiMenu, FiX, FiCreditCard, FiDollarSign } = FiIcons;
 
 const AdminDashboard = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [adminUser, setAdminUser] = useState(null);
   const [activeTab, setActiveTab] = useState('overview');
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check if user is already logged in from LoginPage
+    const userRole = localStorage.getItem('userRole');
+    const userName = localStorage.getItem('userName');
+    
+    if (userRole === 'admin' && userName) {
+      setAdminUser({ email: userName });
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setAdminUser(null);
+    setActiveTab('overview');
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('userName');
+    navigate('/login');
+  };
 
   const menuItems = [
-    { id: 'overview', label: 'Overview', icon: FiActivity },
-    { id: 'leads', label: 'Leads & Scoring', icon: FiTrendingUp },
-    { id: 'developers', label: 'Developers', icon: FiUsers },
-    { id: 'projects', label: 'Projects', icon: FiBuilding },
-    { id: 'blog', label: 'Blog Management', icon: FiEdit3 },
-    { id: 'settings', label: 'System Settings', icon: FiSettings },
+    { id: 'overview', label: 'Dashboard', icon: FiActivity },
+    { id: 'leads', label: 'Leads', icon: FiTrendingUp },
+    { id: 'developers', label: 'Developers', icon: FiBuilding },
+    { id: 'subscriptions', label: 'Subscriptions', icon: FiCreditCard },
+    { id: 'finance', label: 'Finance', icon: FiDollarSign },
+    { id: 'blog', label: 'Blog', icon: FiBookOpen },
+    { id: 'settings', label: 'Settings', icon: FiSettings }
   ];
 
   const renderContent = () => {
     switch (activeTab) {
       case 'overview': return <AdminOverview />;
       case 'leads': return <AdminLeads />;
+      case 'developers': return <AdminDevelopers />;
+      case 'subscriptions': return <AdminSubscriptions />;
+      case 'finance': return <AdminFinance />;
       case 'blog': return <AdminBlog />;
       case 'settings': return <AdminSettings />;
-      default: 
-        return (
-          <div className="flex flex-col items-center justify-center h-96 text-premium-charcoal bg-white rounded-3xl border border-gray-100 border-dashed">
-            <SafeIcon icon={FiSettings} className="text-5xl mb-4 text-gray-200" />
-            <h3 className="text-lg font-bold text-premium-black">Coming Soon</h3>
-            <p>The {activeTab} module is currently under development.</p>
-          </div>
-        );
+      default: return null;
     }
   };
+
+  if (!isLoggedIn) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-premium-blue via-premium-slate-50 to-premium-periwinkle flex items-center justify-center p-4">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-white mb-4">Admin Access Required</h1>
+          <p className="text-white/80">Please log in through the Login page to access the Admin Dashboard.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-premium-slate-50 flex">
       {/* Mobile Sidebar Overlay */}
-      <AnimatePresence>
-        {sidebarOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 z-40 lg:hidden"
-            onClick={() => setSidebarOpen(false)}
-          />
-        )}
-      </AnimatePresence>
+      {sidebarOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
 
       {/* Sidebar */}
       <div className={`
@@ -69,10 +97,10 @@ const AdminDashboard = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-gradient-to-br from-premium-blue to-premium-periwinkle rounded-xl flex items-center justify-center shadow-lg shadow-premium-blue/20">
-                <SafeIcon icon={FiShield} className="text-white text-xl" />
+                <SafeIcon icon={FiActivity} className="text-white text-xl" />
               </div>
               <div>
-                <h1 className="font-bold text-premium-black leading-tight">Admin<br/>Portal</h1>
+                <h1 className="font-bold text-premium-black leading-tight text-sm">Admin<br/>Dashboard</h1>
               </div>
             </div>
             <button 
@@ -96,7 +124,7 @@ const AdminDashboard = () => {
                   }}
                   className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all duration-200 ${
                     activeTab === item.id
-                      ? 'bg-premium-purple text-white shadow-md shadow-premium-purple/20'
+                      ? 'bg-gradient-to-r from-premium-blue to-premium-periwinkle text-white shadow-md shadow-premium-blue/20'
                       : 'text-premium-charcoal hover:bg-gray-50 hover:text-premium-blue'
                   }`}
                 >
@@ -109,8 +137,15 @@ const AdminDashboard = () => {
         </nav>
 
         {/* Footer */}
-        <div className="p-4 border-t border-gray-100">
-          <button className="w-full flex items-center space-x-3 px-4 py-3 text-premium-charcoal hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors font-medium">
+        <div className="p-4 border-t border-gray-100 space-y-2">
+          <div className="px-4 py-3 bg-premium-blue/5 rounded-xl border border-premium-blue/10">
+            <p className="text-xs text-premium-charcoal font-medium">Logged in as</p>
+            <p className="text-sm font-bold text-premium-blue truncate">{adminUser?.email}</p>
+          </div>
+          <button 
+            onClick={handleLogout}
+            className="w-full flex items-center space-x-3 px-4 py-3 text-premium-charcoal hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors font-medium"
+          >
             <SafeIcon icon={FiLogOut} />
             <span>Logout</span>
           </button>
@@ -133,25 +168,11 @@ const AdminDashboard = () => {
                 {menuItems.find(i => i.id === activeTab)?.label}
               </h2>
             </div>
-
-            <div className="flex items-center space-x-4">
-              <div className="relative hidden md:block">
-                <SafeIcon icon={FiSearch} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                <input 
-                  type="text" 
-                  placeholder="Search..." 
-                  className="pl-10 pr-4 py-2 rounded-xl border border-gray-200 focus:ring-2 focus:ring-premium-blue/20 outline-none bg-premium-slate-50 w-64 focus:bg-white transition-all"
-                />
-              </div>
-              <div className="w-10 h-10 bg-gradient-to-br from-premium-blue to-premium-periwinkle text-white rounded-full flex items-center justify-center font-bold shadow-md cursor-pointer hover:shadow-lg transition-all">
-                AD
-              </div>
-            </div>
           </div>
         </header>
 
         {/* Content Area */}
-        <main className="flex-1 overflow-y-auto p-6 md:p-8">
+        <main className="flex-1 overflow-y-auto">
           <motion.div
             key={activeTab}
             initial={{ opacity: 0, y: 10 }}

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import SafeIcon from '../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
 
-const { FiBuilding, FiMail, FiPhone, FiMapPin, FiFacebook, FiInstagram, FiLinkedin } = FiIcons;
+const { FiBuilding, FiMail, FiPhone, FiMapPin, FiFacebook, FiInstagram, FiLinkedin, FiShield } = FiIcons;
 
 const Footer = () => {
   return (
@@ -108,7 +108,11 @@ const Footer = () => {
             <p className="text-gray-500 text-sm">
               © 2024 New Projects Bali. All rights reserved.
             </p>
-            <div className="flex space-x-6 mt-4 md:mt-0">
+            <div className="flex space-x-6 mt-4 md:mt-0 items-center">
+              <Link to="/admin-dashboard" className="text-gray-600 hover:text-premium-blue text-xs transition-colors flex items-center space-x-1">
+                <SafeIcon icon={FiShield} />
+                <span>Admin</span>
+              </Link>
               <a href="#" className="text-gray-500 hover:text-premium-blue text-sm transition-colors">Privacy Policy</a>
               <a href="#" className="text-gray-500 hover:text-premium-blue text-sm transition-colors">Terms of Service</a>
             </div>

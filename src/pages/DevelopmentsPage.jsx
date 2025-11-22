@@ -1,285 +1,204 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { useSearchParams } from 'react-router-dom';
-import DevelopmentCard from '../components/developments/DevelopmentCard';
+import { motion, AnimatePresence } from 'framer-motion';
 import FilterSidebar from '../components/developments/FilterSidebar';
-import SafeIcon from '../common/SafeIcon';
+import DevelopmentCard from '../components/developments/DevelopmentCard';
+import SafeIcon from '../common/SafeIcon'; // FIXED IMPORT PATH
 import * as FiIcons from 'react-icons/fi';
 
-const { FiFilter, FiGrid, FiList, FiSearch, FiX } = FiIcons;
+const { FiFilter, FiX } = FiIcons;
+
+// Mock Data (In a real app, this would come from an API)
+const MOCK_DEVELOPMENTS = [
+  {
+    id: 1,
+    title: "Ocean Horizon Villas",
+    location: "Uluwatu, Bali",
+    price: 450000,
+    roi: 15,
+    image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=1000",
+    type: "Villa",
+    beds: 3,
+    baths: 3,
+    size: 250,
+    completion: "Q4 2024"
+  },
+  {
+    id: 2,
+    title: "Canggu Rice Field Lofts",
+    location: "Canggu, Bali",
+    price: 225000,
+    roi: 12,
+    image: "https://images.unsplash.com/photo-1600596542815-2251336b6f9b?auto=format&fit=crop&q=80&w=1000",
+    type: "Apartment",
+    beds: 1,
+    baths: 1,
+    size: 85,
+    completion: "Ready"
+  },
+  {
+    id: 3,
+    title: "Ubud Jungle Retreat",
+    location: "Ubud, Bali",
+    price: 550000,
+    roi: 14,
+    image: "https://images.unsplash.com/photo-1580587771525-78b9dba3b91d?auto=format&fit=crop&q=80&w=1000",
+    type: "Villa",
+    beds: 4,
+    baths: 4,
+    size: 320,
+    completion: "Q2 2025"
+  },
+  {
+    id: 4,
+    title: "Seminyak Beachfront Suites",
+    location: "Seminyak, Bali",
+    price: 380000,
+    roi: 11,
+    image: "https://images.unsplash.com/photo-1573790387438-4da905039392?auto=format&fit=crop&q=80&w=1000",
+    type: "Apartment",
+    beds: 2,
+    baths: 2,
+    size: 120,
+    completion: "Q1 2025"
+  },
+  {
+    id: 5,
+    title: "Nusa Dua Cliff Estate",
+    location: "Nusa Dua, Bali",
+    price: 1200000,
+    roi: 18,
+    image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=1000",
+    type: "Estate",
+    beds: 5,
+    baths: 6,
+    size: 600,
+    completion: "Q3 2025"
+  },
+  {
+    id: 6,
+    title: "Pererenan Sunset Villas",
+    location: "Pererenan, Bali",
+    price: 320000,
+    roi: 13,
+    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=1000",
+    type: "Villa",
+    beds: 2,
+    baths: 2,
+    size: 150,
+    completion: "Q4 2024"
+  }
+];
 
 const DevelopmentsPage = () => {
-  const [searchParams] = useSearchParams();
-  const [viewMode, setViewMode] = useState('grid');
-  const [showFilters, setShowFilters] = useState(false);
-  const [sortBy, setSortBy] = useState('featured');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [filteredDevelopments, setFilteredDevelopments] = useState(MOCK_DEVELOPMENTS);
 
-  // Mock data - same as before but ensured persistence
-  const developments = [
-    {
-      id: 1,
-      name: "Oceanview Villa Resort",
-      location: "Uluwatu",
-      price: "From $450k",
-      status: "Off-plan",
-      completion: "Q4 2025",
-      yield: "16%",
-      image: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      type: "Villa",
-      units: 24,
-      developer: "Bali Premium Developments",
-      amenities: ["Pool", "Gym", "Beach Access", "Concierge"],
-      priceRange: "$500k - $1M"
-    },
-    {
-      id: 2,
-      name: "Tropical Garden Villas",
-      location: "Canggu",
-      price: "From $320k",
-      status: "Under Construction",
-      completion: "Q2 2025",
-      yield: "14%",
-      image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      type: "Villa",
-      units: 18,
-      developer: "Tropical Investments",
-      amenities: ["Pool", "Garden", "Parking", "Security"],
-      priceRange: "$200k - $500k"
-    },
-    {
-      id: 3,
-      name: "Seminyak Luxury Resort",
-      location: "Seminyak",
-      price: "From $680k",
-      status: "Completed",
-      completion: "Available Now",
-      yield: "15%",
-      image: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      type: "Resort",
-      units: 32,
-      developer: "Luxury Bali Group",
-      amenities: ["Spa", "Restaurant", "Pool", "Beach Club"],
-      priceRange: "$500k - $1M"
-    },
-    {
-      id: 4,
-      name: "Rice Field Retreat",
-      location: "Ubud",
-      price: "From $280k",
-      status: "Off-plan",
-      completion: "Q1 2026",
-      yield: "12%",
-      image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      type: "Villa",
-      units: 15,
-      developer: "Ubud Lifestyle",
-      amenities: ["Yoga Studio", "Organic Garden", "Pool", "Meditation Area"],
-      priceRange: "$200k - $500k"
-    },
-    {
-      id: 5,
-      name: "Beachfront Paradise",
-      location: "Jimbaran",
-      price: "From $850k",
-      status: "Under Construction",
-      completion: "Q3 2025",
-      yield: "17%",
-      image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      type: "Resort",
-      units: 28,
-      developer: "Coastal Developments",
-      amenities: ["Beach Access", "Water Sports", "Restaurants", "Spa"],
-      priceRange: "$500k - $1M"
-    },
-    {
-      id: 6,
-      name: "Modern Eco Villas",
-      location: "Pererenan",
-      price: "From $380k",
-      status: "Off-plan",
-      completion: "Q1 2026",
-      yield: "13%",
-      image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      type: "Villa",
-      units: 20,
-      developer: "Green Living Bali",
-      amenities: ["Solar Power", "Rainwater Harvesting", "Pool", "Garden"],
-      priceRange: "$200k - $500k"
-    }
-  ];
-
-  const [filteredDevelopments, setFilteredDevelopments] = useState(developments);
-  const [filters, setFilters] = useState({
-    location: searchParams.get('location') || '',
-    priceRange: searchParams.get('priceRange') || '',
-    propertyType: searchParams.get('propertyType') || '',
-    status: searchParams.get('status') || ''
-  });
-
+  // Prevent body scroll when mobile filter is open
   useEffect(() => {
-    let filtered = developments;
+    if (isFilterOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isFilterOpen]);
 
-    if (filters.location) {
-      filtered = filtered.filter(dev => 
-        dev.location.toLowerCase().includes(filters.location.toLowerCase())
-      );
-    }
-    if (filters.propertyType) {
-      filtered = filtered.filter(dev => dev.type === filters.propertyType);
-    }
-    if (filters.status) {
-      filtered = filtered.filter(dev => dev.status === filters.status);
-    }
-    if (filters.priceRange) {
-      filtered = filtered.filter(dev => dev.priceRange === filters.priceRange);
-    }
-    if (searchTerm) {
-      filtered = filtered.filter(dev =>
-        dev.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        dev.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        dev.developer.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-
-    setFilteredDevelopments(filtered);
-  }, [filters, sortBy, searchTerm]);
+  const handleFilterChange = (filters) => {
+    // Implement filtering logic here
+    console.log('Filters applied:', filters);
+    // For now just shuffle/reset for demo
+    setFilteredDevelopments([...MOCK_DEVELOPMENTS]); 
+  };
 
   return (
-    <div className="min-h-screen bg-premium-slate-50 pt-12 pb-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="mb-10 text-center md:text-left"
-        >
-          <h1 className="text-3xl md:text-5xl font-bold text-premium-black mb-4">
-            Premium Developments
-          </h1>
-          <p className="text-lg text-premium-charcoal mb-8 max-w-2xl">
-            Discover exclusive villa and resort investments across Bali's most desirable locations, curated for high yields and lifestyle.
-          </p>
-
-          {/* Search Bar */}
-          <div className="relative max-w-xl">
-            <SafeIcon icon={FiSearch} className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg" />
-            <input
-              type="text"
-              placeholder="Search by name, location, or developer..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-12 pr-4 py-4 rounded-xl border border-gray-200 focus:border-premium-blue focus:ring-4 focus:ring-premium-blue/10 outline-none shadow-sm transition-all"
-            />
-            {searchTerm && (
-              <button 
-                onClick={() => setSearchTerm('')}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-              >
-                <SafeIcon icon={FiX} />
-              </button>
-            )}
-          </div>
-        </motion.div>
-
-        {/* Controls */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 sticky top-20 z-30 bg-premium-slate-50/90 backdrop-blur-sm py-4">
-          <div className="flex items-center space-x-3 w-full md:w-auto">
-            <button
-              onClick={() => setShowFilters(!showFilters)}
-              className="flex-1 md:flex-none flex items-center justify-center space-x-2 px-6 py-3 bg-white border border-gray-200 text-premium-black rounded-xl hover:border-premium-blue hover:text-premium-blue transition-colors shadow-sm font-medium"
-            >
-              <SafeIcon icon={FiFilter} />
-              <span>Filters</span>
-            </button>
-            
-            <div className="hidden md:block text-premium-charcoal text-sm font-medium pl-2">
-              Showing {filteredDevelopments.length} results
-            </div>
+    <div className="min-h-screen bg-premium-slate-50 pt-24 pb-12">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Page Header */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+          <div>
+            <h1 className="text-3xl md:text-4xl font-bold text-premium-black mb-2">
+              Exclusive Properties
+            </h1>
+            <p className="text-premium-charcoal text-lg">
+              Find your perfect investment in Bali
+            </p>
           </div>
 
-          <div className="flex items-center space-x-3 w-full md:w-auto">
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="flex-1 md:flex-none px-4 py-3 border border-gray-200 rounded-xl focus:border-premium-blue focus:ring-2 focus:ring-premium-blue/10 outline-none bg-white text-premium-charcoal cursor-pointer"
-            >
-              <option value="featured">Featured First</option>
-              <option value="price-low">Price: Low to High</option>
-              <option value="price-high">Price: High to Low</option>
-              <option value="yield">Highest Yield</option>
-            </select>
-
-            <div className="flex bg-white rounded-xl p-1 border border-gray-200 shadow-sm">
-              <button
-                onClick={() => setViewMode('grid')}
-                className={`p-2.5 rounded-lg transition-all ${viewMode === 'grid' ? 'bg-premium-blue text-white shadow-md' : 'text-gray-400 hover:text-premium-charcoal'}`}
-              >
-                <SafeIcon icon={FiGrid} />
-              </button>
-              <button
-                onClick={() => setViewMode('list')}
-                className={`p-2.5 rounded-lg transition-all ${viewMode === 'list' ? 'bg-premium-blue text-white shadow-md' : 'text-gray-400 hover:text-premium-charcoal'}`}
-              >
-                <SafeIcon icon={FiList} />
-              </button>
-            </div>
-          </div>
+          <button
+            onClick={() => setIsFilterOpen(true)}
+            className="lg:hidden w-full md:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-white border border-gray-200 rounded-xl font-medium text-premium-black shadow-sm hover:bg-gray-50 active:bg-gray-100 transition-colors min-h-[48px]"
+          >
+            <SafeIcon icon={FiFilter} />
+            <span>Filters</span>
+          </button>
         </div>
 
-        <div className="flex gap-8 relative">
-          {/* Sidebar Filters */}
-          <FilterSidebar
-            isOpen={showFilters}
-            onClose={() => setShowFilters(false)}
-            filters={filters}
-            onFiltersChange={setFilters}
-          />
+        <div className="flex gap-8 items-start">
+          {/* Desktop Sidebar */}
+          <div className="hidden lg:block w-80 flex-shrink-0 sticky top-24">
+            <FilterSidebar onFilterChange={handleFilterChange} />
+          </div>
 
-          {/* Main Content Grid */}
-          <div className="flex-1">
-            <motion.div
-              layout
-              className={`grid gap-6 ${
-                viewMode === 'grid' 
-                  ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3' // Adjusted for better card fit
-                  : 'grid-cols-1'
-              }`}
-            >
-              {filteredDevelopments.map((development) => (
-                <DevelopmentCard
-                  key={development.id}
-                  development={development}
-                  viewMode={viewMode}
+          {/* Mobile Filter Overlay */}
+          <AnimatePresence>
+            {isFilterOpen && (
+              <>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={() => setIsFilterOpen(false)}
+                  className="fixed inset-0 bg-black/50 z-40 lg:hidden backdrop-blur-sm"
                 />
-              ))}
-            </motion.div>
-
-            {filteredDevelopments.length === 0 && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="text-center py-20 bg-white rounded-3xl border border-gray-100 shadow-sm"
-              >
-                <div className="text-6xl mb-6">🏝️</div>
-                <h3 className="text-2xl font-bold text-premium-black mb-2">
-                  No developments found
-                </h3>
-                <p className="text-premium-charcoal mb-8">
-                  We couldn't find any properties matching your criteria.
-                </p>
-                <button
-                  onClick={() => {
-                    setFilters({ location: '', priceRange: '', propertyType: '', status: '' });
-                    setSearchTerm('');
-                  }}
-                  className="bg-premium-blue hover:bg-blue-600 text-white px-8 py-3 rounded-xl font-bold transition-colors shadow-lg"
+                <motion.div
+                  initial={{ x: '100%' }}
+                  animate={{ x: 0 }}
+                  exit={{ x: '100%' }}
+                  transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                  className="fixed inset-y-0 right-0 z-50 w-full max-w-xs bg-white shadow-2xl lg:hidden overflow-y-auto"
                 >
-                  Clear All Filters
-                </button>
-              </motion.div>
+                  <div className="p-4 border-b border-gray-100 flex items-center justify-between bg-white sticky top-0 z-10">
+                    <h2 className="font-bold text-lg text-premium-black">Filters</h2>
+                    <button 
+                      onClick={() => setIsFilterOpen(false)}
+                      className="p-2 hover:bg-gray-100 rounded-full transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
+                    >
+                      <SafeIcon icon={FiX} className="text-xl" />
+                    </button>
+                  </div>
+                  <div className="p-4 pb-24">
+                    <FilterSidebar onFilterChange={handleFilterChange} isMobile={true} />
+                  </div>
+                  <div className="absolute bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-100">
+                    <button 
+                      onClick={() => setIsFilterOpen(false)}
+                      className="w-full py-3 bg-premium-purple text-white rounded-xl font-bold shadow-premium-cta"
+                    >
+                      Show Results
+                    </button>
+                  </div>
+                </motion.div>
+              </>
             )}
+          </AnimatePresence>
+
+          {/* Grid Layout */}
+          <div className="flex-1 w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
+              {filteredDevelopments.map((dev) => (
+                <DevelopmentCard key={dev.id} development={dev} />
+              ))}
+            </div>
+            
+            {/* Load More */}
+            <div className="mt-12 text-center">
+              <button className="px-8 py-3 bg-white border border-gray-200 hover:border-premium-purple text-premium-black font-medium rounded-xl transition-all duration-300 hover:shadow-md min-h-[48px]">
+                Load More Properties
+              </button>
+            </div>
           </div>
         </div>
       </div>

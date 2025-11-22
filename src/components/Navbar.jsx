@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import SafeIcon from '../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
 
-const { FiMenu, FiX, FiHome, FiBuilding, FiInfo, FiMail, FiUser } = FiIcons;
+const { FiMenu, FiX, FiHome, FiBuilding, FiInfo, FiMail, FiUser, FiLogIn } = FiIcons;
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -48,12 +48,13 @@ const Navbar = () => {
               </Link>
             ))}
             
+            {/* Unified Login Button - PURPLE */}
             <Link
-              to="/developer-dashboard"
-              className="bg-premium-purple hover:bg-purple-600 text-white px-5 py-2.5 rounded-lg transition-all duration-300 flex items-center space-x-2 font-semibold text-sm shadow-premium-cta hover:shadow-lg hover:-translate-y-0.5"
+              to="/login"
+              className="bg-premium-purple hover:bg-purple-600 text-white px-6 py-2.5 rounded-lg transition-all duration-300 flex items-center space-x-2 font-semibold text-sm shadow-lg hover:shadow-xl hover:-translate-y-0.5"
             >
-              <SafeIcon icon={FiUser} className="text-sm" />
-              <span>Developer Login</span>
+              <SafeIcon icon={FiLogIn} className="text-sm" />
+              <span>Login</span>
             </Link>
           </div>
 
@@ -94,12 +95,12 @@ const Navbar = () => {
                 
                 <div className="px-4 pt-2">
                   <Link
-                    to="/developer-dashboard"
+                    to="/login"
                     onClick={() => setIsOpen(false)}
                     className="flex items-center justify-center space-x-3 px-4 py-3 bg-premium-purple text-white rounded-lg hover:bg-purple-600 transition-colors w-full shadow-md"
                   >
-                    <SafeIcon icon={FiUser} />
-                    <span>Developer Login</span>
+                    <SafeIcon icon={FiLogIn} />
+                    <span>Login</span>
                   </Link>
                 </div>
               </div>

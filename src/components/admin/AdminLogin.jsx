@@ -5,9 +5,9 @@ import toast from 'react-hot-toast';
 import SafeIcon from '../../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
 
-const { FiMail, FiLock, FiEye, FiEyeOff, FiArrowRight } = FiIcons;
+const { FiMail, FiLock, FiEye, FiEyeOff, FiShield, FiArrowLeft } = FiIcons;
 
-const DeveloperLogin = ({ onLogin }) => {
+const AdminLogin = ({ onLogin }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -20,11 +20,11 @@ const DeveloperLogin = ({ onLogin }) => {
       await new Promise(resolve => setTimeout(resolve, 1500));
       
       // Demo credentials
-      if (data.password === 'dev123') {
-        onLogin({ email: data.email, name: 'Developer' });
-        toast.success('Welcome to your Dashboard!');
+      if (data.email === 'admin@newprojectsbali.com' && data.password === 'admin123') {
+        onLogin({ email: data.email, name: 'Admin User' });
+        toast.success('Welcome to Admin Portal!');
       } else {
-        toast.error('Invalid credentials. Password: dev123');
+        toast.error('Invalid credentials. Use admin@newprojectsbali.com / admin123');
       }
     } catch (error) {
       toast.error('Something went wrong. Please try again.');
@@ -51,10 +51,10 @@ const DeveloperLogin = ({ onLogin }) => {
           className="text-center mb-8"
         >
           <div className="w-20 h-20 bg-white rounded-3xl flex items-center justify-center mx-auto mb-4 shadow-2xl shadow-premium-blue/30">
-            <SafeIcon icon={FiArrowRight} className="text-premium-blue text-4xl" />
+            <SafeIcon icon={FiShield} className="text-premium-blue text-4xl" />
           </div>
-          <h1 className="text-4xl font-bold text-white mb-2">Login</h1>
-          <p className="text-white/80">New Projects Bali Portal</p>
+          <h1 className="text-4xl font-bold text-white mb-2">Staff Admin</h1>
+          <p className="text-white/80">New Projects Bali Management Portal</p>
         </motion.div>
 
         {/* Login Card */}
@@ -82,7 +82,7 @@ const DeveloperLogin = ({ onLogin }) => {
                   })}
                   type="email"
                   className="w-full pl-11 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-premium-blue/20 focus:border-premium-blue outline-none transition-all bg-premium-slate-50 focus:bg-white"
-                  placeholder="your@email.com"
+                  placeholder="admin@newprojectsbali.com"
                   autoComplete="email"
                 />
               </div>
@@ -148,8 +148,8 @@ const DeveloperLogin = ({ onLogin }) => {
                 </>
               ) : (
                 <>
-                  <SafeIcon icon={FiArrowRight} />
-                  <span>Login</span>
+                  <SafeIcon icon={FiShield} />
+                  <span>Sign In to Admin</span>
                 </>
               )}
             </button>
@@ -158,8 +158,9 @@ const DeveloperLogin = ({ onLogin }) => {
           {/* Demo Info */}
           <div className="mt-8 pt-6 border-t border-gray-100 bg-blue-50 rounded-xl p-4">
             <p className="text-sm text-premium-blue font-medium text-center">
-              <strong>Demo Password:</strong><br/>
-              dev123
+              <strong>Demo Credentials:</strong><br/>
+              Email: admin@newprojectsbali.com<br/>
+              Password: admin123
             </p>
           </div>
         </motion.div>
@@ -171,11 +172,11 @@ const DeveloperLogin = ({ onLogin }) => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="mt-8 text-center text-white/70 text-sm"
         >
-          <p>Developer Portal Access • New Projects Bali</p>
+          <p>Staff Admin Access Only • Unauthorized access is prohibited</p>
         </motion.div>
       </div>
     </div>
   );
 };
 
-export default DeveloperLogin;
+export default AdminLogin;
