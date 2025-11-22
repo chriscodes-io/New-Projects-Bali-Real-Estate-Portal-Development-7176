@@ -12,5 +12,32 @@ out/
 # Logs
 logs
 *.log
+# Dependencies / build
+node_modules/
+dist/
+dist-ssr/
+out/
+*.local
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Editor directories and files
+.vscode/
+!.vscode/extensions.json
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Vite / Next / tooling
+.next/
+
+# Misc
 pids
 *.pid
