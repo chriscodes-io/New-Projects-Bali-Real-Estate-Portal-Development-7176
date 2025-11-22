@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import DeveloperLogin from '../components/dashboard/DeveloperLogin';
+import { useNavigate } from 'react-router-dom';
 import DashboardOverview from '../components/dashboard/DashboardOverview';
 import ProjectManagement from '../components/dashboard/ProjectManagement';
 import LeadManagementFilters from '../components/dashboard/LeadManagementFilters';
@@ -16,16 +16,26 @@ const DeveloperDashboard = () => {
   const [developerUser, setDeveloperUser] = useState(null);
   const [activeTab, setActiveTab] = useState('overview');
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate();
 
-  const handleDeveloperLogin = (user) => {
-    setDeveloperUser(user);
-    setIsLoggedIn(true);
-  };
+  useEffect(() => {
+    // Check if user is already logged in from LoginPage
+    const userRole = localStorage.getItem('userRole');
+    const userName = localStorage.getItem('userName');
+    
+    if (userRole === 'developer' && userName) {
+      setDeveloperUser({ email: userName });
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   const handleLogout = () => {
     setIsLoggedIn(false);
     setDeveloperUser(null);
     setActiveTab('overview');
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('userName');
+    navigate('/login');
   };
 
   const menuItems = [
@@ -48,7 +58,14 @@ const DeveloperDashboard = () => {
   };
 
   if (!isLoggedIn) {
-    return <DeveloperLogin onLogin={handleDeveloperLogin} />;
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-premium-periwinkle via-premium-slate-50 to-premium-blue flex items-center justify-center p-4">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-white mb-4">Developer Access Required</h1>
+          <p className="text-white/80">Please log in through the Login page to access your Developer Portal.</p>
+        </div>
+      </div>
+    );
   }
 
   return (

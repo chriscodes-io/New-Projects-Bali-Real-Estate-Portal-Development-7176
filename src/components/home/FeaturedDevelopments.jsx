@@ -1,17 +1,15 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
-import SafeIcon from '../../common/SafeIcon';
-import * as FiIcons from 'react-icons/fi';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-const { FiMapPin, FiCalendar, FiTrendingUp, FiEye, FiStar } = FiIcons;
-
 const FeaturedDevelopments = () => {
+  const navigate = useNavigate();
+
   const featuredProjects = [
     {
       id: 1,
@@ -67,17 +65,14 @@ const FeaturedDevelopments = () => {
     }
   ];
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'Off-plan':
-        return 'bg-premium-blue/10 text-premium-blue border border-premium-blue/20';
-      case 'Under Construction':
-        return 'bg-indigo-50 text-indigo-600 border border-indigo-100';
-      case 'Completed':
-        return 'bg-green-50 text-green-600 border border-green-100';
-      default:
-        return 'bg-gray-50 text-gray-600';
-    }
+  const handleViewDetails = (projectId) => {
+    navigate(`/development/${projectId}`);
+    window.scrollTo(0, 0);
+  };
+
+  const handleViewAll = () => {
+    navigate('/developments');
+    window.scrollTo(0, 0);
   };
 
   return (
@@ -90,10 +85,6 @@ const FeaturedDevelopments = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <div className="inline-flex items-center space-x-2 bg-premium-blue/10 text-premium-blue px-4 py-2 rounded-full text-sm font-medium mb-4">
-            <SafeIcon icon={FiStar} />
-            <span>Featured Developments</span>
-          </div>
           <h2 className="text-4xl md:text-5xl font-bold text-premium-black mb-6">
             Premium Investment Opportunities
           </h2>
@@ -127,9 +118,8 @@ const FeaturedDevelopments = () => {
                 <motion.div
                   whileHover={{ y: -10 }}
                   transition={{ duration: 0.3 }}
-                  className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group border border-gray-100"
+                  className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group border border-gray-100"
                 >
-                  {/* Image */}
                   <div className="relative h-64 overflow-hidden">
                     <img
                       src={project.image}
@@ -138,19 +128,15 @@ const FeaturedDevelopments = () => {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60"></div>
                     
-                    {/* Status Badge */}
-                    <div className={`absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-medium backdrop-blur-md bg-white/90 shadow-sm ${getStatusColor(project.status)}`}>
+                    <div className={`absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-medium bg-white/90 shadow-sm`}>
                       {project.status}
                     </div>
                     
-                    {/* Yield Badge */}
-                    <div className="absolute top-4 right-4 bg-premium-blue text-white px-3 py-1 rounded-full text-xs font-bold flex items-center space-x-1 shadow-lg">
-                      <SafeIcon icon={FiTrendingUp} />
-                      <span>{project.yield} Yield</span>
+                    <div className="absolute top-4 right-4 bg-premium-blue text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
+                      {project.yield} Yield
                     </div>
                   </div>
 
-                  {/* Content */}
                   <div className="p-6">
                     <div className="flex justify-between items-start mb-3">
                       <h3 className="text-xl font-bold text-premium-black group-hover:text-premium-blue transition-colors">
@@ -159,29 +145,24 @@ const FeaturedDevelopments = () => {
                       <span className="text-sm text-premium-charcoal">{project.units} Units</span>
                     </div>
                     
-                    <div className="flex items-center space-x-2 text-premium-charcoal mb-4">
-                      <SafeIcon icon={FiMapPin} className="text-premium-blue" />
-                      <span className="text-sm">{project.location}</span>
-                      <span className="text-gray-300">•</span>
-                      <span className="text-sm">{project.type}</span>
+                    <div className="text-sm text-premium-charcoal mb-4">
+                      {project.location} • {project.type}
                     </div>
 
-                    <div className="flex items-center space-x-2 text-premium-charcoal mb-4">
-                      <SafeIcon icon={FiCalendar} className="text-premium-blue" />
-                      <span className="text-sm">{project.completion}</span>
+                    <div className="text-sm text-premium-charcoal mb-4">
+                      {project.completion}
                     </div>
 
                     <div className="flex justify-between items-center border-t border-gray-100 pt-4">
                       <div className="text-2xl font-bold text-premium-black">
                         {project.price}
                       </div>
-                      <Link
-                        to={`/development/${project.id}`}
-                        className="group/btn bg-premium-purple hover:bg-purple-600 text-white px-4 py-2 rounded-lg transition-all duration-300 flex items-center space-x-2 font-medium shadow-premium-cta"
+                      <button
+                        onClick={() => handleViewDetails(project.id)}
+                        className="bg-premium-purple hover:bg-purple-600 text-white px-4 py-2 rounded-lg transition-all duration-300 font-medium text-sm shadow-lg cursor-pointer"
                       >
-                        <SafeIcon icon={FiEye} />
-                        <span className="text-sm">View Details</span>
-                      </Link>
+                        View Details
+                      </button>
                     </div>
                   </div>
                 </motion.div>
@@ -197,13 +178,12 @@ const FeaturedDevelopments = () => {
           viewport={{ once: true }}
           className="text-center mt-12"
         >
-          <Link
-            to="/developments"
-            className="inline-flex items-center space-x-2 bg-premium-purple hover:bg-purple-600 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 shadow-premium-cta hover:shadow-xl transform hover:-translate-y-1"
+          <button
+            onClick={handleViewAll}
+            className="inline-block bg-premium-purple hover:bg-purple-600 text-white px-8 py-4 rounded-lg font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 cursor-pointer"
           >
-            <span>View All Developments</span>
-            <SafeIcon icon={FiTrendingUp} />
-          </Link>
+            View All Developments
+          </button>
         </motion.div>
       </div>
     </section>

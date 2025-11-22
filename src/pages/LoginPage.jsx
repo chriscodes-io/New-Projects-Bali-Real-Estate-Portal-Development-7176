@@ -23,18 +23,20 @@ const LoginPage = () => {
     if (data.email === 'admin@newprojectsbali.com' && data.password === 'admin123') {
       // Admin Login Success
       localStorage.setItem('userRole', 'admin');
-      localStorage.setItem('userName', 'Admin User');
+      localStorage.setItem('userName', data.email);
       toast.success('Welcome back, Admin!');
+      setIsLoading(false);
       navigate('/admin-dashboard');
-    } else if (data.password === 'dev123') {
-      // Developer Login Success (Any email with correct password for demo)
+    } else if (data.email === 'developer@test.com' && data.password === 'dev123') {
+      // Developer Login Success
       localStorage.setItem('userRole', 'developer');
-      localStorage.setItem('userName', 'Bali Developers');
-      toast.success('Welcome back to your Dashboard!');
+      localStorage.setItem('userName', data.email);
+      toast.success('Welcome back to your Developer Portal!');
+      setIsLoading(false);
       navigate('/developer-dashboard');
     } else {
       // Login Failed
-      toast.error('Invalid credentials. Please try again.');
+      toast.error('Invalid credentials. Please check the demo credentials below.');
       setIsLoading(false);
     }
   };

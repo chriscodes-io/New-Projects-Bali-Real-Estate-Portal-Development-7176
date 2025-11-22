@@ -1,22 +1,29 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import SafeIcon from '../../common/SafeIcon';
-import * as FiIcons from 'react-icons/fi';
-
-const { FiSearch, FiArrowRight } = FiIcons;
+import { useNavigate } from 'react-router-dom';
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+
+  const handleBrowseProperties = () => {
+    navigate('/developments');
+    window.scrollTo(0, 0);
+  };
+
+  const handleListProperty = () => {
+    navigate('/contact');
+    window.scrollTo(0, 0);
+  };
+
   return (
     <section className="relative h-[90vh] min-h-[600px] flex items-center justify-center overflow-hidden">
-      {/* Background Image - YOUR BALI RESORT IMAGE */}
+      {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img
           src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1763769998235-blob"
           alt="Luxury Bali Resort with Pool"
           className="w-full h-full object-cover"
         />
-        {/* LIGHT Gradient Overlay - 10-15% opacity only */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/5 to-black/15" />
       </div>
 
@@ -32,7 +39,7 @@ const HeroSection = () => {
             Premium Real Estate Investment
           </span>
           
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight text-shadow-lg">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight">
             Invest in Bali's Most <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-white">
               Exquisite Developments
@@ -45,21 +52,23 @@ const HeroSection = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
-            <Link 
-              to="/developments" 
-              className="w-full sm:w-auto px-8 py-4 bg-premium-purple hover:bg-purple-700 text-white rounded-xl font-bold text-lg transition-all duration-300 shadow-premium-cta hover:shadow-xl hover:-translate-y-1 flex items-center justify-center gap-2 min-w-[200px] min-h-[56px]"
+            <motion.button
+              onClick={handleBrowseProperties}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-full sm:w-auto px-8 py-4 bg-premium-purple hover:bg-purple-700 text-white rounded-lg font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 flex items-center justify-center gap-2 min-w-[200px] min-h-[56px] cursor-pointer"
             >
-              <SafeIcon icon={FiSearch} />
-              <span>Browse Properties</span>
-            </Link>
+              Browse Properties
+            </motion.button>
             
-            <Link 
-              to="/contact" 
-              className="w-full sm:w-auto px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white rounded-xl font-bold text-lg transition-all duration-300 flex items-center justify-center gap-2 min-w-[200px] min-h-[56px]"
+            <motion.button
+              onClick={handleListProperty}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-full sm:w-auto px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white rounded-lg font-bold text-lg transition-all duration-300 flex items-center justify-center gap-2 min-w-[200px] min-h-[56px] cursor-pointer"
             >
-              <span>List Your Property</span>
-              <SafeIcon icon={FiArrowRight} />
-            </Link>
+              List Your Property
+            </motion.button>
           </div>
         </motion.div>
 

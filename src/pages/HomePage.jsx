@@ -4,6 +4,7 @@ import SearchSection from '../components/home/SearchSection';
 import FeaturedDevelopments from '../components/home/FeaturedDevelopments';
 import WhyInvestSection from '../components/home/WhyInvestSection';
 import HowItWorksSection from '../components/home/HowItWorksSection';
+import BlogPreview from '../components/home/BlogPreview';
 import StatsSection from '../components/home/StatsSection';
 
 const HomePage = () => {
@@ -14,6 +15,7 @@ const HomePage = () => {
       <FeaturedDevelopments />
       <WhyInvestSection />
       <HowItWorksSection />
+      <BlogPreview />
       <StatsSection />
     </div>
   );
