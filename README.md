@@ -4,6 +4,7 @@ A modern portal for listing new real estate projects in Bali.
 
 ## About
 Short description: a Next.js/React frontend for browsing, filtering, and viewing new-property projects in Bali. Deployed to Vercel: https://new-projects-bali.vercel.app
+Short description: a Vite + React frontend for browsing, filtering, and viewing new-property projects in Bali. Deployed to Vercel: https://new-projects-bali.vercel.app
 
 ## Quick start (local)
 1. Clone
@@ -34,3 +35,19 @@ Please read CONTRIBUTING.md before opening issues or PRs.
 
 ## License
 Add a LICENSE file (e.g., MIT) to indicate allowed usage.
+- npm run build — production build (runs lint first)
+- npm start — run production build (if applicable)
+- npm run lint — run ESLint
+- npm run format — run Prettier (if configured)
+- npm run test — run tests (add a test runner like vitest/jest)
+
+## Recommended next steps
+- Add a LICENSE (MIT or another license you prefer)
+- Add CONTRIBUTING.md and CODEOWNERS
+- Add Husky + lint-staged for pre-commit formatting/lint
+- Add basic tests (Vitest/Jest) and coverage
+- Enable Dependabot for dependency updates
+
+## Contact / Maintainers
+- Owner: chriscodes-io
+- Project lead / author: (update as needed)
