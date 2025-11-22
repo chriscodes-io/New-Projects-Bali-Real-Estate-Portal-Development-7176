@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import SafeIcon from '../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
@@ -8,6 +8,7 @@ const { FiCalendar, FiUser, FiClock, FiArrowLeft, FiShare2 } = FiIcons;
 
 const BlogPost = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   
   // Mock Data - normally fetched by ID
   const post = {
@@ -35,6 +36,16 @@ const BlogPost = () => {
     readTime: "5 min read"
   };
 
+  const handleBackToBlog = () => {
+    navigate('/blog');
+    window.scrollTo(0, 0);
+  };
+
+  const handleContactAdvisor = () => {
+    navigate('/contact');
+    window.scrollTo(0, 0);
+  };
+
   return (
     <div className="min-h-screen bg-white pb-24">
       {/* Hero Image */}
@@ -47,10 +58,13 @@ const BlogPost = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-black/30"></div>
         
         <div className="absolute top-8 left-0 right-0 max-w-7xl mx-auto px-4">
-          <Link to="/blog" className="inline-flex items-center text-white bg-black/20 backdrop-blur-md px-4 py-2 rounded-full hover:bg-black/40 transition-colors">
+          <button 
+            onClick={handleBackToBlog}
+            className="inline-flex items-center text-white bg-black/20 backdrop-blur-md px-4 py-2 rounded-full hover:bg-black/40 transition-colors cursor-pointer min-h-[44px]"
+          >
             <SafeIcon icon={FiArrowLeft} className="mr-2" />
             Back to Blog
-          </Link>
+          </button>
         </div>
       </div>
 
@@ -64,7 +78,7 @@ const BlogPost = () => {
             <span className="bg-premium-blue/10 text-premium-blue px-4 py-1.5 rounded-full text-sm font-bold">
               {post.category}
             </span>
-            <button className="text-premium-charcoal hover:text-premium-blue transition-colors">
+            <button className="text-premium-charcoal hover:text-premium-blue transition-colors cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center">
               <SafeIcon icon={FiShare2} className="text-xl" />
             </button>
           </div>
@@ -101,12 +115,12 @@ const BlogPost = () => {
             <p className="mb-6 text-premium-powder/80">
               Get access to our exclusive list of high-yield properties before they hit the public market.
             </p>
-            <Link 
-              to="/contact"
-              className="inline-block bg-premium-purple hover:bg-purple-600 text-white px-8 py-3 rounded-xl font-bold transition-all shadow-premium-cta hover:shadow-xl hover:-translate-y-1"
+            <button 
+              onClick={handleContactAdvisor}
+              className="inline-block bg-premium-purple hover:bg-purple-600 text-white px-8 py-3 rounded-xl font-bold transition-all shadow-premium-cta hover:shadow-xl hover:-translate-y-1 cursor-pointer min-h-[48px]"
             >
               Speak to an Advisor
-            </Link>
+            </button>
           </div>
         </motion.div>
       </div>
