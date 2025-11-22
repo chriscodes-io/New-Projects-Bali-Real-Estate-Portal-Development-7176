@@ -118,7 +118,7 @@ const FeaturedDevelopments = () => {
                 <motion.div
                   whileHover={{ y: -10 }}
                   transition={{ duration: 0.3 }}
-                  className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group border border-gray-100"
+                  className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group border border-gray-100 h-full flex flex-col"
                 >
                   <div className="relative h-64 overflow-hidden">
                     <img
@@ -137,7 +137,7 @@ const FeaturedDevelopments = () => {
                     </div>
                   </div>
 
-                  <div className="p-6">
+                  <div className="p-6 flex-1 flex flex-col">
                     <div className="flex justify-between items-start mb-3">
                       <h3 className="text-xl font-bold text-premium-black group-hover:text-premium-blue transition-colors">
                         {project.name}
@@ -153,13 +153,13 @@ const FeaturedDevelopments = () => {
                       {project.completion}
                     </div>
 
-                    <div className="flex justify-between items-center border-t border-gray-100 pt-4">
+                    <div className="flex justify-between items-center border-t border-gray-100 pt-4 mt-auto">
                       <div className="text-2xl font-bold text-premium-black">
                         {project.price}
                       </div>
                       <button
                         onClick={() => handleViewDetails(project.id)}
-                        className="bg-premium-purple hover:bg-purple-600 text-white px-4 py-2 rounded-lg transition-all duration-300 font-medium text-sm shadow-lg cursor-pointer"
+                        className="bg-premium-purple hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-all duration-300 font-medium text-sm shadow-lg cursor-pointer active:shadow-md transform hover:-translate-y-1"
                       >
                         View Details
                       </button>
@@ -180,7 +180,7 @@ const FeaturedDevelopments = () => {
         >
           <button
             onClick={handleViewAll}
-            className="inline-block bg-premium-purple hover:bg-purple-600 text-white px-8 py-4 rounded-lg font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 cursor-pointer"
+            className="inline-block bg-premium-purple hover:bg-purple-700 text-white px-8 py-4 rounded-lg font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 active:translate-y-0 cursor-pointer min-h-[56px]"
           >
             View All Developments
           </button>

@@ -65,50 +65,47 @@ const BlogPreview = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
           {posts.map((post, index) => (
-            <motion.div
+            <motion.button
               key={post.id}
+              onClick={() => handleViewArticle(post.id)}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
+              className="group block h-full bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col w-full text-left cursor-pointer"
             >
-              <button
-                onClick={() => handleViewArticle(post.id)}
-                className="group block h-full bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col w-full text-left cursor-pointer"
-              >
-                <div className="relative h-48 overflow-hidden bg-gray-100">
-                  <img 
-                    src={post.image} 
-                    alt={post.title} 
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute top-4 left-4">
-                    <span className="bg-white/90 backdrop-blur-sm text-premium-blue px-3 py-1 rounded-full text-xs font-bold shadow-sm">
-                      {post.category}
-                    </span>
-                  </div>
+              <div className="relative h-48 overflow-hidden bg-gray-100">
+                <img 
+                  src={post.image} 
+                  alt={post.title} 
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute top-4 left-4">
+                  <span className="bg-white/90 backdrop-blur-sm text-premium-blue px-3 py-1 rounded-full text-xs font-bold shadow-sm">
+                    {post.category}
+                  </span>
+                </div>
+              </div>
+
+              <div className="p-6 flex-1 flex flex-col">
+                <div className="flex items-center text-xs text-premium-charcoal mb-3 space-x-4">
+                  <span>{post.date}</span>
+                  <span>{post.readTime}</span>
                 </div>
 
-                <div className="p-6 flex-1 flex flex-col">
-                  <div className="flex items-center text-xs text-premium-charcoal mb-3 space-x-4">
-                    <span>{post.date}</span>
-                    <span>{post.readTime}</span>
-                  </div>
+                <h3 className="text-lg font-bold text-premium-black mb-3 group-hover:text-premium-blue transition-colors leading-tight line-clamp-2">
+                  {post.title}
+                </h3>
 
-                  <h3 className="text-lg font-bold text-premium-black mb-3 group-hover:text-premium-blue transition-colors leading-tight line-clamp-2">
-                    {post.title}
-                  </h3>
+                <p className="text-premium-charcoal text-sm line-clamp-2 mb-4 flex-1">
+                  {post.excerpt}
+                </p>
 
-                  <p className="text-premium-charcoal text-sm line-clamp-2 mb-4 flex-1">
-                    {post.excerpt}
-                  </p>
-
-                  <div className="mt-auto flex items-center text-premium-blue font-semibold text-sm group-hover:translate-x-1 transition-transform">
-                    <span>Read Article →</span>
-                  </div>
+                <div className="mt-auto flex items-center text-premium-blue font-semibold text-sm group-hover:translate-x-1 transition-transform">
+                  <span>Read Article →</span>
                 </div>
-              </button>
-            </motion.div>
+              </div>
+            </motion.button>
           ))}
         </div>
 
@@ -121,7 +118,7 @@ const BlogPreview = () => {
         >
           <button
             onClick={handleViewAllArticles}
-            className="inline-block bg-premium-blue hover:bg-blue-600 text-white px-8 py-4 rounded-lg font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 cursor-pointer"
+            className="inline-block bg-premium-blue hover:bg-blue-600 text-white px-8 py-4 rounded-lg font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 active:translate-y-0 cursor-pointer min-h-[56px]"
           >
             View All Articles
           </button>

@@ -1,12 +1,14 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import SafeIcon from '../../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
 
 const { FiMapPin, FiMaximize, FiHome, FiTrendingUp, FiArrowRight } = FiIcons;
 
 const DevelopmentCard = ({ development }) => {
+  const navigate = useNavigate();
+
   const {
     id,
     title,
@@ -19,6 +21,11 @@ const DevelopmentCard = ({ development }) => {
     size,
     completion
   } = development;
+
+  const handleViewDetails = () => {
+    navigate(`/development/${id}`);
+    window.scrollTo(0, 0);
+  };
 
   return (
     <motion.div
@@ -88,13 +95,13 @@ const DevelopmentCard = ({ development }) => {
 
         {/* Action Button - Pushed to bottom */}
         <div className="mt-auto">
-          <Link
-            to={`/development/${id}`}
-            className="w-full flex items-center justify-center gap-2 py-3 bg-premium-purple text-white rounded-xl font-bold text-sm hover:bg-purple-700 transition-colors shadow-premium-cta min-h-[44px]"
+          <button
+            onClick={handleViewDetails}
+            className="w-full flex items-center justify-center gap-2 py-3 bg-premium-purple hover:bg-purple-700 text-white rounded-xl font-bold text-sm transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 active:translate-y-0 min-h-[44px] cursor-pointer"
           >
             <span>View Details</span>
             <SafeIcon icon={FiArrowRight} />
-          </Link>
+          </button>
         </div>
       </div>
     </motion.div>
