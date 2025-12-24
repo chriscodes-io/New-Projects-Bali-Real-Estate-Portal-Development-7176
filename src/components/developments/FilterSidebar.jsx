@@ -8,7 +8,7 @@ const { FiX, FiMapPin, FiDollarSign, FiHome, FiClock, FiRefreshCw } = FiIcons;
 const FilterSidebar = ({ isOpen, onClose, filters = {}, onFiltersChange }) => {
   const locations = [
     'Seminyak', 'Canggu', 'Ubud', 'Uluwatu', 'Sanur', 
-    'Nusa Dua', 'Jimbaran', 'Pererenan', 'Tabanan'
+    'Nusa Dua', 'Jimbaran', 'Pererenan', 'Tabanan', 'Lombok'
   ];
 
   const priceRanges = [
@@ -16,7 +16,7 @@ const FilterSidebar = ({ isOpen, onClose, filters = {}, onFiltersChange }) => {
     '$1M - $2M', '$2M - $5M', 'Above $5M'
   ];
 
-  const propertyTypes = ['Villa', 'Resort', 'Apartment', 'Land'];
+  const propertyTypes = ['Villa', 'Resort', 'Apartment', 'Land', 'Estate'];
   const statuses = ['Off-plan', 'Under Construction', 'Completed', 'Ready to Move'];
 
   const handleFilterChange = (key, value) => {

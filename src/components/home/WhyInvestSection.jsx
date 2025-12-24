@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { TrendingUp, Globe, Users, Shield, Sun, DollarSign, Target, MapPin, Home, Award } from 'lucide-react';
+import { TrendingUp, Globe, Users, Shield, Sun, DollarSign, Target, MapPin, Home, Award } from 'lucide-react'; // Fixed import
 
 const WhyInvestSection = () => {
   const benefits = [

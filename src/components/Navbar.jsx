@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, User, LogOut, Settings, BarChart3 } from 'lucide-react';
+import X from 'lucide-react/dist/esm/icons/x';
+import User from 'lucide-react/dist/esm/icons/user';
+import LogOut from 'lucide-react/dist/esm/icons/log-out';
+import Settings from 'lucide-react/dist/esm/icons/settings';
+import BarChart3 from 'lucide-react/dist/esm/icons/bar-chart-3';
 import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {

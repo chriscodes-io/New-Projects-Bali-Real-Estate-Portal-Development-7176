@@ -14,6 +14,8 @@ import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import BlogPage from './pages/BlogPage';
 import BlogPost from './pages/BlogPost';
+import TermsOfServicePage from './pages/TermsOfServicePage';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import DeveloperDashboard from './pages/DeveloperDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import LoginPage from './pages/LoginPage';
@@ -21,28 +23,35 @@ import './App.css';
 
 function App() {
   return (
-    <AuthProvider>
-      <Analytics />
-      <Toaster position="top-center" reverseOrder={false} />
-      <Routes>
-        {/* Public Routes with Layout */}
-        <Route path="/" element={<Layout><HomePage /></Layout>} />
-        <Route path="/developments" element={<Layout><DevelopmentsPage /></Layout>} />
-        <Route path="/development/:id" element={<Layout><ErrorBoundary><DevelopmentDetail /></ErrorBoundary></Layout>} />
-        <Route path="/about" element={<Layout><AboutPage /></Layout>} />
-        <Route path="/contact" element={<Layout><ContactPage /></Layout>} />
-        <Route path="/blog" element={<Layout><BlogPage /></Layout>} />
-        <Route path="/blog/:id" element={<Layout><BlogPost /></Layout>} />
-        <Route path="/login" element={<Layout><LoginPage /></Layout>} />
+    <ErrorBoundary>
+      <AuthProvider>
+        <Analytics />
+        <WordPressStatus />
+        <Toaster position="top-right" />
+        <Routes>
+          {/* Public routes wrapped in Layout */}
+          <Route element={<Layout />}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/developments" element={<DevelopmentsPage />} />
+            <Route path="/development/:id" element={<DevelopmentDetail />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/blog" element={<BlogPage />} />
+            <Route path="/blog/:id" element={<BlogPost />} />
+            <Route path="/terms" element={<TermsOfServicePage />} />
+            <Route path="/privacy" element={<PrivacyPolicyPage />} />
+          </Route>
 
-        {/* Dashboard Routes - No Layout (custom navigation) */}
-        <Route path="/developer-dashboard" element={<DeveloperDashboard />} />
-        <Route path="/admin-dashboard" element={<AdminDashboard />} />
-      </Routes>
+          {/* Auth routes */}
+          <Route path="/login" element={<LoginPage />} />
 
-      {/* AI Chat Widget */}
-      <AIChatWidget />
-    </AuthProvider>
+          {/* Dashboard routes (outside Layout) */}
+          <Route path="/developer-dashboard" element={<DeveloperDashboard />} />
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        </Routes>
+        <AIChatWidget />
+      </AuthProvider>
+    </ErrorBoundary>
   );
 }
 

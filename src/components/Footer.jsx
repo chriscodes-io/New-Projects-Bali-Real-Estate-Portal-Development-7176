@@ -1,9 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Building, Mail, Phone, MapPin, Facebook, Instagram, Linkedin, Shield } from 'lucide-react';
+import Building from 'lucide-react/dist/esm/icons/building';
+import Mail from 'lucide-react/dist/esm/icons/mail';
+import Phone from 'lucide-react/dist/esm/icons/phone';
+import MapPin from 'lucide-react/dist/esm/icons/map-pin';
+import Facebook from 'lucide-react/dist/esm/icons/facebook';
+import Instagram from 'lucide-react/dist/esm/icons/instagram';
+import Linkedin from 'lucide-react/dist/esm/icons/linkedin';
+import Shield from 'lucide-react/dist/esm/icons/shield';
 
 const Footer = () => {
-  const wpSiteUrl = import.meta.env.VITE_WP_SITE_URL || 'https://newprojectsstg.wpenginepowered.com';
   return (
     <footer className="bg-premium-black text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -115,8 +121,8 @@ const Footer = () => {
                 <Shield className="w-5 h-5 text-premium-blue" />
                 <span>Admin</span>
               </Link>
-              <a href={`${wpSiteUrl}/privacy-policy`} target="_blank" rel="noreferrer" className="text-gray-500 hover:text-premium-blue text-sm transition-colors">Privacy Policy</a>
-              <a href={`${wpSiteUrl}/terms`} target="_blank" rel="noreferrer" className="text-gray-500 hover:text-premium-blue text-sm transition-colors">Terms of Service</a>
+              <Link to="/privacy" className="text-gray-500 hover:text-premium-blue text-sm transition-colors">Privacy Policy</Link>
+              <Link to="/terms" className="text-gray-500 hover:text-premium-blue text-sm transition-colors">Terms of Service</Link>
             </div>
           </div>
         </div>

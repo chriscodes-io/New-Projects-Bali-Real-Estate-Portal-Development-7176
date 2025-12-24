@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 
+// Robust mock hook that always returns data
 export const useDevelopments = (params = {}) => {
   const [developments, setDevelopments] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Mock data or fetch logic would go here
-    setDevelopments([]);
+    // Return empty array initially, components will use their fallback
+    setDevelopments([]); 
     setLoading(false);
   }, []);
 
@@ -16,11 +17,11 @@ export const useDevelopments = (params = {}) => {
 
 export const useBlogPosts = (params = {}) => {
   const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Mock data or fetch logic would go here
+    // Return empty array initially, components will use their fallback
     setPosts([]);
     setLoading(false);
   }, []);

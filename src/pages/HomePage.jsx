@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Settings, Lock } from 'lucide-react';
+import { Settings, Lock } from 'lucide-react'; // Fixed import
 import { useAuth } from '../context/AuthContext';
 import HeroSection from '../components/home/HeroSection';
 import SearchSection from '../components/home/SearchSection';

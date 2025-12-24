@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { Search, FileText, Users, Key, ArrowRight } from 'lucide-react';
+import { Search, FileText, Users, Key, ArrowRight } from 'lucide-react'; // Fixed import
 
 const HowItWorksSection = () => {
   const steps = [

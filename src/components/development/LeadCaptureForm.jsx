@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import SafeIcon from '../../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
@@ -100,7 +101,14 @@ const LeadCaptureForm = () => {
       
       <div className="mt-4 text-center">
         <p className="text-xs text-gray-400">
-          By submitting this form, you agree to our Terms of Service and Privacy Policy.
+          By submitting this form, you agree to our{' '}
+          <Link to="/terms" className="text-premium-blue hover:underline">
+            Terms of Service
+          </Link>
+          {' '}and{' '}
+          <Link to="/privacy" className="text-premium-blue hover:underline">
+            Privacy Policy
+          </Link>.
         </p>
       </div>
     </div>

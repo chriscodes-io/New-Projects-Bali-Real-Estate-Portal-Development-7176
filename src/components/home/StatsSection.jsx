@@ -3,87 +3,102 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { TrendingUp, Building, Users, Globe, Target, Award, MapPin, Home } from 'lucide-react';
 
-const StatsSection = () => {
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.3 });
+const CountUpNumber = ({ end, duration = 2, suffix = '' }) => {
+  const [count, setCount] = React.useState(0);
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
 
-  const stats = [
-    { icon: Building, number: 150, suffix: '+', label: 'Premium Developments', description: 'Carefully curated projects' },
-    { icon: Users, number: 50, suffix: '+', label: 'Trusted Developers', description: 'Verified and vetted partners' },
-    { icon: Globe, number: 2500, suffix: '+', label: 'International Investors', description: 'From 40+ countries' },
-    { icon: TrendingUp, number: 15, suffix: '%', label: 'Average ROI', description: 'Annual rental yields' }
-  ];
+  React.useEffect(() => {
+    if (inView) {
+      let startTime;
+      const animate = (currentTime) => {
+        if (!startTime) startTime = currentTime;
+        const progress = (currentTime - startTime) / (duration * 1000);
 
-  const CountUpNumber = ({ number, suffix, inView }) => {
-    const [count, setCount] = React.useState(0);
-    React.useEffect(() => {
-      if (inView) {
-        let start = 0;
-        const duration = 2000;
-        const step = Math.ceil(number / (duration / 30));
-        const timer = setInterval(() => {
-          start += step;
-          if (start >= number) {
-            setCount(number);
-            clearInterval(timer);
-          } else {
-            setCount(start);
-          }
-        }, 30);
-        return () => clearInterval(timer);
-      }
-    }, [inView, number]);
-    return <span>{count}{suffix}</span>;
-  };
+        if (progress < 1) {
+          setCount(Math.floor(end * progress));
+          requestAnimationFrame(animate);
+        } else {
+          setCount(end);
+        }
+      };
+      requestAnimationFrame(animate);
+    }
+  }, [inView, end, duration]);
 
   return (
-    <section className="py-24 bg-premium-black text-white relative overflow-hidden">
-      {/* Background Decor */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-premium-blue/20 rounded-full filter blur-3xl opacity-30 pointer-events-none"></div>
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-premium-periwinkle/20 rounded-full filter blur-3xl opacity-30 pointer-events-none"></div>
+    <span ref={ref} className="font-bold">
+      {count.toLocaleString()}
+      {suffix}
+    </span>
+  );
+};
+
+const stats = [
+  {
+    icon: Building,
+    value: 150,
+    suffix: '+',
+    label: "Projects Listed",
+    description: "Premium developments"
+  },
+  {
+    icon: Users,
+    value: 2500,
+    suffix: '+',
+    label: "Active Investors",
+    description: "Trusted community"
+  },
+  {
+    icon: Globe,
+    value: 12,
+    suffix: '',
+    label: "Countries",
+    description: "International reach"
+  },
+  {
+    icon: TrendingUp,
+    value: 15,
+    suffix: '%',
+    label: "Avg. ROI",
+    description: "Annual returns"
+  }
+];
+
+const StatsSection = () => {
+  return (
+    <section className="py-20 bg-premium-black relative overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-20 pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-premium-blue rounded-full blur-[120px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-premium-purple rounded-full blur-[120px]" />
+      </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-20"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">
-            Trusted by Investors Worldwide
-          </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Our platform has facilitated millions in property investments across Bali, 
-            connecting serious investors with premium opportunities.
-          </p>
-        </motion.div>
-
-        <div ref={ref} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
           {stats.map((stat, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{ y: -10 }}
-              className="bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10 text-center hover:bg-white/10 transition-all duration-300 group"
+              className="text-center group"
             >
-              <div className="w-16 h-16 bg-gradient-to-br from-premium-blue to-premium-periwinkle rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-premium-blue/20 group-hover:scale-110 transition-transform">
-                <stat.icon className="w-8 h-8 text-white" />
+              <div className="inline-flex items-center justify-center w-16 h-16 mb-6 rounded-2xl bg-white/5 group-hover:bg-white/10 transition-colors backdrop-blur-sm border border-white/10">
+                <stat.icon className="w-8 h-8 text-premium-blue group-hover:text-premium-purple transition-colors duration-300" />
               </div>
-              
-              <div className="text-4xl md:text-5xl font-bold text-white mb-2">
-                <CountUpNumber number={stat.number} suffix={stat.suffix} inView={inView} />
+              <div className="text-4xl md:text-5xl font-bold text-white mb-2 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300">
+                <CountUpNumber end={stat.value} suffix={stat.suffix} />
               </div>
-              
-              <h3 className="text-xl font-bold mb-2 text-white/90">
+              <div className="text-lg font-semibold text-premium-blue mb-1">
                 {stat.label}
-              </h3>
-              
-              <p className="text-gray-400 text-sm">
+              </div>
+              <div className="text-sm text-gray-400">
                 {stat.description}
-              </p>
+              </div>
             </motion.div>
           ))}
         </div>

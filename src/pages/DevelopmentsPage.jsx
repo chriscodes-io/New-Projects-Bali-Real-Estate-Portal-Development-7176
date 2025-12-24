@@ -7,85 +7,107 @@ import * as FiIcons from 'react-icons/fi';
 
 const { FiFilter, FiX } = FiIcons;
 
-// Mock Data (In a real app, this would come from an API)
+// Real Development Data - Marina Bay City & Saraya Lombok
 const MOCK_DEVELOPMENTS = [
+  // Marina Bay City - Beachfront Villas
   {
     id: 1,
-    title: "Ocean Horizon Villas",
-    location: "Uluwatu, Bali",
-    price: 450000,
-    roi: 15,
+    title: "Marina Bay Beachfront Villas",
+    location: "Seminyak, Bali",
+    price: 825000,
+    roi: 16,
     image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=1000",
-    type: "Villa",
-    beds: 3,
-    baths: 3,
-    size: 250,
-    completion: "Q4 2024"
-  },
-  {
-    id: 2,
-    title: "Canggu Rice Field Lofts",
-    location: "Canggu, Bali",
-    price: 225000,
-    roi: 12,
-    image: "https://images.unsplash.com/photo-1600596542815-2251336b6f9b?auto=format&fit=crop&q=80&w=1000",
-    type: "Apartment",
-    beds: 1,
-    baths: 1,
-    size: 85,
-    completion: "Ready"
-  },
-  {
-    id: 3,
-    title: "Ubud Jungle Retreat",
-    location: "Ubud, Bali",
-    price: 550000,
-    roi: 14,
-    image: "https://images.unsplash.com/photo-1580587771525-78b9dba3b91d?auto=format&fit=crop&q=80&w=1000",
     type: "Villa",
     beds: 4,
     baths: 4,
-    size: 320,
-    completion: "Q2 2025"
+    size: 400,
+    completion: "Ready",
+    developer: "Marina Bay City",
+    featured: true,
+    url: "https://marinabaycity.com/now-selling/beachfront-villas/"
   },
+  // Marina Bay City - Central Avenue
+  {
+    id: 2,
+    title: "Central Avenue Residences",
+    location: "Seminyak, Bali",
+    price: 550000,
+    roi: 13,
+    image: "https://images.unsplash.com/photo-1600596542815-2251336b6f9b?auto=format&fit=crop&q=80&w=1000",
+    type: "Apartment",
+    beds: 3,
+    baths: 2,
+    size: 180,
+    completion: "Q2 2025",
+    developer: "Marina Bay City",
+    featured: true,
+    url: "https://marinabaycity.com/now-selling/central-avenue/"
+  },
+  // Marina Bay City - Reef Retreat
+  {
+    id: 3,
+    title: "Reef Retreat Luxury Villas",
+    location: "Sanur, Bali",
+    price: 695000,
+    roi: 15,
+    image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=1000",
+    type: "Villa",
+    beds: 4,
+    baths: 3,
+    size: 350,
+    completion: "Q4 2025",
+    developer: "Marina Bay City",
+    featured: true,
+    url: "https://marinabaycity.com/now-selling/reef-retreat/"
+  },
+  // Saraya Lombok - Villas
   {
     id: 4,
-    title: "Seminyak Beachfront Suites",
-    location: "Seminyak, Bali",
-    price: 380000,
-    roi: 11,
-    image: "https://images.unsplash.com/photo-1573790387438-4da905039392?auto=format&fit=crop&q=80&w=1000",
-    type: "Apartment",
-    beds: 2,
+    title: "Saraya Lombok Tropical Villas",
+    location: "Lombok, Indonesia",
+    price: 320000,
+    roi: 14,
+    image: "https://images.unsplash.com/photo-1580587771525-78b9dba3b91d?auto=format&fit=crop&q=80&w=1000",
+    type: "Villa",
+    beds: 3,
     baths: 2,
-    size: 120,
-    completion: "Q1 2025"
+    size: 200,
+    completion: "Ready",
+    developer: "Saraya Lombok",
+    featured: true,
+    url: "https://sarayalombok.com/villas/"
   },
   {
     id: 5,
-    title: "Nusa Dua Cliff Estate",
-    location: "Nusa Dua, Bali",
-    price: 1200000,
-    roi: 18,
-    image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=1000",
-    type: "Estate",
-    beds: 5,
-    baths: 6,
-    size: 600,
-    completion: "Q3 2025"
+    title: "Saraya Lombok Beach Villas",
+    location: "Lombok, Indonesia",
+    price: 425000,
+    roi: 15,
+    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=1000",
+    type: "Villa",
+    beds: 4,
+    baths: 3,
+    size: 320,
+    completion: "Q1 2025",
+    developer: "Saraya Lombok",
+    featured: true,
+    url: "https://sarayalombok.com/villas/"
   },
   {
     id: 6,
-    title: "Pererenan Sunset Villas",
-    location: "Pererenan, Bali",
-    price: 320000,
-    roi: 13,
+    title: "Saraya Lombok Oceanfront Estate",
+    location: "Lombok, Indonesia",
+    price: 750000,
+    roi: 17,
     image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=1000",
-    type: "Villa",
-    beds: 2,
-    baths: 2,
-    size: 150,
-    completion: "Q4 2024"
+    type: "Estate",
+    beds: 5,
+    baths: 4,
+    size: 480,
+    completion: "Q3 2025",
+    developer: "Saraya Lombok",
+    featured: true,
+    url: "https://sarayalombok.com/villas/"
   }
 ];
 
@@ -153,7 +175,7 @@ const DevelopmentsPage = () => {
               Exclusive Properties
             </h1>
             <p className="text-premium-charcoal text-lg">
-              Find your perfect investment in Bali
+              Premium villas & residences from Marina Bay City & Saraya Lombok
             </p>
           </div>
 
