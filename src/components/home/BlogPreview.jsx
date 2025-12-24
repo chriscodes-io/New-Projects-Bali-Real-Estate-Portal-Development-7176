@@ -1,39 +1,14 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { useBlogPosts } from '../../hooks/useWordPress';
 
 const BlogPreview = () => {
   const navigate = useNavigate();
-
-  const posts = [
-    {
-      id: 1,
-      title: "Why Bali Property Prices Are Soaring in 2024",
-      excerpt: "An in-depth analysis of the current market trends, tourism growth, and foreign investment influx driving real estate values.",
-      image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      category: "Market Analysis",
-      date: "Mar 15, 2024",
-      readTime: "5 min read"
-    },
-    {
-      id: 2,
-      title: "Complete Guide to Foreign Property Ownership",
-      excerpt: "Understanding the legal framework: Leasehold vs. Freehold, PMA companies, and how to safely navigate Indonesian property laws.",
-      image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      category: "Legal Guide",
-      date: "Mar 12, 2024",
-      readTime: "8 min read"
-    },
-    {
-      id: 3,
-      title: "Top 5 Emerging Areas for High ROI Villas",
-      excerpt: "Move over Seminyak. Discover the new hotspots in Pererenan, Kedungu, and Uluwatu offering the highest rental yields.",
-      image: "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      category: "Investment Tips",
-      date: "Mar 10, 2024",
-      readTime: "6 min read"
-    }
-  ];
+  const { posts, loading, error } = useBlogPosts({ per_page: '3' });
+  const previewPosts = posts.slice(0, 3);
+  const fallbackImage = 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=80&w=1000';
+  const showError = Boolean(error) && previewPosts.length === 0;
 
   const handleViewArticle = (postId) => {
     navigate(`/blog/${postId}`);
@@ -64,49 +39,57 @@ const BlogPreview = () => {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-          {posts.map((post, index) => (
-            <motion.button
-              key={post.id}
-              onClick={() => handleViewArticle(post.id)}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="group block h-full bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col w-full text-left cursor-pointer"
-            >
-              <div className="relative h-48 overflow-hidden bg-gray-100">
-                <img 
-                  src={post.image} 
-                  alt={post.title} 
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute top-4 left-4">
-                  <span className="bg-white/90 backdrop-blur-sm text-premium-blue px-3 py-1 rounded-full text-xs font-bold shadow-sm">
-                    {post.category}
-                  </span>
+          {loading ? (
+            <div className="col-span-full text-center text-premium-charcoal">Loading latest articles...</div>
+          ) : showError ? (
+            <div className="col-span-full text-center text-premium-charcoal">Unable to load articles right now.</div>
+          ) : previewPosts.length === 0 ? (
+            <div className="col-span-full text-center text-premium-charcoal">No articles published yet.</div>
+          ) : (
+            previewPosts.map((post, index) => (
+              <motion.button
+                key={post.id}
+                onClick={() => handleViewArticle(post.id)}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                className="group block h-full bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col w-full text-left cursor-pointer"
+              >
+                <div className="relative h-48 overflow-hidden bg-gray-100">
+                  <img 
+                    src={post.image || fallbackImage} 
+                    alt={post.title} 
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute top-4 left-4">
+                    <span className="bg-premium-blue text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg">
+                      {post.categories?.[0] || 'Insights'}
+                    </span>
+                  </div>
                 </div>
-              </div>
 
-              <div className="p-6 flex-1 flex flex-col">
-                <div className="flex items-center text-xs text-premium-charcoal mb-3 space-x-4">
-                  <span>{post.date}</span>
-                  <span>{post.readTime}</span>
+                <div className="p-6 flex-1 flex flex-col">
+                  <div className="flex items-center text-xs text-premium-charcoal mb-3 space-x-4">
+                    <span>{new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                    <span>{post.readTime || '5 min read'}</span>
+                  </div>
+
+                  <h3 className="text-lg font-bold text-premium-black mb-3 group-hover:text-premium-blue transition-colors leading-tight line-clamp-2">
+                    {post.title}
+                  </h3>
+
+                  <p className="text-premium-charcoal text-sm line-clamp-2 mb-4 flex-1">
+                    {post.excerpt?.replace(/<[^>]*>/g, '')}
+                  </p>
+
+                  <div className="mt-auto flex items-center text-premium-blue font-semibold text-sm group-hover:translate-x-1 transition-transform">
+                    <span>Read Article →</span>
+                  </div>
                 </div>
-
-                <h3 className="text-lg font-bold text-premium-black mb-3 group-hover:text-premium-blue transition-colors leading-tight line-clamp-2">
-                  {post.title}
-                </h3>
-
-                <p className="text-premium-charcoal text-sm line-clamp-2 mb-4 flex-1">
-                  {post.excerpt}
-                </p>
-
-                <div className="mt-auto flex items-center text-premium-blue font-semibold text-sm group-hover:translate-x-1 transition-transform">
-                  <span>Read Article →</span>
-                </div>
-              </div>
-            </motion.button>
-          ))}
+              </motion.button>
+            ))
+          )}
         </div>
 
         <motion.div

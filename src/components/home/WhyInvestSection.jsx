@@ -1,18 +1,15 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import SafeIcon from '../../common/SafeIcon';
-import * as FiIcons from 'react-icons/fi';
-
-const { FiTrendingUp, FiGlobe, FiUsers, FiShield, FiSun, FiDollarSign } = FiIcons;
+import { TrendingUp, Globe, Users, Shield, Sun, DollarSign, Target, MapPin, Home, Award } from 'lucide-react';
 
 const WhyInvestSection = () => {
   const benefits = [
-    { icon: FiTrendingUp, title: "High Rental Yields", description: "Average returns of 12-18% annually.", stat: "15%+ Yield" },
-    { icon: FiGlobe, title: "Tourism Demand", description: "6+ million visitors annually.", stat: "6M+ Visitors" },
-    { icon: FiSun, title: "Lifestyle Investment", description: "Own a piece of paradise.", stat: "Paradise" },
-    { icon: FiDollarSign, title: "Capital Appreciation", description: "Property values grow 8-12% annually.", stat: "10% Growth" },
-    { icon: FiUsers, title: "Expat Community", description: "Strong long-term rental demand.", stat: "50k+ Expats" },
-    { icon: FiShield, title: "Trusted Developers", description: "All projects vetted by our team.", stat: "100% Verified" }
+    { icon: TrendingUp, title: "High Rental Yields", description: "Average returns of 12-18% annually.", stat: "15%+ Yield" },
+    { icon: Globe, title: "Tourism Demand", description: "6+ million visitors annually.", stat: "6M+ Visitors" },
+    { icon: Sun, title: "Lifestyle Investment", description: "Own a piece of paradise.", stat: "Paradise" },
+    { icon: DollarSign, title: "Capital Appreciation", description: "Property values grow 8-12% annually.", stat: "10% Growth" },
+    { icon: Users, title: "Expat Community", description: "Strong long-term rental demand.", stat: "50k+ Expats" },
+    { icon: Shield, title: "Trusted Developers", description: "All projects vetted by our team.", stat: "100% Verified" }
   ];
 
   return (
@@ -37,7 +34,7 @@ const WhyInvestSection = () => {
             >
               <div className="flex justify-between items-start mb-6">
                 <div className="w-14 h-14 bg-premium-blue/10 rounded-2xl flex items-center justify-center group-hover:bg-premium-blue transition-colors duration-300">
-                  <SafeIcon icon={benefit.icon} className="text-premium-blue text-2xl group-hover:text-white transition-colors" />
+                  <benefit.icon className="w-7 h-7 text-premium-blue group-hover:text-white transition-colors" />
                 </div>
                 <span className="bg-premium-slate-50 text-premium-charcoal text-xs font-bold px-3 py-1.5 rounded-full border border-gray-200">
                   {benefit.stat}

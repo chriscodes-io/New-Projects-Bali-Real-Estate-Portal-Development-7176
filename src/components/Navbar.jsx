@@ -1,10 +1,36 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { X, User, LogOut, Settings, BarChart3 } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [showUserMenu, setShowUserMenu] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { isAuthenticated, userRole, logout: authLogout } = useAuth();
+
+  // Close user menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (showUserMenu) {
+        const userMenu = document.querySelector('[data-user-menu]');
+        if (userMenu && !userMenu.contains(event.target)) {
+          setShowUserMenu(false);
+        }
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [showUserMenu]);
+
+  const handleLogout = () => {
+    authLogout();
+    setShowUserMenu(false);
+    navigate('/');
+  };
 
   const navItems = [
     { path: '/', label: 'Home' },
@@ -13,8 +39,6 @@ const Navbar = () => {
     { path: '/about', label: 'Why List With Us' },
     { path: '/contact', label: 'Contact' },
   ];
-
-  const isActive = (path) => location.pathname === path;
 
   return (
     <nav className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
@@ -31,23 +55,77 @@ const Navbar = () => {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                  isActive(item.path)
-                    ? 'text-premium-blue bg-blue-50'
-                    : 'text-premium-charcoal hover:text-premium-blue hover:bg-gray-50'
-                }`}
+                className={`px-4 py-2 text-sm font-medium text-premium-black nav-link relative transition-colors duration-500 ease`}
               >
                 {item.label}
               </Link>
             ))}
             
-            {/* Login Button */}
-            <Link
-              to="/login"
-              className="ml-4 px-6 py-2 bg-premium-black text-white rounded-md font-medium text-sm hover:bg-gray-800 transition-colors"
-            >
-              Login
-            </Link>
+            {/* User Menu */}
+            {isAuthenticated ? (
+              <div className="relative ml-4" data-user-menu>
+                <button
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  className="flex items-center space-x-2 px-4 py-2 bg-premium-black text-white rounded-md font-medium text-sm hover:bg-gray-800 transition-colors"
+                >
+                  <User className="w-4 h-4" />
+                  <span>{userRole === 'admin' ? 'Admin' : 'Developer'}</span>
+                  <X className={`w-4 h-4 transition-transform ${showUserMenu ? 'rotate-45' : ''}`} />
+                </button>
+
+                {/* User Dropdown Menu */}
+                <AnimatePresence>
+                  {showUserMenu && (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.95, y: -10 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                      transition={{ duration: 0.1 }}
+                      className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
+                    >
+                      {/* Dashboard Link */}
+                      <Link
+                        to={userRole === 'admin' ? '/admin-dashboard' : '/developer-dashboard'}
+                        onClick={() => setShowUserMenu(false)}
+                        className="flex items-center space-x-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                      >
+                        <BarChart3 className="w-4 h-4" />
+                        <span>Dashboard</span>
+                      </Link>
+
+                      {/* Settings Link */}
+                      <Link
+                        to={userRole === 'admin' ? '/admin-dashboard?tab=settings' : '/developer-dashboard?tab=settings'}
+                        onClick={() => setShowUserMenu(false)}
+                        className="flex items-center space-x-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                      >
+                        <Settings className="w-4 h-4" />
+                        <span>Settings</span>
+                      </Link>
+
+                      <hr className="my-2 border-gray-200" />
+
+                      {/* Logout */}
+                      <button
+                        onClick={handleLogout}
+                        className="flex items-center space-x-3 px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors w-full text-left"
+                      >
+                        <LogOut className="w-4 h-4" />
+                        <span>Logout</span>
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ) : (
+              /* Login Button */
+              <Link
+                to="/login"
+                className="ml-4 px-6 py-2 bg-premium-black text-white rounded-md font-medium text-sm hover:bg-gray-800 transition-colors"
+              >
+                Login
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -76,25 +154,62 @@ const Navbar = () => {
                     key={item.path}
                     to={item.path}
                     onClick={() => setIsOpen(false)}
-                    className={`block px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                      isActive(item.path)
-                        ? 'text-premium-blue bg-blue-50'
-                        : 'text-premium-charcoal hover:text-premium-blue hover:bg-gray-50'
-                    }`}
+                    className={`block px-4 py-2 text-sm font-medium text-premium-black nav-link relative transition-colors duration-500 ease`}
                   >
                     {item.label}
                   </Link>
                 ))}
                 
-                <div className="px-2 pt-2 pb-3">
-                  <Link
-                    to="/login"
-                    onClick={() => setIsOpen(false)}
-                    className="block w-full px-4 py-2 bg-premium-black text-white text-center rounded-md font-medium text-sm hover:bg-gray-800 transition-colors"
-                  >
-                    Login
-                  </Link>
-                </div>
+                {/* Mobile User Menu */}
+                {isAuthenticated ? (
+                  <>
+                    <hr className="my-2 border-gray-200" />
+                    <div className="px-2 py-2 space-y-1">
+                      <div className="px-4 py-2 text-sm font-medium text-gray-500">
+                        {userRole === 'admin' ? 'Admin User' : 'Developer User'}
+                      </div>
+                      
+                      <Link
+                        to={userRole === 'admin' ? '/admin-dashboard' : '/developer-dashboard'}
+                        onClick={() => setIsOpen(false)}
+                        className="flex items-center space-x-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors rounded-md"
+                      >
+                        <BarChart3 className="w-4 h-4" />
+                        <span>Dashboard</span>
+                      </Link>
+
+                      <Link
+                        to={userRole === 'admin' ? '/admin-dashboard?tab=settings' : '/developer-dashboard?tab=settings'}
+                        onClick={() => setIsOpen(false)}
+                        className="flex items-center space-x-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors rounded-md"
+                      >
+                        <Settings className="w-4 h-4" />
+                        <span>Settings</span>
+                      </Link>
+
+                      <button
+                        onClick={() => {
+                          handleLogout();
+                          setIsOpen(false);
+                        }}
+                        className="flex items-center space-x-3 px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors rounded-md w-full text-left"
+                      >
+                        <LogOut className="w-4 h-4" />
+                        <span>Logout</span>
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <div className="px-2 pt-2 pb-3">
+                    <Link
+                      to="/login"
+                      onClick={() => setIsOpen(false)}
+                      className="block w-full px-4 py-2 bg-premium-black text-white text-center rounded-md font-medium text-sm hover:bg-gray-800 transition-colors"
+                    >
+                      Login
+                    </Link>
+                  </div>
+                )}
               </div>
             </motion.div>
           )}

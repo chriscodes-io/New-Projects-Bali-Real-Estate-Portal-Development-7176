@@ -46,7 +46,7 @@ const HeroSection = () => {
             </span>
           </h1>
 
-          <p className="text-lg md:text-xl lg:text-2xl text-white/90 max-w-3xl mx-auto font-light leading-relaxed drop-shadow-md">
+          <p className="text-lg md:text-xl lg:text-2xl text-white max-w-3xl mx-auto font-medium leading-relaxed drop-shadow-xl bg-black/20 backdrop-blur-sm rounded-lg p-6 border border-white/10">
             Discover curated off-plan villas and investment opportunities in 
             Indonesia's most sought-after destinations.
           </p>

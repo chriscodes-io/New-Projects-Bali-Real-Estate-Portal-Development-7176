@@ -1,37 +1,34 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import SafeIcon from '../../common/SafeIcon';
-import * as FiIcons from 'react-icons/fi';
-
-const { FiSearch, FiFileText, FiUsers, FiKey, FiArrowRight } = FiIcons;
+import { Search, FileText, Users, Key, ArrowRight } from 'lucide-react';
 
 const HowItWorksSection = () => {
   const steps = [
     {
       step: 1,
-      icon: FiSearch,
+      icon: Search,
       title: "Browse Developments",
       description: "Explore our curated selection of premium villa and resort developments.",
       color: "from-premium-blue to-blue-600"
     },
     {
       step: 2,
-      icon: FiFileText,
+      icon: FileText,
       title: "Request Information",
       description: "Get detailed brochures, floor plans, and investment projections.",
       color: "from-blue-500 to-premium-periwinkle"
     },
     {
       step: 3,
-      icon: FiUsers,
+      icon: Users,
       title: "Connect with Developer",
       description: "Speak directly with verified developers to discuss your requirements.",
       color: "from-premium-periwinkle to-purple-500"
     },
     {
       step: 4,
-      icon: FiKey,
+      icon: Key,
       title: "Secure Investment",
       description: "Complete your purchase with confidence and transparency.",
       color: "from-purple-500 to-pink-600"
@@ -74,7 +71,7 @@ const HowItWorksSection = () => {
               </div>
 
               <div className={`w-16 h-16 bg-gradient-to-br ${step.color} rounded-2xl flex items-center justify-center mb-6 mt-4 group-hover:scale-110 transition-transform shadow-lg`}>
-                <SafeIcon icon={step.icon} className="text-white text-2xl" />
+                <step.icon className="w-8 h-8 text-white" />
               </div>
 
               <h3 className="text-xl font-bold text-premium-black mb-3">{step.title}</h3>

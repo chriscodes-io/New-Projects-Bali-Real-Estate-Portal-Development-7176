@@ -1,19 +1,16 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import SafeIcon from '../../common/SafeIcon';
-import * as FiIcons from 'react-icons/fi';
-
-const { FiTrendingUp, FiBuilding, FiUsers, FiGlobe } = FiIcons;
+import { TrendingUp, Building, Users, Globe, Target, Award, MapPin, Home } from 'lucide-react';
 
 const StatsSection = () => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.3 });
 
   const stats = [
-    { icon: FiBuilding, number: 150, suffix: '+', label: 'Premium Developments', description: 'Carefully curated projects' },
-    { icon: FiUsers, number: 50, suffix: '+', label: 'Trusted Developers', description: 'Verified and vetted partners' },
-    { icon: FiGlobe, number: 2500, suffix: '+', label: 'International Investors', description: 'From 40+ countries' },
-    { icon: FiTrendingUp, number: 15, suffix: '%', label: 'Average ROI', description: 'Annual rental yields' }
+    { icon: Building, number: 150, suffix: '+', label: 'Premium Developments', description: 'Carefully curated projects' },
+    { icon: Users, number: 50, suffix: '+', label: 'Trusted Developers', description: 'Verified and vetted partners' },
+    { icon: Globe, number: 2500, suffix: '+', label: 'International Investors', description: 'From 40+ countries' },
+    { icon: TrendingUp, number: 15, suffix: '%', label: 'Average ROI', description: 'Annual rental yields' }
   ];
 
   const CountUpNumber = ({ number, suffix, inView }) => {
@@ -73,7 +70,7 @@ const StatsSection = () => {
               className="bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10 text-center hover:bg-white/10 transition-all duration-300 group"
             >
               <div className="w-16 h-16 bg-gradient-to-br from-premium-blue to-premium-periwinkle rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-premium-blue/20 group-hover:scale-110 transition-transform">
-                <SafeIcon icon={stat.icon} className="text-white text-3xl" />
+                <stat.icon className="w-8 h-8 text-white" />
               </div>
               
               <div className="text-4xl md:text-5xl font-bold text-white mb-2">
