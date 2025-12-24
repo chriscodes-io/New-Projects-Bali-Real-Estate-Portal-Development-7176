@@ -2,7 +2,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 
-// HARDCODED DUMMY DATA TO BYPASS HOOK/WORDPRESS ERRORS
 const DUMMY_POSTS = [
   {
     id: 1,
@@ -41,9 +40,7 @@ const DUMMY_POSTS = [
 
 const BlogPreview = () => {
   const navigate = useNavigate();
-  // Using dummy data directly
   const previewPosts = DUMMY_POSTS;
-  const fallbackImage = 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=80&w=1000';
 
   const handleViewArticle = (postId) => {
     navigate(`/blog/${postId}`);
@@ -86,7 +83,7 @@ const BlogPreview = () => {
             >
               <div className="relative h-48 overflow-hidden bg-gray-100">
                 <img 
-                  src={post.image || fallbackImage} 
+                  src={post.image} 
                   alt={post.title} 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
@@ -100,7 +97,7 @@ const BlogPreview = () => {
               <div className="p-6 flex-1 flex flex-col">
                 <div className="flex items-center text-xs text-premium-charcoal mb-3 space-x-4">
                   <span>{new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
-                  <span>{post.readTime || '5 min read'}</span>
+                  <span>{post.readTime}</span>
                 </div>
 
                 <h3 className="text-lg font-bold text-premium-black mb-3 group-hover:text-premium-blue transition-colors leading-tight line-clamp-2">
@@ -108,7 +105,7 @@ const BlogPreview = () => {
                 </h3>
 
                 <p className="text-premium-charcoal text-sm line-clamp-2 mb-4 flex-1">
-                  {post.excerpt?.replace(/<[^>]*>/g, '')}
+                  {post.excerpt}
                 </p>
 
                 <div className="mt-auto flex items-center text-premium-blue font-semibold text-sm group-hover:translate-x-1 transition-transform">

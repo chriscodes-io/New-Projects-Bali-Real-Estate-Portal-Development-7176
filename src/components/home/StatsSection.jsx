@@ -1,17 +1,36 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import { TrendingUp, Building, Users, Globe, Target, Award, MapPin, Home } from 'lucide-react';
+import { TrendingUp, Building, Users, Globe } from 'lucide-react';
 
 const CountUpNumber = ({ end, duration = 2, suffix = '' }) => {
   const [count, setCount] = React.useState(0);
-  const { ref, inView } = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
+  const [isVisible, setIsVisible] = React.useState(false);
+  const ref = React.useRef(null);
 
   React.useEffect(() => {
-    if (inView) {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, []);
+
+  React.useEffect(() => {
+    if (isVisible) {
       let startTime;
       const animate = (currentTime) => {
         if (!startTime) startTime = currentTime;
@@ -26,7 +45,7 @@ const CountUpNumber = ({ end, duration = 2, suffix = '' }) => {
       };
       requestAnimationFrame(animate);
     }
-  }, [inView, end, duration]);
+  }, [isVisible, end, duration]);
 
   return (
     <span ref={ref} className="font-bold">
@@ -70,7 +89,6 @@ const stats = [
 const StatsSection = () => {
   return (
     <section className="py-20 bg-premium-black relative overflow-hidden">
-      {/* Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-20 pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-premium-blue rounded-full blur-[120px]" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-premium-purple rounded-full blur-[120px]" />
