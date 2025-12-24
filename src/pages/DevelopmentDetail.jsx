@@ -3,9 +3,10 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import LeadCaptureForm from '../components/development/LeadCaptureForm';
 import SafeIcon from '../common/SafeIcon';
+import OptimizedImage from '../components/common/OptimizedImage';
 import * as FiIcons from 'react-icons/fi';
 
-const { 
+const {
   FiMapPin, FiCalendar, FiTrendingUp, FiUsers, FiHome, FiStar,
   FiWifi, FiCar, FiShield, FiCoffee, FiActivity, FiDroplet,
   FiDownload, FiPhone, FiMail, FiShare2, FiChevronLeft, FiChevronRight
@@ -105,6 +106,12 @@ const DevelopmentDetail = () => {
 
   return (
     <div className="min-h-screen bg-premium-slate-50 pt-8 pb-24">
+      <Helmet>
+        <title>{development.name} - New Projects Bali</title>
+        <meta name="description" content={`Exclusive investment opportunity at ${development.name} in ${development.location}. ${development.type} starting from ${development.price} with ${development.yield} yield.`} />
+        <link rel="canonical" href={`https://newprojectsbali.com/development/${id}`} />
+      </Helmet>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Back Button */}
         <motion.button
@@ -135,11 +142,11 @@ const DevelopmentDetail = () => {
                   <span>{development.yield} Yield</span>
                 </div>
               </div>
-              
+
               <h1 className="text-3xl md:text-4xl font-bold text-premium-black mb-2">
                 {development.name}
               </h1>
-              
+
               <div className="flex flex-wrap items-center gap-4 text-premium-charcoal">
                 <div className="flex items-center space-x-2">
                   <SafeIcon icon={FiMapPin} className="text-premium-blue" />
@@ -155,7 +162,7 @@ const DevelopmentDetail = () => {
                 </div>
               </div>
             </div>
-            
+
             <div className="flex flex-col items-end gap-2">
               <div className="text-3xl font-bold text-premium-black">{development.price}</div>
               <div className="text-premium-charcoal font-medium">{development.units} units available</div>
@@ -178,12 +185,12 @@ const DevelopmentDetail = () => {
               className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden"
             >
               <div className="relative aspect-video bg-gray-200 overflow-hidden">
-                <img
+                <OptimizedImage
                   src={development.images[currentImageIndex]}
                   alt={`${development.name} - Image ${currentImageIndex + 1}`}
-                  className="w-full h-full object-cover transition-opacity duration-500"
+                  className="w-full h-full object-cover"
                 />
-                
+
                 {/* Navigation Buttons */}
                 <button
                   onClick={handlePrevImage}
@@ -210,11 +217,14 @@ const DevelopmentDetail = () => {
                   <button
                     key={idx}
                     onClick={() => setCurrentImageIndex(idx)}
-                    className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all cursor-pointer ${
-                      idx === currentImageIndex ? 'border-premium-blue' : 'border-gray-200'
-                    }`}
+                    className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all cursor-pointer ${idx === currentImageIndex ? 'border-premium-blue' : 'border-gray-200'
+                      }`}
                   >
-                    <img src={image} alt={`Thumbnail ${idx + 1}`} className="w-full h-full object-cover" />
+                    <OptimizedImage
+                      src={image}
+                      alt={`Thumbnail ${idx + 1}`}
+                      className="w-full h-full object-cover"
+                    />
                   </button>
                 ))}
               </div>
@@ -265,11 +275,10 @@ const DevelopmentDetail = () => {
                     <button
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id)}
-                      className={`py-4 px-1 border-b-2 font-bold text-sm transition-colors whitespace-nowrap cursor-pointer ${
-                        activeTab === tab.id
-                          ? 'border-premium-blue text-premium-blue'
-                          : 'border-transparent text-gray-400 hover:text-premium-charcoal'
-                      }`}
+                      className={`py-4 px-1 border-b-2 font-bold text-sm transition-colors whitespace-nowrap cursor-pointer ${activeTab === tab.id
+                        ? 'border-premium-blue text-premium-blue'
+                        : 'border-transparent text-gray-400 hover:text-premium-charcoal'
+                        }`}
                     >
                       {tab.label}
                     </button>
@@ -283,7 +292,7 @@ const DevelopmentDetail = () => {
                   <div>
                     <h3 className="text-lg font-bold text-premium-black mb-4">Project Overview</h3>
                     <p className="text-premium-charcoal leading-relaxed mb-6">{development.description}</p>
-                    
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <h4 className="font-bold text-premium-black mb-3">Location Highlights</h4>
@@ -381,7 +390,7 @@ const DevelopmentDetail = () => {
                         </div>
                       ))}
                     </div>
-                    
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-2xl border border-blue-100">
                         <h4 className="font-bold text-blue-900 mb-2">Rental Yield</h4>

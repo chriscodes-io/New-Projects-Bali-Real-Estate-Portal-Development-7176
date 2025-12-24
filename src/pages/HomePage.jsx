@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { Settings, Lock } from 'lucide-react'; // Fixed import
 import { useAuth } from '../context/AuthContext';
 import HeroSection from '../components/home/HeroSection';
@@ -15,6 +16,12 @@ const HomePage = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>New Projects Bali - Premium Villa & Resort Developments for Sale</title>
+        <meta name="description" content="Discover exclusive new villa and resort developments in Bali. Premium off-plan and completed projects with high rental yields. Connect directly with developers." />
+        <link rel="canonical" href="https://newprojectsbali.com/" />
+      </Helmet>
+
       {/* Admin Quick Access Bar */}
       {isAuthenticated && (
         <div className="bg-gradient-to-r from-purple-900 to-indigo-900 text-white py-2 px-4">
@@ -36,7 +43,7 @@ const HomePage = () => {
           </div>
         </div>
       )}
-      
+
       <HeroSection />
       <SearchSection />
       <FeaturedDevelopments />

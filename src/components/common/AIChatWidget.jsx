@@ -2,17 +2,17 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SafeIcon from '../../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
-import toast from 'react-hot-toast';
+import ChatMessage from './ChatMessage';
 
-const { FiMessageSquare, FiSend } = FiIcons;
+const { FiMessageSquare, FiSend, FiX } = FiIcons;
 
 const AIChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { 
-      id: 1, 
-      type: 'bot', 
-      text: 'Hi there! 👋 I\'m your Bali Investment Assistant. Whether you\'re looking for your dream villa or a resort investment, I\'m here to help you find the perfect opportunity. What brings you here today?' 
+    {
+      id: 1,
+      type: 'bot',
+      text: 'Hi there! 👋 I\'m your Bali Investment Assistant. Whether you\'re looking for your dream villa or a resort investment, I\'m here to help you find the perfect opportunity. What brings you here today?'
     }
   ]);
   const [inputValue, setInputValue] = useState('');
@@ -63,7 +63,7 @@ const AIChatWidget = () => {
   // Intelligent response generator
   const generateBotResponse = (userText, currentStage, selectedOption = null) => {
     const lowerText = userText.toLowerCase();
-    
+
     // Check for property type
     if (currentStage === 'initial' || currentStage === 'property_type') {
       if (lowerText.includes('villa') || lowerText.includes('house') || lowerText.includes('residential')) {
@@ -88,7 +88,7 @@ const AIChatWidget = () => {
         ]);
         return "Excellent choice! Resort properties in Bali are seeing 12-18% annual yields. 🏨\n\nWhat's your budget?";
       }
-      
+
       setQuickSelectOptions([
         { label: '🏡 Villa', value: 'villa' },
         { label: '🏨 Resort', value: 'resort' },
@@ -112,7 +112,7 @@ const AIChatWidget = () => {
         ]);
         return "Great! We have excellent properties in that range. 💰\n\nWhich area interests you most?";
       }
-      
+
       return "Could you select a budget range or tell me an amount?";
     }
 
@@ -122,7 +122,7 @@ const AIChatWidget = () => {
       setCustomerData(prev => ({ ...prev, location }));
       setConversationStage('contact');
       setQuickSelectOptions(null);
-      
+
       return `Perfect! ${location} is an amazing choice! 🎯\n\nI'd love to send you our curated list of properties. What's the best way to reach you?\n\nPlease share your name first:`;
     }
 
@@ -173,7 +173,7 @@ const AIChatWidget = () => {
 
       setConversationStage('completed');
       setQuickSelectOptions(null);
-      
+
       return `Perfect! Here's what I've noted:\n\n✅ Name: ${customerData.name}\n✅ Email: ${customerData.email}\n${customerData.phone ? `✅ Phone: ${customerData.phone}` : ''}\n✅ Property Type: ${customerData.propertyType}\n✅ Budget: ${customerData.budget}\n✅ Location: ${customerData.location}\n\nOne of our senior advisors will reach out within 24 hours with personalized recommendations! 🎉`;
     }
 
@@ -192,13 +192,13 @@ const AIChatWidget = () => {
 
     setTimeout(() => {
       const botResponse = generateBotResponse(messageText, conversationStage, selectedOption);
-      
-      setMessages(prev => [...prev, { 
-        id: Date.now() + 1, 
-        type: 'bot', 
-        text: botResponse 
+
+      setMessages(prev => [...prev, {
+        id: Date.now() + 1,
+        type: 'bot',
+        text: botResponse
       }]);
-      
+
       setIsTyping(false);
     }, 800 + Math.random() * 700);
   };
@@ -247,13 +247,13 @@ const AIChatWidget = () => {
                   <p className="text-xs text-white/80">Find your perfect property</p>
                 </div>
               </div>
-              <button 
+              <button
                 onClick={() => setIsOpen(false)}
+                aria-label="Close chat"
                 className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                title="Close chat"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
+                <SafeIcon icon={FiX} className="text-lg" />
               </button>
             </div>
 
@@ -262,29 +262,13 @@ const AIChatWidget = () => {
               <div className="text-xs text-center text-premium-charcoal/60 mb-2">
                 💬 Responses within 24 hours • Your data is secure
               </div>
-              
+
               {messages.map((msg, index) => (
-                <motion.div
-                  key={msg.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                  className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}
-                >
-                  <div 
-                    className={`max-w-[85%] p-3 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap ${
-                      msg.type === 'user' 
-                        ? 'bg-premium-blue text-white rounded-tr-none shadow-md' 
-                        : 'bg-white border border-gray-200 text-premium-charcoal rounded-tl-none shadow-sm'
-                    }`}
-                  >
-                    {msg.text}
-                  </div>
-                </motion.div>
+                <ChatMessage key={msg.id} msg={msg} index={index} />
               ))}
-              
+
               {isTyping && (
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   className="flex justify-start"
@@ -326,12 +310,14 @@ const AIChatWidget = () => {
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder="Type your message..."
+                  aria-label="Type your message"
                   className="flex-1 pl-4 pr-4 py-3 rounded-xl border border-gray-200 focus:border-premium-blue focus:ring-2 focus:ring-premium-blue/20 outline-none transition-all text-sm text-premium-black placeholder-gray-400 resize-none"
                   rows="1"
                 />
                 <button
                   onClick={() => handleSend()}
                   disabled={!inputValue.trim()}
+                  aria-label="Send message"
                   className="p-3 bg-premium-blue text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:hover:bg-premium-blue transition-all flex-shrink-0"
                   title="Send message"
                 >
@@ -349,11 +335,12 @@ const AIChatWidget = () => {
           whileHover={{ scale: 1.08 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setIsOpen(true)}
+          aria-label="Open chat assistant"
           className="w-16 h-16 bg-gradient-to-br from-premium-blue to-premium-periwinkle rounded-full shadow-lg shadow-premium-blue/40 flex items-center justify-center text-white relative group hover:shadow-xl transition-shadow"
         >
           <SafeIcon icon={FiMessageSquare} className="text-2xl" />
           <span className="absolute top-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white animate-pulse"></span>
-          
+
           {/* Tooltip */}
           <span className="absolute right-full mr-4 bg-premium-black text-white text-xs px-3 py-1.5 rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Chat with us

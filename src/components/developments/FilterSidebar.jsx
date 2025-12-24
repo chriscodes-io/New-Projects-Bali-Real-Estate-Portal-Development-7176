@@ -7,12 +7,12 @@ const { FiX, FiMapPin, FiDollarSign, FiHome, FiClock, FiRefreshCw } = FiIcons;
 
 const FilterSidebar = ({ isOpen, onClose, filters = {}, onFiltersChange }) => {
   const locations = [
-    'Seminyak', 'Canggu', 'Ubud', 'Uluwatu', 'Sanur', 
+    'Seminyak', 'Canggu', 'Ubud', 'Uluwatu', 'Sanur',
     'Nusa Dua', 'Jimbaran', 'Pererenan', 'Tabanan', 'Lombok'
   ];
 
   const priceRanges = [
-    'Under $200k', '$200k - $500k', '$500k - $1M', 
+    'Under $200k', '$200k - $500k', '$500k - $1M',
     '$1M - $2M', '$2M - $5M', 'Above $5M'
   ];
 
@@ -70,6 +70,7 @@ const FilterSidebar = ({ isOpen, onClose, filters = {}, onFiltersChange }) => {
               {hasActiveFilters && (
                 <button
                   onClick={clearAllFilters}
+                  aria-label="Clear all filters"
                   className="text-premium-blue hover:text-blue-700 text-sm font-medium flex items-center space-x-1"
                 >
                   <SafeIcon icon={FiRefreshCw} className="text-xs" />
@@ -78,6 +79,7 @@ const FilterSidebar = ({ isOpen, onClose, filters = {}, onFiltersChange }) => {
               )}
               <button
                 onClick={onClose}
+                aria-label="Close filters"
                 className="lg:hidden p-1 text-gray-400 hover:text-premium-black"
               >
                 <SafeIcon icon={FiX} className="text-xl" />
