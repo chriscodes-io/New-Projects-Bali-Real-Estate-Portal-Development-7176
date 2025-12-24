@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import FilterSidebar from '../components/developments/FilterSidebar';
 import DevelopmentCard from '../components/developments/DevelopmentCard';
-import SafeIcon from '../common/SafeIcon'; // FIXED IMPORT PATH
+import SafeIcon from '../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
 
 const { FiFilter, FiX } = FiIcons;
@@ -91,6 +91,12 @@ const MOCK_DEVELOPMENTS = [
 
 const DevelopmentsPage = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [filters, setFilters] = useState({
+    location: '',
+    priceRange: '',
+    propertyType: '',
+    status: ''
+  });
   const [filteredDevelopments, setFilteredDevelopments] = useState(MOCK_DEVELOPMENTS);
 
   // Prevent body scroll when mobile filter is open
@@ -105,11 +111,35 @@ const DevelopmentsPage = () => {
     };
   }, [isFilterOpen]);
 
-  const handleFilterChange = (filters) => {
+  const handleFilterChange = (newFilters) => {
+    // Update filters state
+    setFilters(newFilters);
+    console.log('Filters applied:', newFilters);
+    
     // Implement filtering logic here
-    console.log('Filters applied:', filters);
-    // For now just shuffle/reset for demo
-    setFilteredDevelopments([...MOCK_DEVELOPMENTS]); 
+    let results = MOCK_DEVELOPMENTS;
+    
+    if (newFilters.location) {
+      results = results.filter(dev => dev.location.includes(newFilters.location));
+    }
+    if (newFilters.propertyType) {
+      results = results.filter(dev => dev.type === newFilters.propertyType);
+    }
+    if (newFilters.priceRange) {
+      // Simple price range filtering
+      results = results.filter(dev => {
+        const price = dev.price;
+        if (newFilters.priceRange === 'Under $200k') return price < 200000;
+        if (newFilters.priceRange === '$200k - $500k') return price >= 200000 && price < 500000;
+        if (newFilters.priceRange === '$500k - $1M') return price >= 500000 && price < 1000000;
+        if (newFilters.priceRange === '$1M - $2M') return price >= 1000000 && price < 2000000;
+        if (newFilters.priceRange === '$2M - $5M') return price >= 2000000 && price < 5000000;
+        if (newFilters.priceRange === 'Above $5M') return price >= 5000000;
+        return true;
+      });
+    }
+    
+    setFilteredDevelopments(results);
   };
 
   return (
@@ -139,7 +169,12 @@ const DevelopmentsPage = () => {
         <div className="flex gap-8 items-start">
           {/* Desktop Sidebar */}
           <div className="hidden lg:block w-80 flex-shrink-0 sticky top-24">
-            <FilterSidebar onFilterChange={handleFilterChange} />
+            <FilterSidebar 
+              filters={filters}
+              onFiltersChange={handleFilterChange}
+              isOpen={false}
+              onClose={() => {}}
+            />
           </div>
 
           {/* Mobile Filter Overlay */}
@@ -170,7 +205,12 @@ const DevelopmentsPage = () => {
                     </button>
                   </div>
                   <div className="p-4 pb-24">
-                    <FilterSidebar onFilterChange={handleFilterChange} isMobile={true} />
+                    <FilterSidebar 
+                      filters={filters}
+                      onFiltersChange={handleFilterChange}
+                      isOpen={isFilterOpen}
+                      onClose={() => setIsFilterOpen(false)}
+                    />
                   </div>
                   <div className="absolute bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-100">
                     <button 
@@ -187,18 +227,37 @@ const DevelopmentsPage = () => {
 
           {/* Grid Layout */}
           <div className="flex-1 w-full">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
-              {filteredDevelopments.map((dev) => (
-                <DevelopmentCard key={dev.id} development={dev} />
-              ))}
-            </div>
-            
-            {/* Load More */}
-            <div className="mt-12 text-center">
-              <button className="px-8 py-3 bg-white border border-gray-200 hover:border-premium-purple text-premium-black font-medium rounded-xl transition-all duration-300 hover:shadow-md min-h-[48px]">
-                Load More Properties
-              </button>
-            </div>
+            {filteredDevelopments.length > 0 ? (
+              <>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
+                  {filteredDevelopments.map((dev) => (
+                    <DevelopmentCard key={dev.id} development={dev} />
+                  ))}
+                </div>
+                
+                {/* Load More */}
+                <div className="mt-12 text-center">
+                  <button className="px-8 py-3 bg-white border border-gray-200 hover:border-premium-purple text-premium-black font-medium rounded-xl transition-all duration-300 hover:shadow-md min-h-[48px]">
+                    Load More Properties
+                  </button>
+                </div>
+              </>
+            ) : (
+              <div className="flex flex-col items-center justify-center py-12 text-center">
+                <p className="text-lg text-premium-charcoal mb-4">No properties match your filters</p>
+                <button 
+                  onClick={() => handleFilterChange({
+                    location: '',
+                    priceRange: '',
+                    propertyType: '',
+                    status: ''
+                  })}
+                  className="px-6 py-2 text-premium-blue hover:text-blue-700 font-medium"
+                >
+                  Clear Filters
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

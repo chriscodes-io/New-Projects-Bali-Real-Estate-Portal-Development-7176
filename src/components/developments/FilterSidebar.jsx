@@ -5,7 +5,7 @@ import * as FiIcons from 'react-icons/fi';
 
 const { FiX, FiMapPin, FiDollarSign, FiHome, FiClock, FiRefreshCw } = FiIcons;
 
-const FilterSidebar = ({ isOpen, onClose, filters, onFiltersChange }) => {
+const FilterSidebar = ({ isOpen, onClose, filters = {}, onFiltersChange }) => {
   const locations = [
     'Seminyak', 'Canggu', 'Ubud', 'Uluwatu', 'Sanur', 
     'Nusa Dua', 'Jimbaran', 'Pererenan', 'Tabanan'
@@ -33,7 +33,8 @@ const FilterSidebar = ({ isOpen, onClose, filters, onFiltersChange }) => {
     });
   };
 
-  const hasActiveFilters = Object.values(filters).some(value => value !== '');
+  // ✅ FIX: Add null/undefined safety check
+  const hasActiveFilters = filters && Object.values(filters).some(value => value !== '');
 
   return (
     <>
@@ -58,7 +59,7 @@ const FilterSidebar = ({ isOpen, onClose, filters, onFiltersChange }) => {
       `}>
         <motion.div
           initial={{ x: -320 }}
-          animate={{ x: isOpen || window.innerWidth >= 1024 ? 0 : -320 }}
+          animate={{ x: isOpen || (typeof window !== 'undefined' && window.innerWidth >= 1024) ? 0 : -320 }}
           transition={{ duration: 0.3 }}
           className="h-full lg:h-auto bg-white rounded-2xl p-6 shadow-sm border border-gray-100 overflow-y-auto"
         >
@@ -96,7 +97,7 @@ const FilterSidebar = ({ isOpen, onClose, filters, onFiltersChange }) => {
                   type="radio"
                   name="location"
                   value=""
-                  checked={filters.location === ''}
+                  checked={filters?.location === ''}
                   onChange={(e) => handleFilterChange('location', e.target.value)}
                   className="w-4 h-4 text-premium-blue border-gray-300 focus:ring-premium-blue"
                 />
@@ -108,7 +109,7 @@ const FilterSidebar = ({ isOpen, onClose, filters, onFiltersChange }) => {
                     type="radio"
                     name="location"
                     value={location}
-                    checked={filters.location === location}
+                    checked={filters?.location === location}
                     onChange={(e) => handleFilterChange('location', e.target.value)}
                     className="w-4 h-4 text-premium-blue border-gray-300 focus:ring-premium-blue"
                   />
@@ -130,7 +131,7 @@ const FilterSidebar = ({ isOpen, onClose, filters, onFiltersChange }) => {
                   type="radio"
                   name="priceRange"
                   value=""
-                  checked={filters.priceRange === ''}
+                  checked={filters?.priceRange === ''}
                   onChange={(e) => handleFilterChange('priceRange', e.target.value)}
                   className="w-4 h-4 text-premium-blue border-gray-300 focus:ring-premium-blue"
                 />
@@ -142,7 +143,7 @@ const FilterSidebar = ({ isOpen, onClose, filters, onFiltersChange }) => {
                     type="radio"
                     name="priceRange"
                     value={range}
-                    checked={filters.priceRange === range}
+                    checked={filters?.priceRange === range}
                     onChange={(e) => handleFilterChange('priceRange', e.target.value)}
                     className="w-4 h-4 text-premium-blue border-gray-300 focus:ring-premium-blue"
                   />
@@ -164,7 +165,7 @@ const FilterSidebar = ({ isOpen, onClose, filters, onFiltersChange }) => {
                   type="radio"
                   name="propertyType"
                   value=""
-                  checked={filters.propertyType === ''}
+                  checked={filters?.propertyType === ''}
                   onChange={(e) => handleFilterChange('propertyType', e.target.value)}
                   className="w-4 h-4 text-premium-blue border-gray-300 focus:ring-premium-blue"
                 />
@@ -176,7 +177,7 @@ const FilterSidebar = ({ isOpen, onClose, filters, onFiltersChange }) => {
                     type="radio"
                     name="propertyType"
                     value={type}
-                    checked={filters.propertyType === type}
+                    checked={filters?.propertyType === type}
                     onChange={(e) => handleFilterChange('propertyType', e.target.value)}
                     className="w-4 h-4 text-premium-blue border-gray-300 focus:ring-premium-blue"
                   />
@@ -198,7 +199,7 @@ const FilterSidebar = ({ isOpen, onClose, filters, onFiltersChange }) => {
                   type="radio"
                   name="status"
                   value=""
-                  checked={filters.status === ''}
+                  checked={filters?.status === ''}
                   onChange={(e) => handleFilterChange('status', e.target.value)}
                   className="w-4 h-4 text-premium-blue border-gray-300 focus:ring-premium-blue"
                 />
@@ -210,7 +211,7 @@ const FilterSidebar = ({ isOpen, onClose, filters, onFiltersChange }) => {
                     type="radio"
                     name="status"
                     value={status}
-                    checked={filters.status === status}
+                    checked={filters?.status === status}
                     onChange={(e) => handleFilterChange('status', e.target.value)}
                     className="w-4 h-4 text-premium-blue border-gray-300 focus:ring-premium-blue"
                   />
@@ -225,7 +226,7 @@ const FilterSidebar = ({ isOpen, onClose, filters, onFiltersChange }) => {
             <div className="border-t border-gray-100 pt-4">
               <h4 className="text-sm font-bold text-premium-black mb-2">Active Filters:</h4>
               <div className="space-y-1">
-                {Object.entries(filters).map(([key, value]) => {
+                {Object.entries(filters || {}).map(([key, value]) => {
                   if (!value) return null;
                   return (
                     <div key={key} className="flex items-center justify-between text-xs bg-premium-slate-50 px-3 py-2 rounded-lg">
