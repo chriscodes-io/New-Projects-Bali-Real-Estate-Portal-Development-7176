@@ -137,10 +137,10 @@ const DevelopmentsPage = () => {
     // Update filters state
     setFilters(newFilters);
     console.log('Filters applied:', newFilters);
-    
+
     // Implement filtering logic here
     let results = MOCK_DEVELOPMENTS;
-    
+
     if (newFilters.location) {
       results = results.filter(dev => dev.location.includes(newFilters.location));
     }
@@ -160,22 +160,22 @@ const DevelopmentsPage = () => {
         return true;
       });
     }
-    
+
     setFilteredDevelopments(results);
   };
 
   return (
     <div className="min-h-screen bg-premium-slate-50 pt-24 pb-12">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Page Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
           <div>
             <h1 className="text-3xl md:text-4xl font-bold text-premium-black mb-2">
-              Exclusive Properties
+              Featured Developments
             </h1>
             <p className="text-premium-charcoal text-lg">
-              Premium villas & residences from Marina Bay City & Saraya Lombok
+              Premium villas & residences in Bali's most sought-after locations
             </p>
           </div>
 
@@ -191,11 +191,11 @@ const DevelopmentsPage = () => {
         <div className="flex gap-8 items-start">
           {/* Desktop Sidebar */}
           <div className="hidden lg:block w-80 flex-shrink-0 sticky top-24">
-            <FilterSidebar 
+            <FilterSidebar
               filters={filters}
               onFiltersChange={handleFilterChange}
               isOpen={false}
-              onClose={() => {}}
+              onClose={() => { }}
             />
           </div>
 
@@ -219,7 +219,7 @@ const DevelopmentsPage = () => {
                 >
                   <div className="p-4 border-b border-gray-100 flex items-center justify-between bg-white sticky top-0 z-10">
                     <h2 className="font-bold text-lg text-premium-black">Filters</h2>
-                    <button 
+                    <button
                       onClick={() => setIsFilterOpen(false)}
                       className="p-2 hover:bg-gray-100 rounded-full transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
                     >
@@ -227,7 +227,7 @@ const DevelopmentsPage = () => {
                     </button>
                   </div>
                   <div className="p-4 pb-24">
-                    <FilterSidebar 
+                    <FilterSidebar
                       filters={filters}
                       onFiltersChange={handleFilterChange}
                       isOpen={isFilterOpen}
@@ -235,7 +235,7 @@ const DevelopmentsPage = () => {
                     />
                   </div>
                   <div className="absolute bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-100">
-                    <button 
+                    <button
                       onClick={() => setIsFilterOpen(false)}
                       className="w-full py-3 bg-premium-purple text-white rounded-xl font-bold shadow-premium-cta"
                     >
@@ -256,7 +256,7 @@ const DevelopmentsPage = () => {
                     <DevelopmentCard key={dev.id} development={dev} />
                   ))}
                 </div>
-                
+
                 {/* Load More */}
                 <div className="mt-12 text-center">
                   <button className="px-8 py-3 bg-white border border-gray-200 hover:border-premium-purple text-premium-black font-medium rounded-xl transition-all duration-300 hover:shadow-md min-h-[48px]">
@@ -267,7 +267,7 @@ const DevelopmentsPage = () => {
             ) : (
               <div className="flex flex-col items-center justify-center py-12 text-center">
                 <p className="text-lg text-premium-charcoal mb-4">No properties match your filters</p>
-                <button 
+                <button
                   onClick={() => handleFilterChange({
                     location: '',
                     priceRange: '',
