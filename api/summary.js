@@ -16,9 +16,6 @@ export default async function handler(req) {
 
         const result = await generateObject({
             model: google('gemini-2.5-flash'),
-            tools: {
-                googleSearch: google.tools.googleSearch(),
-            },
             schema: z.object({
                 rentalOutlook: z.string().describe("A 2-3 sentence analysis of current rental demand and projected yields for this specific location."),
                 capitalGrowth: z.string().describe("A 2-3 sentence analysis of recent land value trends and future infrastructure impact on growth."),
