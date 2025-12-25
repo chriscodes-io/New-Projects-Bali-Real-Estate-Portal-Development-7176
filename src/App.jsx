@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { AuthProvider } from './context/AuthContext';
 import Layout from './components/Layout';
 import AIChatWidget from './components/common/AIChatWidget';
@@ -60,6 +61,7 @@ function App() {
             <Route path="/admin-dashboard" element={<AdminDashboard />} />
           </Routes>
         </Suspense>
+        <SpeedInsights />
         <AIChatWidget />
       </AuthProvider>
     </ErrorBoundary>
