@@ -26,9 +26,10 @@ const DevelopmentDetail = () => {
   const [showAISummary, setShowAISummary] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationStage, setGenerationStage] = useState(0);
+  const [aiSummary, setAiSummary] = useState(null);
 
   const generationSteps = [
-    { label: "Initializing Gemini 2.0 Flash...", delay: 1200 },
+    { label: "Initializing Gemini 2.5 Flash...", delay: 1200 },
     { label: `Searching Google for Dec 2025 market data in ${development?.location || 'Bali'}...`, delay: 1800 },
     { label: "Analyzing 2025 price indices and Q1 2026 projections...", delay: 1500 },
     { label: "Grounding investment projections with latest infrastructure news...", delay: 1200 },
@@ -38,14 +39,42 @@ const DevelopmentDetail = () => {
   const handleGenerateSummary = async () => {
     setIsGenerating(true);
     setGenerationStage(0);
+    setAiSummary(null);
 
-    for (let i = 0; i < generationSteps.length; i++) {
-      setGenerationStage(i);
-      await new Promise(resolve => setTimeout(resolve, generationSteps[i].delay));
+    // Start progress simulation
+    const progressInterval = setInterval(() => {
+      setGenerationStage(prev => {
+        if (prev < generationSteps.length - 1) return prev + 1;
+        return prev;
+      });
+    }, 1500); // Update stage every 1.5 seconds
+
+    try {
+      // Simulate network delay for the actual API call
+      await new Promise(resolve => setTimeout(resolve, 3000)); // Minimum 3 seconds for API call
+
+      const response = await fetch('/api/summary', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ property: development }),
+      });
+
+      if (!response.ok) throw new Error('Generation failed');
+
+      const data = await response.json();
+      setAiSummary(data);
+      clearInterval(progressInterval); // Stop the progress simulation
+      setIsGenerating(false);
+      setShowAISummary(true);
+
+    } catch (error) {
+      console.error("AI Summary generation error:", error);
+      clearInterval(progressInterval); // Stop the progress simulation
+      setIsGenerating(false);
+      // Optionally, show an error message to the user
     }
-
-    setIsGenerating(false);
-    setShowAISummary(true);
   };
 
 
@@ -137,7 +166,7 @@ const DevelopmentDetail = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-premium-slate-50 pt-48 pb-24">
+    <div className="min-h-screen bg-premium-slate-50 pt-[80px] md:pt-[128px] pb-24">
       <Helmet>
         <title>{development.title} - New Projects Bali</title>
         <meta name="description" content={`Exclusive investment opportunity at ${development.title} in ${development.location}. ${development.type} starting from ${development.priceDisplay} with ${development.yield} yield.`} />
@@ -150,7 +179,7 @@ const DevelopmentDetail = () => {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           onClick={handleGoBack}
-          className="mb-8 flex items-center gap-2 text-premium-blue hover:text-blue-700 font-bold transition-colors"
+          className="mb-4 mt-6 flex items-center gap-2 text-premium-blue hover:text-blue-700 font-bold transition-colors"
         >
           <SafeIcon icon={FaChevronLeft} />
           Back to Developments
@@ -524,7 +553,7 @@ const DevelopmentDetail = () => {
       </div>
 
       {/* AI Summary Modal */}
-      {showAISummary && (
+      {showAISummary && aiSummary && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
@@ -548,18 +577,20 @@ const DevelopmentDetail = () => {
             </div>
 
             <div className="p-6 space-y-6">
+              {/* Rental Outlook */}
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600 flex-shrink-0 shadow-sm border border-green-200">
                   <SafeIcon icon={FaCheckCircle} className="text-xl" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-gray-900 mb-1">Elite 2025 Rental Outlook</h4>
+                  <h4 className="font-bold text-gray-900 mb-1">Rental Outlook</h4>
                   <p className="text-sm text-gray-600 leading-relaxed">
-                    Google Search data for <span className="font-bold">December 2025</span> indicate a <span className="font-bold text-indigo-600">15% surge</span> in arrivals compared to early 2025. Well-managed villas in {development.location} are currently achieving net yields of <span className="font-bold text-indigo-600">10-16%</span>, significantly outpacing other regional assets.
+                    {aiSummary.rentalOutlook}
                   </p>
                 </div>
               </div>
 
+              {/* Capital Appreciation */}
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 flex-shrink-0 shadow-sm border border-blue-200">
                   <SafeIcon icon={FaCalendarAlt} className="text-xl" />
@@ -567,11 +598,12 @@ const DevelopmentDetail = () => {
                 <div>
                   <h4 className="font-bold text-gray-900 mb-1">Capital Appreciation Path</h4>
                   <p className="text-sm text-gray-600 leading-relaxed">
-                    Property prices in {development.location} hotspots have climbed <span className="font-bold text-blue-600">51% since 2021</span>. Current 2025 analysis of the <span className="font-bold">Bali Urban Subway</span> progress suggests a further <span className="font-bold text-blue-600">8-12% growth index</span> for 2026.
+                    {aiSummary.capitalGrowth}
                   </p>
                 </div>
               </div>
 
+              {/* Verdict */}
               <div className="bg-indigo-50/50 rounded-xl p-4 border border-indigo-100 relative group">
                 <div className="absolute top-0 right-0 p-2">
                   <div className="bg-indigo-600 text-[10px] text-white px-2 py-0.5 rounded-full font-bold shadow-sm">Verified Grounding</div>
@@ -581,7 +613,7 @@ const DevelopmentDetail = () => {
                   Gemini Intelligence Verdict
                 </h4>
                 <p className="text-sm text-indigo-800 italic leading-relaxed">
-                  "This property is a 'Prime-Yield' asset. The current supply/demand deficit in {development.location}'s luxury corridor, validated by Dec 2025 search data, indicates {development.title} is optimally positioned for both cash-flow and capital preservation."
+                  "{aiSummary.verdict}"
                 </p>
               </div>
 
@@ -589,22 +621,12 @@ const DevelopmentDetail = () => {
               <div className="border-t border-gray-100 pt-4">
                 <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3">Intelligence Sources</p>
                 <div className="grid grid-cols-2 gap-2">
-                  <div className="flex items-center gap-2 text-[10px] text-gray-600 font-medium bg-gray-50 p-2 rounded-lg border border-gray-100/50">
-                    <SafeIcon icon={FaMapMarkerAlt} className="text-[8px] text-indigo-400" />
-                    Bangkok Post (Q4 Index)
-                  </div>
-                  <div className="flex items-center gap-2 text-[10px] text-gray-600 font-medium bg-gray-50 p-2 rounded-lg border border-gray-100/50">
-                    <SafeIcon icon={FaMapMarkerAlt} className="text-[8px] text-indigo-400" />
-                    Exotiq Market Report
-                  </div>
-                  <div className="flex items-center gap-2 text-[10px] text-gray-600 font-medium bg-gray-50 p-2 rounded-lg border border-gray-100/50">
-                    <SafeIcon icon={FaMapMarkerAlt} className="text-[8px] text-indigo-400" />
-                    Excel Bali Luxury Data
-                  </div>
-                  <div className="flex items-center gap-2 text-[10px] text-gray-600 font-medium bg-gray-50 p-2 rounded-lg border border-gray-100/50">
-                    <SafeIcon icon={FaMapMarkerAlt} className="text-[8px] text-indigo-400" />
-                    ILA Global Insights
-                  </div>
+                  {aiSummary.sources?.map((source, i) => (
+                    <div key={i} className="flex items-center gap-2 text-[10px] text-gray-600 font-medium bg-gray-50 p-2 rounded-lg border border-gray-100/50">
+                      <SafeIcon icon={FaMapMarkerAlt} className="text-[8px] text-indigo-400" />
+                      {source}
+                    </div>
+                  ))}
                 </div>
               </div>
 
@@ -613,7 +635,7 @@ const DevelopmentDetail = () => {
                 <div className="h-3 w-px bg-gray-300 mx-1" />
                 <div className="text-[9px] font-bold text-gray-700">Google Search Grounding</div>
                 <div className="text-gray-400">•</div>
-                <div className="text-[9px] font-bold text-gray-700">Gemini 2.0 Flash (Dec 2025)</div>
+                <div className="text-[9px] font-bold text-gray-700">Gemini 2.5 Flash</div>
               </div>
 
               <button

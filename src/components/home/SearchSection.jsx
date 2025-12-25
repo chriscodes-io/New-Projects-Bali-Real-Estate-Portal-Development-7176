@@ -117,7 +117,7 @@ const SearchSection = () => {
           <div className="text-center">
             <button
               onClick={handleSearch}
-              className="bg-premium-purple hover:bg-purple-700 text-white px-12 py-4 rounded-xl font-bold text-lg transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 mx-auto"
+              className="bg-premium-purple hover:bg-purple-700 text-white w-full md:w-auto px-6 py-3 md:px-12 md:py-4 rounded-xl font-bold text-base md:text-lg transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 mx-auto"
             >
               <FaSearch />
               <span>Search Developments</span>

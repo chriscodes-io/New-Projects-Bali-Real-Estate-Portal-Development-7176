@@ -11,8 +11,8 @@ import Shield from 'lucide-react/dist/esm/icons/shield';
 
 const Footer = () => {
   return (
-    <footer className="bg-premium-black text-white pb-32 md:pb-0">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <footer className="bg-premium-black text-white pb-6 md:pb-0">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="space-y-4">

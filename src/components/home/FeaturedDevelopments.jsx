@@ -164,7 +164,7 @@ const FeaturedDevelopments = () => {
         >
           <button
             onClick={handleViewAll}
-            className="inline-flex items-center gap-2 bg-premium-purple hover:bg-purple-700 text-white px-10 py-5 rounded-xl font-bold text-lg transition-all duration-300 shadow-xl hover:shadow-2xl shadow-purple-900/10 hover:-translate-y-1"
+            className="inline-flex items-center justify-center gap-2 bg-premium-purple hover:bg-purple-700 text-white w-full md:w-auto px-6 py-3 md:px-10 md:py-5 rounded-xl font-bold text-base md:text-lg transition-all duration-300 shadow-xl hover:shadow-2xl shadow-purple-900/10 hover:-translate-y-1"
           >
             <span>View All Developments</span>
             <ArrowRight className="w-5 h-5" />

@@ -22,7 +22,11 @@ const AIChatWidget = () => {
         role: 'assistant',
         content: "Hello! 👋 I'm your Bali Investment Guide. I can help you find villas, resorts, or answer questions about the market. How can I assist you today?"
       }
-    ]
+    ],
+    onError: (error) => {
+      console.error("Chat Error:", error);
+      alert(`Chat Error: ${error.message}. \n\nIf you are on localhost, make sure you are running 'npx vercel dev' to support API routes.`);
+    }
   });
 
   const scrollToBottom = () => {
@@ -59,7 +63,7 @@ const AIChatWidget = () => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             className={`bg-white shadow-2xl flex flex-col overflow-hidden border border-premium-powder/30 
-              fixed bottom-4 left-4 right-4 top-auto h-[70vh] rounded-2xl md:static md:h-[600px] md:w-96 md:rounded-2xl md:mb-4`}
+              fixed bottom-4 left-4 right-4 top-auto h-[50vh] rounded-2xl md:static md:h-[600px] md:w-96 md:rounded-2xl md:mb-4`}
           >
             {/* Header */}
             <div className="bg-gradient-to-r from-premium-blue to-premium-periwinkle p-4 flex justify-between items-center text-white shrink-0">
@@ -69,7 +73,7 @@ const AIChatWidget = () => {
                 </div>
                 <div>
                   <h3 className="font-bold text-sm">Investment Guide</h3>
-                  <p className="text-xs text-white/80">Powered by Gemini 2.0</p>
+                  <p className="text-xs text-white/80">Powered by Gemini 2.5 Flash</p>
                 </div>
               </div>
               <button

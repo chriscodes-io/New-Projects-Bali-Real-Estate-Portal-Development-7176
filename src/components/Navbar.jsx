@@ -47,10 +47,10 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 bg-white z-[100] border-b border-premium-powder/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-32">
+        <div className="flex justify-between items-center h-20 md:h-32">
           {/* Logo */}
           <Link to="/" className="flex items-center transition-transform hover:scale-105">
-            <img src={logo} alt="New Projects Bali" className="h-20 md:h-24 w-auto object-contain mix-blend-multiply" />
+            <img src={logo} alt="New Projects Bali" className="h-12 md:h-24 w-auto object-contain mix-blend-multiply" />
           </Link>
 
           {/* Desktop Navigation */}
@@ -135,7 +135,7 @@ const Navbar = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 rounded-md text-premium-charcoal hover:bg-gray-100"
+            className="md:hidden p-2 rounded-md text-premium-charcoal hover:bg-gray-100 ml-4"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
