@@ -17,8 +17,8 @@ const benefits = [
   },
   {
     icon: Users,
-    title: "Expert Support",
-    description: "Dedicated team to guide you through every step",
+    title: "Direct Developer Pricing",
+    description: "No middle men, no agents, no inflated prices – speak direct for the best terms.",
     gradient: "from-pink-500 to-pink-600"
   },
   {

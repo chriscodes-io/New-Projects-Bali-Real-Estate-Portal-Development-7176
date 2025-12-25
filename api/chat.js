@@ -66,6 +66,27 @@ const PROJECTS = [
         status: "Completed (Now Open)",
         yield: "Established",
         details: "3 Bed, 3 Bath. Mediterranean style."
+    },
+    {
+        title: "Shanti Village (Bali)",
+        price: "From $765,000",
+        yield: "12% ROI",
+        status: "Off-plan (2026)",
+        details: "Luxury villas at Balangan Beach. Buy direct from developer for best terms."
+    },
+    {
+        title: "OMA SORA (Bali)",
+        price: "From $295,000",
+        yield: "14% Projected",
+        status: "Off-plan (2026)",
+        details: "Umalas location. Wabi Sabi architecture. Direct developer sales."
+    },
+    {
+        title: "Amani Melasti (Bali)",
+        price: "From $109,900",
+        yield: "14-18% ROI",
+        status: "Off-plan (Q2 2027)",
+        details: "Managed by Wyndham. Melasti Beach. Boutique hotel units."
     }
 ];
 

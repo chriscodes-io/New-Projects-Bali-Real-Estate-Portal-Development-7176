@@ -349,5 +349,89 @@ export const PROJECTS = [
             "https://www.elleresortandbeachclubbali.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fheader-carousel3.3444ce3f.webp&w=3840&q=75&dpl=dpl_2qqNcQVdcAZVVv2ReLTedvBuoMtz",
             "https://www.elleresortandbeachclubbali.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fheader-carousel4.4373d923.webp&w=3840&q=75&dpl=dpl_2qqNcQVdcAZVVv2ReLTedvBuoMtz"
         ]
+    },
+    {
+        id: "shanti-village",
+        title: "Shanti Village",
+        location: "Bali (Balangan Beach)",
+        price: 765000,
+        priceDisplay: "From $765,000",
+        currency: "USD",
+        type: "Villa",
+        status: "Off-plan",
+        completion: "2026",
+        yield: "12% ROI",
+        beds: 2,
+        baths: 2,
+        size: "Variable",
+        landSize: "Variable",
+        developer: "Shanti Group",
+        description: "Embrace seaside serenity at Shanti Village. These luxurious villas at Balangan Beach offer a smart investment opportunity in a setting of unrivaled beauty. Buy direct from the developer for best terms.",
+        features: [
+            "Seaside Serenity",
+            "Balangan Beach Location",
+            "12% ROI Guarantee",
+            "No Middle Man Pricing",
+            "Modern Mediterranean"
+        ],
+        images: [
+            "https://shanti-village.com/wp-content/uploads/2024/05/Shanti-Village-Hero.jpg"
+        ]
+    },
+    {
+        id: "oma-sora",
+        title: "OMA SORA",
+        location: "Bali (Umalas)",
+        price: 295000,
+        priceDisplay: "From $295,000",
+        currency: "USD",
+        type: "Villa",
+        status: "Off-plan",
+        completion: "2026",
+        yield: "14% Projected",
+        beds: 2,
+        baths: 2,
+        size: "Variable",
+        landSize: "Variable",
+        developer: "Wahi Group",
+        description: "Sculptural Wabi Sabi residences in Umalas. Where architecture meets serenity. Strategically located near international schools and beach clubs. Speak direct with developer for best terms.",
+        features: [
+            "Wabi Sabi Architecture",
+            "Umalas Prime Location",
+            "Near Seminyak & Canggu",
+            "Direct Developer Sales",
+            "High Rental Demand"
+        ],
+        images: [
+            "https://omasorabali.com/wp-content/uploads/2024/03/Oma-Sora-Hero.jpg"
+        ]
+    },
+    {
+        id: "amani-melasti",
+        title: "Amani Melasti",
+        location: "Bali (Melasti Beach)",
+        price: 109900,
+        priceDisplay: "From $109,900",
+        currency: "USD",
+        type: "Resort Suite",
+        status: "Off-plan",
+        completion: "Q2 2027",
+        yield: "14-18% ROI",
+        beds: 1,
+        baths: 1,
+        size: "30-64 sqm",
+        landSize: "N/A",
+        developer: "TEUS Group",
+        description: "Upscale boutique hotel with panoramic ocean and sunset views by Melasti Beach. Managed by Wyndham Hotels & Resorts. High profitability and low entry point for premium hotel units.",
+        features: [
+            "Managed by Wyndham",
+            "Ocean & Sunset Views",
+            "Rooftop Infinity Pool",
+            "High 14-18% ROI",
+            "Best Developer Terms"
+        ],
+        images: [
+            "https://www.teus-group.com/amani-melasti-hero.jpg"
+        ]
     }
 ];

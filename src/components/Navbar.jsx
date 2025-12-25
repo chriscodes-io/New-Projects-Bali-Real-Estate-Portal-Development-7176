@@ -50,8 +50,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <img src={logo} alt="New Projects Bali" className="h-8 w-auto" />
-            <span className="font-bold text-lg text-premium-black tracking-tight">New Projects Bali</span>
+            <img src={logo} alt="New Projects Bali" className="h-14 md:h-20 w-auto" />
           </Link>
 
           {/* Desktop Navigation */}

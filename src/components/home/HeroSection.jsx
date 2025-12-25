@@ -47,7 +47,7 @@ const HeroSection = () => {
             Discover curated off-plan villas and investment opportunities in Indonesia's most sought-after tropical destinations.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-24 md:mb-0">
             <button
               onClick={handleBrowseProperties}
               className="px-8 py-4 bg-premium-purple hover:bg-purple-700 text-white rounded-lg font-bold text-lg transition-all shadow-lg flex items-center gap-2"

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useChat } from 'ai/react';
+import { useChat } from '@ai-sdk/react';
 import SafeIcon from '../../common/SafeIcon';
 import * as FaIcons from 'react-icons/fa';
 import ChatMessage from './ChatMessage';
@@ -59,7 +59,7 @@ const AIChatWidget = () => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             className={`bg-white shadow-2xl flex flex-col overflow-hidden border border-premium-powder/30 
-              w-full h-full md:w-96 md:h-[600px] md:rounded-2xl md:mb-4`}
+              fixed bottom-4 left-4 right-4 top-auto h-[70vh] rounded-2xl md:static md:h-[600px] md:w-96 md:rounded-2xl md:mb-4`}
           >
             {/* Header */}
             <div className="bg-gradient-to-r from-premium-blue to-premium-periwinkle p-4 flex justify-between items-center text-white shrink-0">
@@ -130,7 +130,7 @@ const AIChatWidget = () => {
                 />
                 <button
                   type="submit"
-                  disabled={isLoading || !input.trim()}
+                  disabled={isLoading || !(input || '').trim()}
                   className="p-3 bg-premium-blue text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 transition-all cursor-pointer"
                   aria-label="Send message"
                 >
