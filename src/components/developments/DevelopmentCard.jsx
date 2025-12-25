@@ -14,13 +14,18 @@ const DevelopmentCard = ({ development }) => {
     title,
     location,
     price,
-    roi,
-    image,
+    priceDisplay,
+    images,
     type,
     beds,
+    baths, // Add baths
     size,
     completion
   } = development;
+
+  const displayImage = images ? images[0] : development.image;
+  const displayPrice = priceDisplay || price?.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+  const displayYield = development.yield || development.roi + '%';
 
   const handleViewDetails = () => {
     navigate(`/development/${id}`);
@@ -39,28 +44,28 @@ const DevelopmentCard = ({ development }) => {
       {/* Image Container - Aspect Ratio 4:3 */}
       <div className="relative aspect-[4/3] overflow-hidden bg-gray-200">
         <img
-          src={image}
+          src={displayImage}
           alt={title}
           className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
           loading="lazy"
         />
-        
+
         {/* Badge Overlays */}
         <div className="absolute top-3 left-3">
           <span className="px-3 py-1 bg-white/90 backdrop-blur-sm text-premium-black text-xs font-bold rounded-lg shadow-sm">
             {type}
           </span>
         </div>
-        
+
         <div className="absolute top-3 right-3">
           <span className="px-3 py-1 bg-green-500 text-white text-xs font-bold rounded-lg shadow-sm flex items-center gap-1">
             <SafeIcon icon={FiTrendingUp} className="text-[10px]" />
-            {roi}% ROI
+            {displayYield} Yield
           </span>
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4 pt-12">
-          <p className="text-white font-bold text-lg truncate drop-shadow-sm">{price.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })}</p>
+          <p className="text-white font-bold text-lg truncate drop-shadow-sm">{displayPrice}</p>
         </div>
       </div>
 
@@ -81,11 +86,11 @@ const DevelopmentCard = ({ development }) => {
         <div className="grid grid-cols-3 gap-2 py-4 border-t border-b border-gray-100 mb-4">
           <div className="flex flex-col items-center justify-center text-center p-2 bg-premium-slate-50 rounded-lg">
             <SafeIcon icon={FiHome} className="text-premium-blue mb-1" />
-            <span className="text-xs font-bold text-premium-black">{beds} Beds</span>
+            <span className="text-xs font-bold text-premium-black">{beds || '-'} Beds</span>
           </div>
           <div className="flex flex-col items-center justify-center text-center p-2 bg-premium-slate-50 rounded-lg">
             <SafeIcon icon={FiMaximize} className="text-premium-blue mb-1" />
-            <span className="text-xs font-bold text-premium-black">{size}m²</span>
+            <span className="text-xs font-bold text-premium-black">{size}</span>
           </div>
           <div className="flex flex-col items-center justify-center text-center p-2 bg-premium-slate-50 rounded-lg">
             <span className="text-[10px] font-bold text-premium-blue mb-1 px-1.5 py-0.5 bg-blue-100 rounded">Ready</span>

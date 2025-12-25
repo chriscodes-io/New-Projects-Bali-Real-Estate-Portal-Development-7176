@@ -7,119 +7,33 @@ import * as FiIcons from 'react-icons/fi';
 
 const { FiFilter, FiX } = FiIcons;
 
-// Real Development Data - Marina Bay City & Saraya Lombok
-const MOCK_DEVELOPMENTS = [
-  // Marina Bay City - Beachfront Villas
-  {
-    id: 1,
-    title: "Marina Bay Beachfront Villas",
-    location: "Seminyak, Bali",
-    price: 825000,
-    roi: 16,
-    image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=1000",
-    type: "Villa",
-    beds: 4,
-    baths: 4,
-    size: 400,
-    completion: "Ready",
-    developer: "Marina Bay City",
-    featured: true,
-    url: "https://marinabaycity.com/now-selling/beachfront-villas/"
-  },
-  // Marina Bay City - Central Avenue
-  {
-    id: 2,
-    title: "Central Avenue Residences",
-    location: "Seminyak, Bali",
-    price: 550000,
-    roi: 13,
-    image: "https://images.unsplash.com/photo-1600596542815-2251336b6f9b?auto=format&fit=crop&q=80&w=1000",
-    type: "Apartment",
-    beds: 3,
-    baths: 2,
-    size: 180,
-    completion: "Q2 2025",
-    developer: "Marina Bay City",
-    featured: true,
-    url: "https://marinabaycity.com/now-selling/central-avenue/"
-  },
-  // Marina Bay City - Reef Retreat
-  {
-    id: 3,
-    title: "Reef Retreat Luxury Villas",
-    location: "Sanur, Bali",
-    price: 695000,
-    roi: 15,
-    image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=1000",
-    type: "Villa",
-    beds: 4,
-    baths: 3,
-    size: 350,
-    completion: "Q4 2025",
-    developer: "Marina Bay City",
-    featured: true,
-    url: "https://marinabaycity.com/now-selling/reef-retreat/"
-  },
-  // Saraya Lombok - Villas
-  {
-    id: 4,
-    title: "Saraya Lombok Tropical Villas",
-    location: "Lombok, Indonesia",
-    price: 320000,
-    roi: 14,
-    image: "https://images.unsplash.com/photo-1580587771525-78b9dba3b91d?auto=format&fit=crop&q=80&w=1000",
-    type: "Villa",
-    beds: 3,
-    baths: 2,
-    size: 200,
-    completion: "Ready",
-    developer: "Saraya Lombok",
-    featured: true,
-    url: "https://sarayalombok.com/villas/"
-  },
-  {
-    id: 5,
-    title: "Saraya Lombok Beach Villas",
-    location: "Lombok, Indonesia",
-    price: 425000,
-    roi: 15,
-    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=1000",
-    type: "Villa",
-    beds: 4,
-    baths: 3,
-    size: 320,
-    completion: "Q1 2025",
-    developer: "Saraya Lombok",
-    featured: true,
-    url: "https://sarayalombok.com/villas/"
-  },
-  {
-    id: 6,
-    title: "Saraya Lombok Oceanfront Estate",
-    location: "Lombok, Indonesia",
-    price: 750000,
-    roi: 17,
-    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=1000",
-    type: "Estate",
-    beds: 5,
-    baths: 4,
-    size: 480,
-    completion: "Q3 2025",
-    developer: "Saraya Lombok",
-    featured: true,
-    url: "https://sarayalombok.com/villas/"
-  }
-];
+
+
+import { PROJECTS } from '../constants/projects';
+import { useSearchParams } from 'react-router-dom';
 
 const DevelopmentsPage = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [searchParams] = useSearchParams();
   const [filters, setFilters] = useState({
-    location: '',
-    priceRange: '',
-    propertyType: '',
-    status: ''
+    location: searchParams.get('location') || '',
+    priceRange: searchParams.get('priceRange') || '',
+    propertyType: searchParams.get('propertyType') || '',
+    status: searchParams.get('status') || ''
   });
-  const [filteredDevelopments, setFilteredDevelopments] = useState(MOCK_DEVELOPMENTS);
+  const [filteredDevelopments, setFilteredDevelopments] = useState(PROJECTS);
+
+  // Initialize filters from URL params
+  useEffect(() => {
+    const newFilters = {
+      location: searchParams.get('location') || '',
+      priceRange: searchParams.get('priceRange') || '',
+      propertyType: searchParams.get('propertyType') || '',
+      status: searchParams.get('status') || ''
+    };
+    setFilters(newFilters);
+    handleFilterChange(newFilters);
+  }, [searchParams]);
 
   // Prevent body scroll when mobile filter is open
   useEffect(() => {
@@ -133,30 +47,35 @@ const DevelopmentsPage = () => {
     };
   }, [isFilterOpen]);
 
-  const handleFilterChange = (newFilters) => {
-    // Update filters state
+  // Handle filter changes from sidebar
+  // This wrapper updates both state and applies filtering
+  const onFilterChangeWrapper = (newFilters) => {
     setFilters(newFilters);
-    console.log('Filters applied:', newFilters);
+    handleFilterChange(newFilters);
+  };
+
+  const handleFilterChange = (currentFilters) => {
+    console.log('Filters applied:', currentFilters);
 
     // Implement filtering logic here
-    let results = MOCK_DEVELOPMENTS;
+    let results = PROJECTS;
 
-    if (newFilters.location) {
-      results = results.filter(dev => dev.location.includes(newFilters.location));
+    if (currentFilters.location) {
+      results = results.filter(dev => dev.location.includes(currentFilters.location));
     }
-    if (newFilters.propertyType) {
-      results = results.filter(dev => dev.type === newFilters.propertyType);
+    if (currentFilters.propertyType) {
+      results = results.filter(dev => dev.type === currentFilters.propertyType);
     }
-    if (newFilters.priceRange) {
+    if (currentFilters.priceRange) {
       // Simple price range filtering
       results = results.filter(dev => {
         const price = dev.price;
-        if (newFilters.priceRange === 'Under $200k') return price < 200000;
-        if (newFilters.priceRange === '$200k - $500k') return price >= 200000 && price < 500000;
-        if (newFilters.priceRange === '$500k - $1M') return price >= 500000 && price < 1000000;
-        if (newFilters.priceRange === '$1M - $2M') return price >= 1000000 && price < 2000000;
-        if (newFilters.priceRange === '$2M - $5M') return price >= 2000000 && price < 5000000;
-        if (newFilters.priceRange === 'Above $5M') return price >= 5000000;
+        if (currentFilters.priceRange === 'Under $200k') return price < 200000;
+        if (currentFilters.priceRange === '$200k - $500k') return price >= 200000 && price < 500000;
+        if (currentFilters.priceRange === '$500k - $1M') return price >= 500000 && price < 1000000;
+        if (currentFilters.priceRange === '$1M - $2M') return price >= 1000000 && price < 2000000;
+        if (currentFilters.priceRange === '$2M - $5M') return price >= 2000000 && price < 5000000;
+        if (currentFilters.priceRange === 'Above $5M') return price >= 5000000;
         return true;
       });
     }
@@ -229,7 +148,7 @@ const DevelopmentsPage = () => {
                   <div className="p-4 pb-24">
                     <FilterSidebar
                       filters={filters}
-                      onFiltersChange={handleFilterChange}
+                      onFiltersChange={onFilterChangeWrapper}
                       isOpen={isFilterOpen}
                       onClose={() => setIsFilterOpen(false)}
                     />
@@ -268,7 +187,7 @@ const DevelopmentsPage = () => {
               <div className="flex flex-col items-center justify-center py-12 text-center">
                 <p className="text-lg text-premium-charcoal mb-4">No properties match your filters</p>
                 <button
-                  onClick={() => handleFilterChange({
+                  onClick={() => onFilterChangeWrapper({
                     location: '',
                     priceRange: '',
                     propertyType: '',

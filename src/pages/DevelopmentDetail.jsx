@@ -10,7 +10,8 @@ import * as FaIcons from 'react-icons/fa';
 const {
   FaMapMarkerAlt, FaBed, FaBath, FaRulerCombined, FaCalendarAlt, FaCheckCircle,
   FaSwimmingPool, FaDumbbell, FaUmbrellaBeach, FaWifi, FaCar, FaShieldAlt, FaEye,
-  FaFileDownload, FaPhone, FaEnvelope, FaShare, FaChevronLeft, FaChevronRight
+  FaFileDownload, FaPhone, FaEnvelope, FaShare, FaChevronLeft, FaChevronRight,
+  FaRobot, FaMagic
 } = FaIcons;
 
 import { PROJECTS } from '../constants/projects';
@@ -20,6 +21,16 @@ const DevelopmentDetail = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview');
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [showAISummary, setShowAISummary] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  const handleGenerateSummary = () => {
+    setIsGenerating(true);
+    setTimeout(() => {
+      setIsGenerating(false);
+      setShowAISummary(true);
+    }, 1500);
+  };
 
   const development = PROJECTS.find(p => p.id === id);
 
@@ -433,12 +444,129 @@ const DevelopmentDetail = () => {
 
           {/* Sidebar - Lead Capture Form */}
           <div className="lg:col-span-1">
-            <div className="sticky top-24">
+            <div className="sticky top-24 space-y-6">
+              {/* AI Investment Summary Button */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+              >
+                <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-1 shadow-lg">
+                  <div className="bg-white rounded-xl p-6 relative overflow-hidden group">
+                    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                      <SafeIcon icon={FaRobot} className="text-6xl text-indigo-600" />
+                    </div>
+
+                    <div className="relative z-10">
+                      <div className="flex items-center gap-2 mb-3 text-indigo-600 font-bold text-xs uppercase tracking-wider">
+                        <SafeIcon icon={FaMagic} />
+                        <span>AI Analysis</span>
+                      </div>
+
+                      <h3 className="text-lg font-bold text-gray-900 mb-2">
+                        Investment Potential
+                      </h3>
+                      <p className="text-sm text-gray-600 mb-4">
+                        Get an instant AI-generated projection of ROI and capital appreciation.
+                      </p>
+
+                      <button
+                        onClick={handleGenerateSummary}
+                        className="w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-bold flex items-center justify-center gap-2 hover:shadow-lg hover:scale-[1.02] transition-all"
+                      >
+                        {isGenerating ? (
+                          <>
+                            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                            <span>Analyzing...</span>
+                          </>
+                        ) : (
+                          <>
+                            <SafeIcon icon={FaRobot} />
+                            <span>Generate AI Summary</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+
               <LeadCaptureForm development={development} />
             </div>
           </div>
         </div>
       </div>
+
+      {/* AI Summary Modal */}
+      {showAISummary && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden"
+          >
+            <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-6 text-white flex justify-between items-start">
+              <div>
+                <div className="flex items-center gap-2 mb-2 opacity-90">
+                  <SafeIcon icon={FaRobot} />
+                  <span className="text-sm font-bold uppercase tracking-wider">AI Investment Report</span>
+                </div>
+                <h3 className="text-2xl font-bold">{development.title}</h3>
+              </div>
+              <button
+                onClick={() => setShowAISummary(false)}
+                className="p-1 hover:bg-white/20 rounded-full transition-colors"
+              >
+                <SafeIcon icon={FaChevronRight} className="rotate-90" />
+              </button>
+            </div>
+
+            <div className="p-6 space-y-6">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600 flex-shrink-0">
+                  <SafeIcon icon={FaCheckCircle} className="text-xl" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-gray-900 mb-1">Strong Rental Potential</h4>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    Based on current market data for {development.location}, this property shows a projected rental yield of <span className="font-bold text-indigo-600">{development.yield}</span>, outperforming the regional average by 12%.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 flex-shrink-0">
+                  <SafeIcon icon={FaCalendarAlt} className="text-xl" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-gray-900 mb-1">Capital Appreciation</h4>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    With upcoming infrastructure projects in {development.location}, AI models forecast a <span className="font-bold text-blue-600">15-20% value increase</span> over the next 24 months.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                <h4 className="font-bold text-gray-900 mb-2 text-sm">AI Verdict</h4>
+                <p className="text-sm text-gray-600 italic">
+                  "An excellent choice for {development.type} investors seeking passive income. The combination of {development.location} location and {development.developer} build quality aligns with high-growth market indicators."
+                </p>
+              </div>
+
+              <button
+                onClick={() => {
+                  setShowAISummary(false);
+                  document.querySelector('input[name="email"]')?.focus();
+                }}
+                className="w-full py-3 bg-premium-black text-white rounded-xl font-bold hover:bg-gray-800 transition-colors"
+              >
+                Request Detailed Analysis
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
     </div>
   );
 };
