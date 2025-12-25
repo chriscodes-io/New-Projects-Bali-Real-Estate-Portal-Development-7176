@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import LeadCaptureForm from '../components/development/LeadCaptureForm';
 import SafeIcon from '../common/SafeIcon';
 import OptimizedImage from '../components/common/OptimizedImage';
+import { Helmet } from 'react-helmet-async';
 import * as FiIcons from 'react-icons/fi';
 
 const {
@@ -12,63 +13,31 @@ const {
   FiDownload, FiPhone, FiMail, FiShare2, FiChevronLeft, FiChevronRight
 } = FiIcons;
 
+import { PROJECTS } from '../constants/projects';
+
 const DevelopmentDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview');
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // Mock data
-  const development = {
-    id: 1,
-    name: "Oceanview Villa Resort",
-    location: "Uluwatu",
-    price: "From $450,000",
-    status: "Off-plan",
-    completion: "Q4 2025",
-    yield: "16%",
-    type: "Villa",
-    units: 24,
-    developer: "Bali Premium Developments",
-    description: "Discover luxury living at its finest with our exclusive oceanview villa resort in Uluwatu. This premium development offers breathtaking views of the Indian Ocean, world-class amenities, and exceptional investment returns.",
-    keyFacts: {
-      totalUnits: 24,
-      unitSizes: "120-280 sqm",
-      plotSizes: "200-500 sqm",
-      bedrooms: "2-4 bedrooms",
-      completion: "Q4 2025",
-      handover: "Q1 2026",
-      rentalYield: "12-18% annually",
-      capitalGrowth: "8-12% annually"
-    },
-    amenities: [
-      { icon: FiDroplet, name: "Infinity Pool", description: "25m infinity pool with ocean views" },
-      { icon: FiActivity, name: "Fitness Center", description: "Fully equipped modern gym" },
-      { icon: FiCoffee, name: "Beach Club", description: "Private beach club access" },
-      { icon: FiWifi, name: "High-Speed WiFi", description: "Complimentary fiber internet" },
-      { icon: FiCar, name: "Parking", description: "Covered parking for 2 cars" },
-      { icon: FiShield, name: "24/7 Security", description: "Professional security service" }
-    ],
-    paymentPlan: {
-      reservation: "10% - Reservation fee",
-      contract: "20% - Upon contract signing",
-      construction: "50% - During construction (12 months)",
-      completion: "20% - Upon completion"
-    },
-    investmentHighlights: [
-      "Prime beachfront location in Uluwatu",
-      "High rental demand from luxury travelers",
-      "Professional property management available",
-      "Strong capital appreciation potential",
-      "Established developer with proven track record",
-      "Easy financing options available"
-    ],
-    images: [
-      "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-      "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
-    ]
-  };
+  const development = PROJECTS.find(p => p.id === id);
+
+  if (!development) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold mb-4">Project Not Found</h2>
+          <button
+            onClick={() => navigate('/developments')}
+            className="text-premium-blue hover:underline"
+          >
+            Back to Developments
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -78,10 +47,48 @@ const DevelopmentDetail = () => {
         return 'bg-indigo-50 text-indigo-600 border border-indigo-100';
       case 'Completed':
         return 'bg-green-50 text-green-600 border border-green-100';
+      case 'Now Selling':
+        return 'bg-purple-50 text-purple-600 border border-purple-100';
       default:
         return 'bg-gray-50 text-gray-600';
     }
   };
+
+  // Map features to amenities structure with icons
+  const mapFeaturesToAmenities = (features) => {
+    const iconMap = {
+      'Pool': FiDroplet,
+      'Gym': FiActivity,
+      'Beach': FiCoffee,
+      'WiFi': FiWifi,
+      'Parking': FiCar,
+      'Security': FiShield,
+      'View': FiStar
+    };
+
+    return features?.map(feature => ({
+      icon: Object.values(iconMap).find((_, i) => feature.toLowerCase().includes(Object.keys(iconMap)[i].toLowerCase())) || FiStar,
+      name: feature,
+      description: "Premium feature included"
+    })) || [];
+  };
+
+  const displayAmenities = mapFeaturesToAmenities(development.features);
+
+  const paymentPlan = {
+    reservation: "10% - Reservation fee",
+    contract: "20% - Upon contract signing",
+    construction: "50% - During construction milestones",
+    completion: "20% - Upon handover"
+  };
+
+  const investmentHighlights = [
+    `Prime location in ${development.location}`,
+    `High rental yield potential: ${development.yield}`,
+    "Professional management available",
+    "Strong capital appreciation forecast",
+    "Turnkey investment opportunity"
+  ];
 
   const handlePrevImage = () => {
     setCurrentImageIndex((prev) => (prev === 0 ? development.images.length - 1 : prev - 1));
@@ -92,8 +99,7 @@ const DevelopmentDetail = () => {
   };
 
   const handleGoBack = () => {
-    navigate('/developments');
-    window.scrollTo(0, 0);
+    navigate(-1);
   };
 
   const tabs = [
@@ -107,8 +113,8 @@ const DevelopmentDetail = () => {
   return (
     <div className="min-h-screen bg-premium-slate-50 pt-8 pb-24">
       <Helmet>
-        <title>{development.name} - New Projects Bali</title>
-        <meta name="description" content={`Exclusive investment opportunity at ${development.name} in ${development.location}. ${development.type} starting from ${development.price} with ${development.yield} yield.`} />
+        <title>{development.title} - New Projects Bali</title>
+        <meta name="description" content={`Exclusive investment opportunity at ${development.title} in ${development.location}. ${development.type} starting from ${development.priceDisplay} with ${development.yield} yield.`} />
         <link rel="canonical" href={`https://newprojectsbali.com/development/${id}`} />
       </Helmet>
 
@@ -134,7 +140,7 @@ const DevelopmentDetail = () => {
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-6">
             <div>
               <div className="flex items-center space-x-3 mb-3">
-                <span className={`px-3 py-1 rounded-full text-xs font-bold border ${getStatusColor(development.status)}`}>
+                <span className={`px-3 py-1 rounded-full text-xs font-bold ${getStatusColor(development.status)}`}>
                   {development.status}
                 </span>
                 <div className="bg-gradient-to-r from-premium-blue to-premium-periwinkle text-white px-3 py-1 rounded-full text-xs font-bold flex items-center space-x-1 shadow-md">
@@ -144,7 +150,7 @@ const DevelopmentDetail = () => {
               </div>
 
               <h1 className="text-3xl md:text-4xl font-bold text-premium-black mb-2">
-                {development.name}
+                {development.title}
               </h1>
 
               <div className="flex flex-wrap items-center gap-4 text-premium-charcoal">
@@ -164,8 +170,8 @@ const DevelopmentDetail = () => {
             </div>
 
             <div className="flex flex-col items-end gap-2">
-              <div className="text-3xl font-bold text-premium-black">{development.price}</div>
-              <div className="text-premium-charcoal font-medium">{development.units} units available</div>
+              <div className="text-3xl font-bold text-premium-black">{development.priceDisplay}</div>
+              <div className="text-premium-charcoal font-medium">Limited availability</div>
               <button className="flex items-center space-x-2 text-premium-blue hover:text-blue-700 font-bold text-sm bg-white px-4 py-2 rounded-lg border border-gray-100 shadow-sm hover:shadow-md transition-all cursor-pointer min-h-[44px]">
                 <SafeIcon icon={FiShare2} />
                 <span>Share</span>
@@ -187,7 +193,7 @@ const DevelopmentDetail = () => {
               <div className="relative aspect-video bg-gray-200 overflow-hidden">
                 <OptimizedImage
                   src={development.images[currentImageIndex]}
-                  alt={`${development.name} - Image ${currentImageIndex + 1}`}
+                  alt={`${development.title} - Image ${currentImageIndex + 1}`}
                   className="w-full h-full object-cover"
                 />
 
@@ -250,14 +256,30 @@ const DevelopmentDetail = () => {
             >
               <h2 className="text-xl font-bold text-premium-black mb-6">Key Facts</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {Object.entries(development.keyFacts).map(([key, value]) => (
-                  <div key={key} className="flex justify-between items-center p-4 bg-premium-slate-50 rounded-xl border border-gray-100">
-                    <span className="font-bold text-premium-charcoal capitalize text-sm">
-                      {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
-                    </span>
-                    <span className="font-bold text-premium-black">{value}</span>
-                  </div>
-                ))}
+                <div className="flex justify-between items-center p-4 bg-premium-slate-50 rounded-xl border border-gray-100">
+                  <span className="font-bold text-premium-charcoal capitalize text-sm">Bedrooms</span>
+                  <span className="font-bold text-premium-black">{development.beds || 'N/A'}</span>
+                </div>
+                <div className="flex justify-between items-center p-4 bg-premium-slate-50 rounded-xl border border-gray-100">
+                  <span className="font-bold text-premium-charcoal capitalize text-sm">Bathrooms</span>
+                  <span className="font-bold text-premium-black">{development.baths || 'N/A'}</span>
+                </div>
+                <div className="flex justify-between items-center p-4 bg-premium-slate-50 rounded-xl border border-gray-100">
+                  <span className="font-bold text-premium-charcoal capitalize text-sm">Building Size</span>
+                  <span className="font-bold text-premium-black">{development.size}</span>
+                </div>
+                <div className="flex justify-between items-center p-4 bg-premium-slate-50 rounded-xl border border-gray-100">
+                  <span className="font-bold text-premium-charcoal capitalize text-sm">Land Size</span>
+                  <span className="font-bold text-premium-black">{development.landSize}</span>
+                </div>
+                <div className="flex justify-between items-center p-4 bg-premium-slate-50 rounded-xl border border-gray-100">
+                  <span className="font-bold text-premium-charcoal capitalize text-sm">Completion</span>
+                  <span className="font-bold text-premium-black">{development.completion}</span>
+                </div>
+                <div className="flex justify-between items-center p-4 bg-premium-slate-50 rounded-xl border border-gray-100">
+                  <span className="font-bold text-premium-charcoal capitalize text-sm">Status</span>
+                  <span className="font-bold text-premium-black">{development.status}</span>
+                </div>
               </div>
             </motion.div>
 
@@ -320,7 +342,7 @@ const DevelopmentDetail = () => {
                   <div>
                     <h3 className="text-lg font-bold text-premium-black mb-6">Resort Amenities</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {development.amenities.map((amenity, index) => (
+                      {displayAmenities.map((amenity, index) => (
                         <div key={index} className="flex items-start space-x-4 p-4 bg-premium-slate-50 rounded-xl border border-gray-100">
                           <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center flex-shrink-0 shadow-sm text-premium-blue">
                             <SafeIcon icon={amenity.icon} className="text-lg" />
@@ -363,7 +385,7 @@ const DevelopmentDetail = () => {
                   <div>
                     <h3 className="text-lg font-bold text-premium-black mb-6">Payment Schedule</h3>
                     <div className="space-y-4">
-                      {Object.entries(development.paymentPlan).map(([stage, description]) => (
+                      {Object.entries(paymentPlan).map(([stage, description]) => (
                         <div key={stage} className="flex justify-between items-center p-4 bg-premium-slate-50 rounded-xl border border-gray-100">
                           <span className="font-bold text-premium-charcoal capitalize">{stage}</span>
                           <span className="font-bold text-premium-black">{description}</span>
@@ -383,7 +405,7 @@ const DevelopmentDetail = () => {
                   <div>
                     <h3 className="text-lg font-bold text-premium-black mb-6">Investment Highlights</h3>
                     <div className="space-y-4 mb-6">
-                      {development.investmentHighlights.map((highlight, index) => (
+                      {investmentHighlights.map((highlight, index) => (
                         <div key={index} className="flex items-center space-x-3">
                           <SafeIcon icon={FiStar} className="text-premium-blue flex-shrink-0" />
                           <span className="text-premium-charcoal font-medium">{highlight}</span>
@@ -394,7 +416,7 @@ const DevelopmentDetail = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-2xl border border-blue-100">
                         <h4 className="font-bold text-blue-900 mb-2">Rental Yield</h4>
-                        <div className="text-3xl font-bold text-premium-blue mb-1">12-18%</div>
+                        <div className="text-3xl font-bold text-premium-blue mb-1">{development.yield}</div>
                         <p className="text-blue-800 text-sm">Annual rental returns</p>
                       </div>
                       <div className="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-2xl border border-green-100">

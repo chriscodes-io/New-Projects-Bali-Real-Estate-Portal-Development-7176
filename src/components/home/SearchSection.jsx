@@ -13,7 +13,7 @@ const SearchSection = () => {
   });
 
   const locations = [
-    'Seminyak', 'Canggu', 'Ubud', 'Uluwatu', 'Sanur',
+    'Lombok', 'Seminyak', 'Canggu', 'Ubud', 'Uluwatu', 'Sanur',
     'Nusa Dua', 'Jimbaran', 'Pererenan', 'Tabanan'
   ];
 

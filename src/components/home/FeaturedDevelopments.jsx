@@ -9,110 +9,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-const DUMMY_DEVELOPMENTS = [
-  {
-    id: 4,
-    title: "Saraya Lombok Tropical Villas",
-    location: "Lombok, Indonesia",
-    price: 320000,
-    roi: 14,
-    yield: '14%',
-    image: "https://images.unsplash.com/photo-1580587771525-78b9dba3b91d?auto=format&fit=crop&q=80&w=1000",
-    type: "Villa",
-    beds: 3,
-    baths: 2,
-    size: 200,
-    completion: "Ready",
-    status: "Ready",
-    developer: "Saraya Lombok",
-    featured: true
-  },
-  {
-    id: 5,
-    title: "Saraya Lombok Beach Villas",
-    location: "Lombok, Indonesia",
-    price: 425000,
-    roi: 15,
-    yield: '15%',
-    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=1000",
-    type: "Villa",
-    beds: 4,
-    baths: 3,
-    size: 320,
-    completion: "Q1 2025",
-    status: "Under Construction",
-    developer: "Saraya Lombok",
-    featured: true
-  },
-  {
-    id: 6,
-    title: "Saraya Lombok Oceanfront Estate",
-    location: "Lombok, Indonesia",
-    price: 750000,
-    roi: 17,
-    yield: '17%',
-    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=1000",
-    type: "Estate",
-    beds: 5,
-    baths: 4,
-    size: 480,
-    completion: "Q3 2025",
-    status: "Off-plan",
-    developer: "Saraya Lombok",
-    featured: true
-  },
-  {
-    id: 1,
-    title: "Marina Bay Beachfront Villas",
-    location: "Seminyak, Bali",
-    price: 825000,
-    roi: 16,
-    yield: '16%',
-    image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=1000",
-    type: "Villa",
-    beds: 4,
-    baths: 4,
-    size: 400,
-    completion: "Ready",
-    status: "Ready",
-    developer: "Marina Bay City",
-    featured: true
-  },
-  {
-    id: 2,
-    title: "Central Avenue Residences",
-    location: "Seminyak, Bali",
-    price: 550000,
-    roi: 13,
-    yield: '13%',
-    image: "https://images.unsplash.com/photo-1600596542815-2251336b6f9b?auto=format&fit=crop&q=80&w=1000",
-    type: "Apartment",
-    beds: 3,
-    baths: 2,
-    size: 180,
-    completion: "Q2 2025",
-    status: "Under Construction",
-    developer: "Marina Bay City",
-    featured: true
-  },
-  {
-    id: 3,
-    title: "Reef Retreat Luxury Villas",
-    location: "Sanur, Bali",
-    price: 695000,
-    roi: 15,
-    yield: '15%',
-    image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=1000",
-    type: "Villa",
-    beds: 4,
-    baths: 3,
-    size: 350,
-    completion: "Q4 2025",
-    status: "Off-plan",
-    developer: "Marina Bay City",
-    featured: true
-  }
-];
+import { PROJECTS } from '../../constants/projects';
 
 const FeaturedDevelopments = () => {
   const navigate = useNavigate();
@@ -185,14 +82,14 @@ const FeaturedDevelopments = () => {
             }}
             className="pb-16 pt-4 px-2"
           >
-            {DUMMY_DEVELOPMENTS.map((project) => (
+            {PROJECTS.map((project) => (
               <SwiperSlide key={project.id} className="h-auto">
                 <div
                   className="bg-white rounded-2xl shadow-sm hover:shadow-2xl hover:shadow-premium-blue/10 transition-all duration-500 overflow-hidden group border border-gray-100 h-[520px] flex flex-col hover:-translate-y-2 relative"
                 >
                   <div className="relative h-64 flex-shrink-0 overflow-hidden">
                     <OptimizedImage
-                      src={project.image}
+                      src={project.images[0]}
                       alt={project.title}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     />
@@ -211,7 +108,7 @@ const FeaturedDevelopments = () => {
                     {/* Quick Stats Overlay */}
                     <div className="absolute bottom-4 left-4 right-4 text-white">
                       <div className="text-2xl font-bold mb-1">
-                        ${project.price.toLocaleString()}
+                        {project.priceDisplay}
                       </div>
                       <div className="text-sm font-medium opacity-90">
                         {project.location}
@@ -231,15 +128,15 @@ const FeaturedDevelopments = () => {
 
                     <div className="grid grid-cols-3 gap-2 py-4 border-t border-gray-100/50 mb-6">
                       <div className="text-center border-r border-gray-100 last:border-0">
-                        <div className="text-sm font-bold text-premium-black">{project.beds}</div>
+                        <div className="text-sm font-bold text-premium-black">{project.beds || '-'}</div>
                         <div className="text-xs text-gray-500">Beds</div>
                       </div>
                       <div className="text-center border-r border-gray-100 last:border-0">
-                        <div className="text-sm font-bold text-premium-black">{project.baths}</div>
+                        <div className="text-sm font-bold text-premium-black">{project.baths || '-'}</div>
                         <div className="text-xs text-gray-500">Baths</div>
                       </div>
                       <div className="text-center">
-                        <div className="text-sm font-bold text-premium-black">{project.size}m²</div>
+                        <div className="text-sm font-bold text-premium-black">{project.size}</div>
                         <div className="text-xs text-gray-500">Size</div>
                       </div>
                     </div>
