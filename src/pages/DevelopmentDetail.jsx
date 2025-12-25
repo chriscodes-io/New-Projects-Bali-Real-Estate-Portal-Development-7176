@@ -5,13 +5,13 @@ import LeadCaptureForm from '../components/development/LeadCaptureForm';
 import SafeIcon from '../common/SafeIcon';
 import OptimizedImage from '../components/common/OptimizedImage';
 import { Helmet } from 'react-helmet-async';
-import * as FiIcons from 'react-icons/fi';
+import * as FaIcons from 'react-icons/fa';
 
 const {
-  FiMapPin, FiCalendar, FiTrendingUp, FiUsers, FiHome, FiStar,
-  FiWifi, FiCar, FiShield, FiCoffee, FiActivity, FiDroplet,
-  FiDownload, FiPhone, FiMail, FiShare2, FiChevronLeft, FiChevronRight
-} = FiIcons;
+  FaMapMarkerAlt, FaBed, FaBath, FaRulerCombined, FaCalendarAlt, FaCheckCircle,
+  FaSwimmingPool, FaDumbbell, FaUmbrellaBeach, FaWifi, FaCar, FaShieldAlt, FaEye,
+  FaFileDownload, FaPhone, FaEnvelope, FaShare, FaChevronLeft, FaChevronRight
+} = FaIcons;
 
 import { PROJECTS } from '../constants/projects';
 
@@ -57,17 +57,17 @@ const DevelopmentDetail = () => {
   // Map features to amenities structure with icons
   const mapFeaturesToAmenities = (features) => {
     const iconMap = {
-      'Pool': FiDroplet,
-      'Gym': FiActivity,
-      'Beach': FiCoffee,
-      'WiFi': FiWifi,
-      'Parking': FiCar,
-      'Security': FiShield,
-      'View': FiStar
+      'Pool': FaSwimmingPool,
+      'Gym': FaDumbbell,
+      'Beach': FaUmbrellaBeach,
+      'WiFi': FaWifi,
+      'Parking': FaCar,
+      'Security': FaShieldAlt,
+      'View': FaEye
     };
 
     return features?.map(feature => ({
-      icon: Object.values(iconMap).find((_, i) => feature.toLowerCase().includes(Object.keys(iconMap)[i].toLowerCase())) || FiStar,
+      icon: Object.values(iconMap).find((_, i) => feature.toLowerCase().includes(Object.keys(iconMap)[i].toLowerCase())) || FaCheckCircle,
       name: feature,
       description: "Premium feature included"
     })) || [];
@@ -126,7 +126,7 @@ const DevelopmentDetail = () => {
           onClick={handleGoBack}
           className="mb-8 flex items-center gap-2 text-premium-blue hover:text-blue-700 font-bold transition-colors"
         >
-          <SafeIcon icon={FiChevronLeft} />
+          <SafeIcon icon={FaChevronLeft} />
           Back to Developments
         </motion.button>
 
@@ -144,7 +144,7 @@ const DevelopmentDetail = () => {
                   {development.status}
                 </span>
                 <div className="bg-gradient-to-r from-premium-blue to-premium-periwinkle text-white px-3 py-1 rounded-full text-xs font-bold flex items-center space-x-1 shadow-md">
-                  <SafeIcon icon={FiTrendingUp} />
+                  <SafeIcon icon={FaCalendarAlt} />
                   <span>{development.yield} Yield</span>
                 </div>
               </div>
@@ -155,15 +155,15 @@ const DevelopmentDetail = () => {
 
               <div className="flex flex-wrap items-center gap-4 text-premium-charcoal">
                 <div className="flex items-center space-x-2">
-                  <SafeIcon icon={FiMapPin} className="text-premium-blue" />
+                  <SafeIcon icon={FaMapMarkerAlt} className="text-premium-blue" />
                   <span>{development.location}</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <SafeIcon icon={FiHome} className="text-premium-blue" />
+                  <SafeIcon icon={FaBed} className="text-premium-blue" />
                   <span>{development.type}</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <SafeIcon icon={FiUsers} className="text-premium-blue" />
+                  <SafeIcon icon={FaCheckCircle} className="text-premium-blue" />
                   <span>{development.developer}</span>
                 </div>
               </div>
@@ -173,7 +173,7 @@ const DevelopmentDetail = () => {
               <div className="text-3xl font-bold text-premium-black">{development.priceDisplay}</div>
               <div className="text-premium-charcoal font-medium">Limited availability</div>
               <button className="flex items-center space-x-2 text-premium-blue hover:text-blue-700 font-bold text-sm bg-white px-4 py-2 rounded-lg border border-gray-100 shadow-sm hover:shadow-md transition-all cursor-pointer min-h-[44px]">
-                <SafeIcon icon={FiShare2} />
+                <SafeIcon icon={FaShare} />
                 <span>Share</span>
               </button>
             </div>
@@ -202,13 +202,13 @@ const DevelopmentDetail = () => {
                   onClick={handlePrevImage}
                   className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-premium-black p-3 rounded-full shadow-lg transition-all cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
                 >
-                  <SafeIcon icon={FiChevronLeft} className="text-xl" />
+                  <SafeIcon icon={FaChevronLeft} className="text-xl" />
                 </button>
                 <button
                   onClick={handleNextImage}
                   className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-premium-black p-3 rounded-full shadow-lg transition-all cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
                 >
-                  <SafeIcon icon={FiChevronRight} className="text-xl" />
+                  <SafeIcon icon={FaChevronRight} className="text-xl" />
                 </button>
 
                 {/* Image Counter */}
@@ -365,7 +365,7 @@ const DevelopmentDetail = () => {
                         <h4 className="font-bold text-premium-black mb-2">2 Bedroom Villa</h4>
                         <p className="text-premium-charcoal mb-4">120 sqm • 200 sqm plot</p>
                         <button className="flex items-center space-x-2 mx-auto bg-premium-purple hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-all font-medium text-sm shadow-lg cursor-pointer min-h-[44px]">
-                          <SafeIcon icon={FiDownload} />
+                          <SafeIcon icon={FaFileDownload} />
                           <span>Download PDF</span>
                         </button>
                       </div>
@@ -373,7 +373,7 @@ const DevelopmentDetail = () => {
                         <h4 className="font-bold text-premium-black mb-2">4 Bedroom Villa</h4>
                         <p className="text-premium-charcoal mb-4">280 sqm • 500 sqm plot</p>
                         <button className="flex items-center space-x-2 mx-auto bg-premium-purple hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-all font-medium text-sm shadow-lg cursor-pointer min-h-[44px]">
-                          <SafeIcon icon={FiDownload} />
+                          <SafeIcon icon={FaFileDownload} />
                           <span>Download PDF</span>
                         </button>
                       </div>
@@ -394,7 +394,7 @@ const DevelopmentDetail = () => {
                     </div>
                     <div className="mt-6 p-4 bg-blue-50 border border-blue-100 rounded-xl">
                       <p className="text-blue-800 text-sm flex items-start gap-2">
-                        <SafeIcon icon={FiTrendingUp} className="mt-1 flex-shrink-0" />
+                        <SafeIcon icon={FaCheckCircle} className="mt-1 flex-shrink-0" />
                         <span><strong>Note:</strong> Flexible payment terms available. Contact us to discuss customized payment plans suited to your investment goals.</span>
                       </p>
                     </div>
@@ -407,7 +407,7 @@ const DevelopmentDetail = () => {
                     <div className="space-y-4 mb-6">
                       {investmentHighlights.map((highlight, index) => (
                         <div key={index} className="flex items-center space-x-3">
-                          <SafeIcon icon={FiStar} className="text-premium-blue flex-shrink-0" />
+                          <SafeIcon icon={FaCheckCircle} className="text-premium-blue flex-shrink-0" />
                           <span className="text-premium-charcoal font-medium">{highlight}</span>
                         </div>
                       ))}

@@ -1,10 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SafeIcon from '../../common/SafeIcon';
-import * as FiIcons from 'react-icons/fi';
+import * as FaIcons from 'react-icons/fa';
 import ChatMessage from './ChatMessage';
 
-const { FiMessageSquare, FiSend, FiX } = FiIcons;
+const {
+  FaCommentDots, FaPaperPlane, FaTimes, FaRobot, FaUser, FaHome, FaBuilding, FaQuestionCircle, FaCheckCircle
+} = FaIcons;
 
 const AIChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,21 +14,29 @@ const AIChatWidget = () => {
     {
       id: 1,
       type: 'bot',
-      text: 'Hi there! 👋 I\'m your Bali Investment Assistant. Whether you\'re looking for your dream villa or a resort investment, I\'m here to help you find the perfect opportunity. What brings you here today?'
+      text: "Hello! 👋 I'm your Bali Investment Guide. I can help you find villas, resorts, or answer questions about the market. How can I assist you today?"
     }
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [conversationStage, setConversationStage] = useState('initial');
-  const [quickSelectOptions, setQuickSelectOptions] = useState(null);
-  const [customerData, setCustomerData] = useState({
-    propertyType: null,
-    budget: null,
-    location: null,
-    name: null,
-    email: null,
-    phone: null
+  const [conversationContext, setConversationContext] = useState({
+    stage: 'open', // open, property_type, budget, location, contact, complete
+    data: {
+      interest: null,
+      budget: null,
+      location: null,
+      name: null,
+      email: null,
+      phone: null
+    }
   });
+
+  const [quickSelectOptions, setQuickSelectOptions] = useState([
+    { label: 'Find a Villa 🏡', value: 'I want to find a villa' },
+    { label: 'Resort Investment 🏨', value: 'I am interested in resorts' },
+    { label: 'Market Info 📈', value: 'Tell me about the market' }
+  ]);
+
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -35,179 +45,178 @@ const AIChatWidget = () => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages, quickSelectOptions]);
+  }, [messages, quickSelectOptions, isTyping]);
 
-  // Extract email from text
+  // Extract email
   const extractEmail = (text) => {
     const emailRegex = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/gi;
     const matches = text.match(emailRegex);
     return matches ? matches[0] : null;
   };
 
-  // Extract phone from text
-  const extractPhone = (text) => {
-    const phoneRegex = /(?:\+?\d{1,3}[-.\s]?)?\(?\d{1,4}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,9}/;
-    const matches = text.match(phoneRegex);
-    return matches ? matches[0] : null;
-  };
+  // Logic to process user input
+  const processInput = (text, context) => {
+    const lowerText = text.toLowerCase();
+    let nextStage = context.stage;
+    let newData = { ...context.data };
+    let responseText = "";
+    let nextOptions = null;
 
-  // Extract name
-  const extractName = (text) => {
-    const nameRegex = /^([a-zA-Z\s]{2,})$/;
-    if (nameRegex.test(text.trim())) {
-      return text.trim();
-    }
-    return null;
-  };
-
-  // Intelligent response generator
-  const generateBotResponse = (userText, currentStage, selectedOption = null) => {
-    const lowerText = userText.toLowerCase();
-
-    // Check for property type
-    if (currentStage === 'initial' || currentStage === 'property_type') {
-      if (lowerText.includes('villa') || lowerText.includes('house') || lowerText.includes('residential')) {
-        setCustomerData(prev => ({ ...prev, propertyType: 'Villa' }));
-        setConversationStage('budget');
-        setQuickSelectOptions([
-          { label: 'Under $200k', value: 'Under $200k' },
-          { label: '$200k - $500k', value: '$200k - $500k' },
-          { label: '$500k - $1M', value: '$500k - $1M' },
-          { label: '$1M+', value: '$1M+' }
-        ]);
-        return "Perfect! Villas are our specialty with some incredible ROI opportunities. 🏡\n\nWhat's your approximate budget range?";
-      }
-      if (lowerText.includes('resort') || lowerText.includes('hotel') || lowerText.includes('commercial')) {
-        setCustomerData(prev => ({ ...prev, propertyType: 'Resort' }));
-        setConversationStage('budget');
-        setQuickSelectOptions([
-          { label: 'Under $500k', value: 'Under $500k' },
-          { label: '$500k - $2M', value: '$500k - $2M' },
-          { label: '$2M - $5M', value: '$2M - $5M' },
-          { label: '$5M+', value: '$5M+' }
-        ]);
-        return "Excellent choice! Resort properties in Bali are seeing 12-18% annual yields. 🏨\n\nWhat's your budget?";
-      }
-
-      setQuickSelectOptions([
-        { label: '🏡 Villa', value: 'villa' },
-        { label: '🏨 Resort', value: 'resort' },
-        { label: '❓ Help me decide', value: 'help' }
-      ]);
-      return "Perfect! What type of property interests you most?";
-    }
-
-    // Check for budget
-    if (currentStage === 'budget') {
-      if (selectedOption || lowerText.includes('$') || lowerText.includes('k') || lowerText.includes('million')) {
-        const budget = selectedOption || userText;
-        setCustomerData(prev => ({ ...prev, budget }));
-        setConversationStage('location');
-        setQuickSelectOptions([
-          { label: '🌴 Canggu', value: 'Canggu' },
-          { label: '🏝️ Uluwatu', value: 'Uluwatu' },
-          { label: '🌾 Ubud', value: 'Ubud' },
-          { label: '🏖️ Seminyak', value: 'Seminyak' },
-          { label: '📍 All Areas', value: 'All' }
-        ]);
-        return "Great! We have excellent properties in that range. 💰\n\nWhich area interests you most?";
-      }
-
-      return "Could you select a budget range or tell me an amount?";
-    }
-
-    // Check for location
-    if (currentStage === 'location') {
-      const location = selectedOption || userText;
-      setCustomerData(prev => ({ ...prev, location }));
-      setConversationStage('contact');
-      setQuickSelectOptions(null);
-
-      return `Perfect! ${location} is an amazing choice! 🎯\n\nI'd love to send you our curated list of properties. What's the best way to reach you?\n\nPlease share your name first:`;
-    }
-
-    // Check for contact info - Name
-    if (currentStage === 'contact' && !customerData.name) {
-      const name = extractName(userText) || selectedOption;
-      if (name) {
-        setCustomerData(prev => ({ ...prev, name }));
-        setConversationStage('contact_email');
-        setQuickSelectOptions(null);
-        return `Thanks, ${name}! 😊\n\nNow, what's your email address?`;
-      }
-      return "Could you please share your name?";
-    }
-
-    // Check for contact info - Email
-    if (currentStage === 'contact_email' && customerData.name) {
-      const email = extractEmail(userText) || selectedOption;
-      if (email) {
-        setCustomerData(prev => ({ ...prev, email }));
-        setConversationStage('contact_phone');
-        setQuickSelectOptions([
-          { label: '✅ Skip phone', value: 'skip' },
-          { label: '📱 Add phone', value: 'add' }
-        ]);
-        return `Great! Got your email: ${email} ✅\n\nDo you have a phone number where our team can reach you? (optional)`;
-      }
-      return "Could you share your email address?";
-    }
-
-    // Check for contact info - Phone
-    if (currentStage === 'contact_phone' && customerData.name && customerData.email) {
-      if (selectedOption === 'skip' || selectedOption === 'add') {
-        if (selectedOption === 'add') {
-          const phone = extractPhone(userText);
-          if (phone) {
-            setCustomerData(prev => ({ ...prev, phone }));
-          } else {
-            return "Could you share your phone number?";
-          }
-        }
+    // --- STAGE: OPEN ---
+    if (context.stage === 'open') {
+      if (lowerText.includes('market') || lowerText.includes('trend') || lowerText.includes('info')) {
+        responseText = "The Bali market is currently thriving, with high demand in regions like Uluwatu and Canggu. 📈\n\nAre you looking to invest in a private villa or a commercial resort?";
+        nextStage = 'property_type';
+        nextOptions = [
+          { label: 'Private Villa', value: 'villa' },
+          { label: 'Commercial Resort', value: 'resort' }
+        ];
+      } else if (lowerText.includes('villa') || lowerText.includes('house') || lowerText.includes('home')) {
+        newData.interest = 'Villa';
+        responseText = "Excellent choice. Villas offer great personal use and rental returns. 🏡\n\nDo you have a specific location in mind, or are you open to suggestions?";
+        nextStage = 'location';
+        nextOptions = [
+          { label: 'Canggu', value: 'Canggu' },
+          { label: 'Uluwatu', value: 'Uluwatu' },
+          { label: 'Open to suggestions', value: 'any' }
+        ];
+      } else if (lowerText.includes('resort') || lowerText.includes('hotel')) {
+        newData.interest = 'Resort';
+        responseText = "Resorts are fantastic for hands-off passive income. 🏨\n\nWhich area do you prefer?";
+        nextStage = 'location';
+        nextOptions = [
+          { label: 'Seminyak', value: 'Seminyak' },
+          { label: 'Ubud', value: 'Ubud' },
+          { label: 'Anywhere High Yield', value: 'any' }
+        ];
       } else {
-        const phone = extractPhone(userText);
-        if (phone) {
-          setCustomerData(prev => ({ ...prev, phone }));
-        }
+        // Fallback for generic open input
+        responseText = "I'd love to help with that. To give you the best advice, are you interested in villas, resorts, or general land investment?";
+        nextStage = 'property_type';
+        nextOptions = [
+          { label: 'Villas', value: 'villa' },
+          { label: 'Resorts', value: 'resort' },
+          { label: 'Land', value: 'land' }
+        ];
       }
+    }
+    // --- STAGE: PROPERTY_TYPE ---
+    else if (context.stage === 'property_type') {
+      if (lowerText.includes('villa')) {
+        newData.interest = 'Villa';
+        responseText = "Villas are our specialty. 🌴\n\nWhat kind of budget are you working with?";
+        nextStage = 'budget';
+        nextOptions = [
+          { label: 'Under $300k', value: '<300k' },
+          { label: '$300k - $700k', value: '300k-700k' },
+          { label: '$700k+', value: '700k+' }
+        ];
+      } else if (lowerText.includes('resort')) {
+        newData.interest = 'Resort';
+        responseText = "Resort units are high-yield performers. 💰\n\nWhat is your approximate investment budget?";
+        nextStage = 'budget';
+        nextOptions = [
+          { label: 'Under $500k', value: '<500k' },
+          { label: '$500k - $1M', value: '500k-1m' },
+          { label: '$1M+', value: '1m+' }
+        ];
+      } else {
+        newData.interest = 'Other';
+        responseText = "Got it. And what location are you considering?";
+        nextStage = 'location';
+        nextOptions = [
+          { label: 'Canggu', value: 'Canggu' },
+          { label: 'Uluwatu', value: 'Uluwatu' },
+          { label: 'Ubud', value: 'Ubud' }
+        ];
+      }
+    }
+    // --- STAGE: LOCATION ---
+    else if (context.stage === 'location') {
+      newData.location = text; // Capture loosely
+      if (lowerText.includes('canggu')) newData.location = 'Canggu';
+      if (lowerText.includes('uluwatu')) newData.location = 'Uluwatu';
+      if (lowerText.includes('ubud')) newData.location = 'Ubud';
 
-      setConversationStage('completed');
-      setQuickSelectOptions(null);
-
-      return `Perfect! Here's what I've noted:\n\n✅ Name: ${customerData.name}\n✅ Email: ${customerData.email}\n${customerData.phone ? `✅ Phone: ${customerData.phone}` : ''}\n✅ Property Type: ${customerData.propertyType}\n✅ Budget: ${customerData.budget}\n✅ Location: ${customerData.location}\n\nOne of our senior advisors will reach out within 24 hours with personalized recommendations! 🎉`;
+      responseText = `Great, ${newData.location || 'that location'} is very popular right now. ✨\n\nDo you have a budget range in mind?`;
+      nextStage = 'budget';
+      nextOptions = [
+        { label: 'Under $300k', value: '<300k' },
+        { label: '$300k - $800k', value: '300k-800k' },
+        { label: '$800k+', value: '800k+' }
+      ];
+    }
+    // --- STAGE: BUDGET ---
+    else if (context.stage === 'budget') {
+      newData.budget = text;
+      responseText = "Perfect. I have a few specific opportunities that match that profile. 📋\n\nI can email them to you. What's the best email address?";
+      nextStage = 'contact';
+      nextOptions = null;
+    }
+    // --- STAGE: CONTACT ---
+    else if (context.stage === 'contact') {
+      const email = extractEmail(text);
+      if (email) {
+        newData.email = email;
+        responseText = "Received! ✅ One last thing - may I have your name to address you properly?";
+        nextStage = 'name';
+        nextOptions = null;
+      } else {
+        responseText = "I didn't quite catch an email address there. Could you please double-check it? 🙏";
+      }
+    }
+    // --- STAGE: NAME ---
+    else if (context.stage === 'name') {
+      newData.name = text;
+      responseText = `Thanks ${text}! 🎉\n\nI've sent a curated selection to ${newData.email}. Our team will also review your requirements personally. Have a wonderful day!`;
+      nextStage = 'complete';
+      nextOptions = [
+        { label: 'Start Over', value: 'start over' }
+      ];
+    }
+    // --- STAGE: COMPLETE ---
+    else if (context.stage === 'complete') {
+      // Reset
+      return processInput('hi', { stage: 'open', data: {} });
     }
 
-    return "That sounds interesting! Tell me more about what you're looking for.";
+    return { responseText, nextStage, newData, nextOptions };
   };
 
-  const handleSend = (selectedOption = null) => {
-    if (!inputValue.trim() && !selectedOption) return;
+  const handleSend = (optionValue = null) => {
+    const text = optionValue || inputValue.trim();
+    if (!text) return;
 
-    const messageText = selectedOption || inputValue;
-    const userMsg = { id: Date.now(), type: 'user', text: messageText };
+    // Add user message
+    const userMsg = { id: Date.now(), type: 'user', text };
     setMessages(prev => [...prev, userMsg]);
     setInputValue('');
     setIsTyping(true);
-    setQuickSelectOptions(null);
+    setQuickSelectOptions(null); // Hide options while "thinking"
 
+    // Simulate delay
     setTimeout(() => {
-      const botResponse = generateBotResponse(messageText, conversationStage, selectedOption);
+      const result = processInput(text, conversationContext);
+
+      setConversationContext({
+        stage: result.nextStage,
+        data: result.newData
+      });
 
       setMessages(prev => [...prev, {
         id: Date.now() + 1,
         type: 'bot',
-        text: botResponse
+        text: result.responseText
       }]);
 
+      setQuickSelectOptions(result.nextOptions);
       setIsTyping(false);
-    }, 800 + Math.random() * 700);
+
+    }, 1000);
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSend();
-    }
+    if (e.key === 'Enter') handleSend();
   };
 
   return (
@@ -222,7 +231,7 @@ const AIChatWidget = () => {
             className="mb-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-lg border border-premium-blue/20 text-sm font-medium text-premium-charcoal flex items-center gap-2"
           >
             <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-            Online • Expert assistance
+            Online • Ask us anything
           </motion.div>
         )}
       </AnimatePresence>
@@ -240,31 +249,30 @@ const AIChatWidget = () => {
             <div className="bg-gradient-to-r from-premium-blue to-premium-periwinkle p-4 flex justify-between items-center text-white">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-md">
-                  <SafeIcon icon={FiMessageSquare} className="text-white" />
+                  <SafeIcon icon={FaRobot} className="text-white" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-sm">Investment Assistant</h3>
-                  <p className="text-xs text-white/80">Find your perfect property</p>
+                  <h3 className="font-bold text-sm">Investment Guide</h3>
+                  <p className="text-xs text-white/80">AI Powered Assistant</p>
                 </div>
               </div>
               <button
                 onClick={() => setIsOpen(false)}
-                aria-label="Close chat"
                 className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-                title="Close chat"
+                aria-label="Close chat"
               >
-                <SafeIcon icon={FiX} className="text-lg" />
+                <SafeIcon icon={FaTimes} className="text-lg" />
               </button>
             </div>
 
             {/* Messages Area */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-premium-slate-50">
               <div className="text-xs text-center text-premium-charcoal/60 mb-2">
-                💬 Responses within 24 hours • Your data is secure
+                Today
               </div>
 
               {messages.map((msg, index) => (
-                <ChatMessage key={msg.id} msg={msg} index={index} />
+                <ChatMessage key={msg.id} msg={msg} index={index} icon={msg.type === 'bot' ? FaRobot : FaUser} />
               ))}
 
               {isTyping && (
@@ -308,20 +316,17 @@ const AIChatWidget = () => {
                   type="text"
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
-                  onKeyPress={handleKeyPress}
-                  placeholder="Type your message..."
-                  aria-label="Type your message"
-                  className="flex-1 pl-4 pr-4 py-3 rounded-xl border border-gray-200 focus:border-premium-blue focus:ring-2 focus:ring-premium-blue/20 outline-none transition-all text-sm text-premium-black placeholder-gray-400 resize-none"
-                  rows="1"
+                  onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+                  placeholder="Type a message..."
+                  className="flex-1 pl-4 pr-4 py-3 rounded-xl border border-gray-200 focus:border-premium-blue focus:ring-2 focus:ring-premium-blue/20 outline-none transition-all text-sm text-premium-black placeholder-gray-400"
                 />
                 <button
                   onClick={() => handleSend()}
                   disabled={!inputValue.trim()}
+                  className="p-3 bg-premium-blue text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 transition-all"
                   aria-label="Send message"
-                  className="p-3 bg-premium-blue text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:hover:bg-premium-blue transition-all flex-shrink-0"
-                  title="Send message"
                 >
-                  <SafeIcon icon={FiSend} className="text-lg" />
+                  <SafeIcon icon={FaPaperPlane} className="text-lg" />
                 </button>
               </div>
             </div>
@@ -335,16 +340,11 @@ const AIChatWidget = () => {
           whileHover={{ scale: 1.08 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setIsOpen(true)}
-          aria-label="Open chat assistant"
           className="w-16 h-16 bg-gradient-to-br from-premium-blue to-premium-periwinkle rounded-full shadow-lg shadow-premium-blue/40 flex items-center justify-center text-white relative group hover:shadow-xl transition-shadow"
+          aria-label="Open support chat"
         >
-          <SafeIcon icon={FiMessageSquare} className="text-2xl" />
+          <SafeIcon icon={FaCommentDots} className="text-2xl" />
           <span className="absolute top-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white animate-pulse"></span>
-
-          {/* Tooltip */}
-          <span className="absolute right-full mr-4 bg-premium-black text-white text-xs px-3 py-1.5 rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-            Chat with us
-          </span>
         </motion.button>
       )}
     </div>

@@ -19,7 +19,7 @@ const DUMMY_POSTS = [
     title: "Complete Guide to Bali Property Ownership for Foreign Investors",
     excerpt: "Navigate the legal requirements, tax implications, and best practices for international investors looking to purchase property in Bali.",
     content: "Foreign investors can own property in Bali through specific legal structures...",
-    image: "https://images.unsplash.com/photo-1450101499163-c8917c7b4efc?auto=format&fit=crop&q=80&w=1000",
+    image: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&q=80&w=1000",
     date: "2025-01-10",
     readTime: "8 min read",
     categories: ["Legal Guide"],
@@ -82,9 +82,9 @@ const BlogPreview = () => {
               className="group block h-full bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col w-full text-left cursor-pointer"
             >
               <div className="relative h-48 overflow-hidden bg-gray-100">
-                <img 
-                  src={post.image} 
-                  alt={post.title} 
+                <img
+                  src={post.image}
+                  alt={post.title}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute top-4 left-4">
