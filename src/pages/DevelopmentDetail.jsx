@@ -28,7 +28,7 @@ const DevelopmentDetail = () => {
   const [generationStage, setGenerationStage] = useState(0);
 
   const generationSteps = [
-    { label: "Initializing Gemini 1.5 Pro...", delay: 1200 },
+    { label: "Initializing Gemini 2.0 Flash...", delay: 1200 },
     { label: `Searching Google for Dec 2025 market data in ${development?.location || 'Bali'}...`, delay: 1800 },
     { label: "Analyzing 2025 price indices and Q1 2026 projections...", delay: 1500 },
     { label: "Grounding investment projections with latest infrastructure news...", delay: 1200 },
@@ -175,7 +175,7 @@ const DevelopmentDetail = () => {
                 </div>
               </div>
 
-              <h1 className="text-3xl md:text-4xl font-bold text-premium-black mb-2">
+              <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-premium-black mb-2">
                 {development.title}
               </h1>
 
@@ -196,8 +196,8 @@ const DevelopmentDetail = () => {
             </div>
 
             <div className="flex flex-col items-end gap-2">
-              <div className="text-3xl font-bold text-premium-black">{development.priceDisplay}</div>
-              <div className="text-premium-charcoal font-medium">Limited availability</div>
+              <div className="text-2xl md:text-3xl font-bold text-premium-black">{development.priceDisplay}</div>
+              <div className="text-premium-charcoal font-medium text-sm md:text-base">Limited availability</div>
               <button className="flex items-center space-x-2 text-premium-blue hover:text-blue-700 font-bold text-sm bg-white px-4 py-2 rounded-lg border border-gray-100 shadow-sm hover:shadow-md transition-all cursor-pointer min-h-[44px]">
                 <SafeIcon icon={FaShare} />
                 <span>Share</span>
@@ -226,15 +226,15 @@ const DevelopmentDetail = () => {
                 {/* Navigation Buttons */}
                 <button
                   onClick={handlePrevImage}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-premium-black p-3 rounded-full shadow-lg transition-all cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
+                  className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-premium-black p-2 md:p-3 rounded-full shadow-lg transition-all cursor-pointer flex items-center justify-center"
                 >
-                  <SafeIcon icon={FaChevronLeft} className="text-xl" />
+                  <SafeIcon icon={FaChevronLeft} className="text-sm md:text-xl" />
                 </button>
                 <button
                   onClick={handleNextImage}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-premium-black p-3 rounded-full shadow-lg transition-all cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
+                  className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-premium-black p-2 md:p-3 rounded-full shadow-lg transition-all cursor-pointer flex items-center justify-center"
                 >
-                  <SafeIcon icon={FaChevronRight} className="text-xl" />
+                  <SafeIcon icon={FaChevronRight} className="text-sm md:text-xl" />
                 </button>
 
                 {/* Image Counter */}
@@ -249,7 +249,7 @@ const DevelopmentDetail = () => {
                   <button
                     key={idx}
                     onClick={() => setCurrentImageIndex(idx)}
-                    className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all cursor-pointer ${idx === currentImageIndex ? 'border-premium-blue' : 'border-gray-200'
+                    className={`flex-shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-lg overflow-hidden border-2 transition-all cursor-pointer ${idx === currentImageIndex ? 'border-premium-blue' : 'border-gray-200'
                       }`}
                   >
                     <OptimizedImage
@@ -267,10 +267,10 @@ const DevelopmentDetail = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8"
+              className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8"
             >
               <h2 className="text-xl font-bold text-premium-black mb-4">About This Development</h2>
-              <p className="text-premium-charcoal leading-relaxed text-lg">{development.description}</p>
+              <p className="text-premium-charcoal leading-relaxed text-base md:text-lg">{development.description}</p>
             </motion.div>
 
             {/* Key Facts */}
@@ -278,33 +278,33 @@ const DevelopmentDetail = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8"
+              className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8"
             >
               <h2 className="text-xl font-bold text-premium-black mb-6">Key Facts</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="flex justify-between items-center p-4 bg-premium-slate-50 rounded-xl border border-gray-100">
-                  <span className="font-bold text-premium-charcoal capitalize text-sm">Bedrooms</span>
-                  <span className="font-bold text-premium-black">{development.beds || 'N/A'}</span>
+              <div className="grid grid-cols-2 md:grid-cols-2 gap-4 md:gap-6">
+                <div className="flex flex-col md:flex-row justify-between md:items-center p-3 md:p-4 bg-premium-slate-50 rounded-xl border border-gray-100">
+                  <span className="font-bold text-premium-charcoal capitalize text-xs md:text-sm">Bedrooms</span>
+                  <span className="font-bold text-premium-black text-sm md:text-base">{development.beds || 'N/A'}</span>
                 </div>
-                <div className="flex justify-between items-center p-4 bg-premium-slate-50 rounded-xl border border-gray-100">
-                  <span className="font-bold text-premium-charcoal capitalize text-sm">Bathrooms</span>
-                  <span className="font-bold text-premium-black">{development.baths || 'N/A'}</span>
+                <div className="flex flex-col md:flex-row justify-between md:items-center p-3 md:p-4 bg-premium-slate-50 rounded-xl border border-gray-100">
+                  <span className="font-bold text-premium-charcoal capitalize text-xs md:text-sm">Bathrooms</span>
+                  <span className="font-bold text-premium-black text-sm md:text-base">{development.baths || 'N/A'}</span>
                 </div>
-                <div className="flex justify-between items-center p-4 bg-premium-slate-50 rounded-xl border border-gray-100">
-                  <span className="font-bold text-premium-charcoal capitalize text-sm">Building Size</span>
-                  <span className="font-bold text-premium-black">{development.size}</span>
+                <div className="flex flex-col md:flex-row justify-between md:items-center p-3 md:p-4 bg-premium-slate-50 rounded-xl border border-gray-100">
+                  <span className="font-bold text-premium-charcoal capitalize text-xs md:text-sm">Building Size</span>
+                  <span className="font-bold text-premium-black text-sm md:text-base">{development.size}</span>
                 </div>
-                <div className="flex justify-between items-center p-4 bg-premium-slate-50 rounded-xl border border-gray-100">
-                  <span className="font-bold text-premium-charcoal capitalize text-sm">Land Size</span>
-                  <span className="font-bold text-premium-black">{development.landSize}</span>
+                <div className="flex flex-col md:flex-row justify-between md:items-center p-3 md:p-4 bg-premium-slate-50 rounded-xl border border-gray-100">
+                  <span className="font-bold text-premium-charcoal capitalize text-xs md:text-sm">Land Size</span>
+                  <span className="font-bold text-premium-black text-sm md:text-base">{development.landSize}</span>
                 </div>
-                <div className="flex justify-between items-center p-4 bg-premium-slate-50 rounded-xl border border-gray-100">
-                  <span className="font-bold text-premium-charcoal capitalize text-sm">Completion</span>
-                  <span className="font-bold text-premium-black">{development.completion}</span>
+                <div className="flex flex-col md:flex-row justify-between md:items-center p-3 md:p-4 bg-premium-slate-50 rounded-xl border border-gray-100">
+                  <span className="font-bold text-premium-charcoal capitalize text-xs md:text-sm">Completion</span>
+                  <span className="font-bold text-premium-black text-sm md:text-base">{development.completion}</span>
                 </div>
-                <div className="flex justify-between items-center p-4 bg-premium-slate-50 rounded-xl border border-gray-100">
-                  <span className="font-bold text-premium-charcoal capitalize text-sm">Status</span>
-                  <span className="font-bold text-premium-black">{development.status}</span>
+                <div className="flex flex-col md:flex-row justify-between md:items-center p-3 md:p-4 bg-premium-slate-50 rounded-xl border border-gray-100">
+                  <span className="font-bold text-premium-charcoal capitalize text-xs md:text-sm">Status</span>
+                  <span className="font-bold text-premium-black text-sm md:text-base">{development.status}</span>
                 </div>
               </div>
             </motion.div>
@@ -613,7 +613,7 @@ const DevelopmentDetail = () => {
                 <div className="h-3 w-px bg-gray-300 mx-1" />
                 <div className="text-[9px] font-bold text-gray-700">Google Search Grounding</div>
                 <div className="text-gray-400">•</div>
-                <div className="text-[9px] font-bold text-gray-700">Gemini 1.5 Pro (Dec 2025)</div>
+                <div className="text-[9px] font-bold text-gray-700">Gemini 2.0 Flash (Dec 2025)</div>
               </div>
 
               <button

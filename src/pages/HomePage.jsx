@@ -46,11 +46,11 @@ const HomePage = () => {
 
       <HeroSection />
       <SearchSection />
+      <StatsSection />
       <FeaturedDevelopments />
       <WhyInvestSection />
       <HowItWorksSection />
       <BlogPreview />
-      <StatsSection />
     </div>
   );
 };

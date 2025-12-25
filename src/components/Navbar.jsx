@@ -8,13 +8,14 @@ import Settings from 'lucide-react/dist/esm/icons/settings';
 import BarChart3 from 'lucide-react/dist/esm/icons/bar-chart-3';
 import { useAuth } from '../context/AuthContext';
 
+import logo from '../assets/logo.png';
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { isAuthenticated, userRole, logout: authLogout } = useAuth();
-
   // Close user menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -43,13 +44,13 @@ const Navbar = () => {
     { path: '/about', label: 'Why List With Us' },
     { path: '/contact', label: 'Contact' },
   ];
-
   return (
     <nav className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center">
+          <Link to="/" className="flex items-center space-x-2">
+            <img src={logo} alt="New Projects Bali" className="h-8 w-auto" />
             <span className="font-bold text-lg text-premium-black tracking-tight">New Projects Bali</span>
           </Link>
 
@@ -64,7 +65,7 @@ const Navbar = () => {
                 {item.label}
               </Link>
             ))}
-            
+
             {/* User Menu */}
             {isAuthenticated ? (
               <div className="relative ml-4" data-user-menu>
@@ -163,7 +164,7 @@ const Navbar = () => {
                     {item.label}
                   </Link>
                 ))}
-                
+
                 {/* Mobile User Menu */}
                 {isAuthenticated ? (
                   <>
@@ -172,7 +173,7 @@ const Navbar = () => {
                       <div className="px-4 py-2 text-sm font-medium text-gray-500">
                         {userRole === 'admin' ? 'Admin User' : 'Developer User'}
                       </div>
-                      
+
                       <Link
                         to={userRole === 'admin' ? '/admin-dashboard' : '/developer-dashboard'}
                         onClick={() => setIsOpen(false)}

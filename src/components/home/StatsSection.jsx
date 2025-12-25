@@ -95,6 +95,15 @@ const StatsSection = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            Trusted by Investors Worldwide
+          </h2>
+          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+            Our platform has facilitated millions in property investments across Bali, connecting serious investors with premium opportunities.
+          </p>
+        </div>
+
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
           {stats.map((stat, index) => (
             <motion.div

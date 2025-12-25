@@ -1,0 +1,22 @@
+{
+    "name": "sales-agent",
+    "version": "1.0.0",
+    "description": "AI Sales Agent using PicaOS MCP and Vercel AI SDK",
+    "main": "src/index.ts",
+    "type": "module",
+    "scripts": {
+        "dev": "tsx src/index.ts",
+        "build": "tsc"
+    },
+    "dependencies": {
+        "ai": "^3.0.0",
+        "@picahq/mcp": "^1.0.0",
+        "dotenv": "^16.4.5",
+        "zod": "^3.22.4"
+    },
+    "devDependencies": {
+        "tsx": "^4.7.1",
+        "typescript": "^5.3.3",
+        "@types/node": "^20.11.24"
+    }
+}
