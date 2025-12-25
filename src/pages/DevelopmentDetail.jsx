@@ -469,7 +469,7 @@ const DevelopmentDetail = () => {
                 <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-1 shadow-lg">
                   <div className="bg-white rounded-xl p-6 relative overflow-hidden group">
                     <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                      <SafeIcon icon={FaRobot} className="text-6xl text-indigo-600" />
+                      <SafeIcon icon={FaMagic} className="text-6xl text-indigo-600" />
                     </div>
 
                     <div className="relative z-10">
@@ -507,7 +507,7 @@ const DevelopmentDetail = () => {
                           </div>
                         ) : (
                           <>
-                            <SafeIcon icon={FaRobot} />
+                            <SafeIcon icon={FaMagic} />
                             <span>Generate AI Summary</span>
                           </>
                         )}
@@ -589,22 +589,22 @@ const DevelopmentDetail = () => {
               <div className="border-t border-gray-100 pt-4">
                 <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3">Intelligence Sources</p>
                 <div className="grid grid-cols-2 gap-2">
-                  <a href="https://bangkokpost.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[10px] text-indigo-600 hover:underline font-medium bg-gray-50 p-2 rounded-lg transition-colors">
-                    <SafeIcon icon={FaMapMarkerAlt} className="text-[8px]" />
+                  <div className="flex items-center gap-2 text-[10px] text-gray-600 font-medium bg-gray-50 p-2 rounded-lg border border-gray-100/50">
+                    <SafeIcon icon={FaMapMarkerAlt} className="text-[8px] text-indigo-400" />
                     Bangkok Post (Q4 Index)
-                  </a>
-                  <a href="https://exotiqproperty.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[10px] text-indigo-600 hover:underline font-medium bg-gray-50 p-2 rounded-lg transition-colors">
-                    <SafeIcon icon={FaMapMarkerAlt} className="text-[8px]" />
+                  </div>
+                  <div className="flex items-center gap-2 text-[10px] text-gray-600 font-medium bg-gray-50 p-2 rounded-lg border border-gray-100/50">
+                    <SafeIcon icon={FaMapMarkerAlt} className="text-[8px] text-indigo-400" />
                     Exotiq Market Report
-                  </a>
-                  <a href="https://excelbali.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[10px] text-indigo-600 hover:underline font-medium bg-gray-50 p-2 rounded-lg transition-colors">
-                    <SafeIcon icon={FaMapMarkerAlt} className="text-[8px]" />
+                  </div>
+                  <div className="flex items-center gap-2 text-[10px] text-gray-600 font-medium bg-gray-50 p-2 rounded-lg border border-gray-100/50">
+                    <SafeIcon icon={FaMapMarkerAlt} className="text-[8px] text-indigo-400" />
                     Excel Bali Luxury Data
-                  </a>
-                  <a href="https://ilaglobalconsulting.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[10px] text-indigo-600 hover:underline font-medium bg-gray-50 p-2 rounded-lg transition-colors">
-                    <SafeIcon icon={FaMapMarkerAlt} className="text-[8px]" />
+                  </div>
+                  <div className="flex items-center gap-2 text-[10px] text-gray-600 font-medium bg-gray-50 p-2 rounded-lg border border-gray-100/50">
+                    <SafeIcon icon={FaMapMarkerAlt} className="text-[8px] text-indigo-400" />
                     ILA Global Insights
-                  </a>
+                  </div>
                 </div>
               </div>
 
