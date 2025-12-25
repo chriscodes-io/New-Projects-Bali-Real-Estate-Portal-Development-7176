@@ -375,7 +375,10 @@ export const PROJECTS = [
             "Modern Mediterranean"
         ],
         images: [
-            "https://shanti-village.com/wp-content/uploads/2024/05/Shanti-Village-Hero.jpg"
+            "https://shanti-village.com/wp-content/uploads/2024/07/homepage-hero-min.jpg",
+            "https://shanti-village.com/wp-content/uploads/2024/04/villa-kubu-facade-photo-new.jpeg",
+            "https://shanti-village.com/wp-content/uploads/2024/07/text-image-1-scaled.jpg",
+            "https://shanti-village.com/wp-content/uploads/2024/07/text-image-2-scaled.jpg"
         ]
     },
     {
@@ -403,7 +406,10 @@ export const PROJECTS = [
             "High Rental Demand"
         ],
         images: [
-            "https://omasorabali.com/wp-content/uploads/2024/03/Oma-Sora-Hero.jpg"
+            "https://omasorabali.com/assets/oma-sora-1-BcHF5Q_v.jpg",
+            "https://omasorabali.com/assets/oma-sora-2-BI9_n7ti.jpg",
+            "https://omasorabali.com/assets/oma-sora-3-CfoW4coi.jpg",
+            "https://omasorabali.com/assets/oma-sora-4-DjPvEn3w.jpg"
         ]
     },
     {
@@ -431,7 +437,10 @@ export const PROJECTS = [
             "Best Developer Terms"
         ],
         images: [
-            "https://www.teus-group.com/amani-melasti-hero.jpg"
+            "https://cdn.prod.website-files.com/67b5d94e51d06a87c4a2e4e5/67ebc3a8e95e7032cb86a538_heroAmani3.webp",
+            "https://cdn.prod.website-files.com/67b5d94e51d06a87c4a2e4e5/67ecff5ad62f75a752edf40e_amanislide1.avif",
+            "https://cdn.prod.website-files.com/67b5d94e51d06a87c4a2e4e5/67ed1b89dbf658eab6cfcb2f_room1.avif",
+            "https://cdn.prod.website-files.com/67b5d94e51d06a87c4a2e4e5/67f51a9ab3f5627bd2cc5218_1entrance.avif"
         ]
     }
 ];
