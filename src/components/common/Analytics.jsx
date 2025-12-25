@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import React from 'react';
+import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
 
+/**
+ * Analytics component that integrates Vercel Web Analytics
+ * Tracks page views and user interactions automatically
+ * 
+ * Note: Route support is automatically handled by the Analytics component
+ * from @vercel/analytics/react
+ */
 const Analytics = () => {
-  const location = useLocation();
-
-  useEffect(() => {
-    // Placeholder for analytics tracking
-    // console.log('Page view:', location.pathname);
-  }, [location]);
-
-  return null;
+  return <VercelAnalytics />;
 };
 
 export default Analytics;
