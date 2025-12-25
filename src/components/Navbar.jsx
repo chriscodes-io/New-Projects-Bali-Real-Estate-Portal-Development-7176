@@ -45,12 +45,12 @@ const Navbar = () => {
     { path: '/contact', label: 'Contact' },
   ];
   return (
-    <nav className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+    <nav className="fixed top-0 left-0 right-0 bg-white z-[100] border-b border-premium-powder/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-32">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <img src={logo} alt="New Projects Bali" className="h-14 md:h-20 w-auto" />
+          <Link to="/" className="flex items-center transition-transform hover:scale-105">
+            <img src={logo} alt="New Projects Bali" className="h-20 md:h-24 w-auto object-contain mix-blend-multiply" />
           </Link>
 
           {/* Desktop Navigation */}

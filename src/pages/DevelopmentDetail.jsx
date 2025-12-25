@@ -137,7 +137,7 @@ const DevelopmentDetail = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-premium-slate-50 pt-8 pb-24">
+    <div className="min-h-screen bg-premium-slate-50 pt-48 pb-24">
       <Helmet>
         <title>{development.title} - New Projects Bali</title>
         <meta name="description" content={`Exclusive investment opportunity at ${development.title} in ${development.location}. ${development.type} starting from ${development.priceDisplay} with ${development.yield} yield.`} />

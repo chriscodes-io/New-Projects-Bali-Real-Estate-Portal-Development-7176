@@ -100,7 +100,7 @@ export default async function handler(req) {
     const inventoryContext = JSON.stringify(PROJECTS, null, 2);
 
     const result = await streamText({
-        model: google('gemini-1.5-pro-latest'), // Using 1.5 Pro for best reasoning + grounding
+        model: google('gemini-2.0-flash-exp'), // Using 2.0 Flash for speed + latest branding
         system: `You are the Expert AI Sales Agent for "New Projects Bali", a luxury real estate portal.
     
     1. **YOUR GOAL**: Help investors find their dream property from our EXCLUSIVE INVENTORY below.

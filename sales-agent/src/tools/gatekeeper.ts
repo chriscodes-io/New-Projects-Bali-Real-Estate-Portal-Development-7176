@@ -11,7 +11,7 @@ export const gatekeeperTools = {
         try {
             const response = await picaToolExecutor(
                 '/moderations',
-                'TODO_OPENAI_MODERATION_ACTION_ID', // Search in Pica: Platform="OpenAI", Action="Create moderation" to find this ID
+                process.env.OPENAI_MODERATION_ACTION_ID || '', // Search in Pica: Platform="OpenAI", Action="Create moderation" to find this ID
                 process.env.PICA_OPENAI_CONNECTION_KEY || '',
                 {
                     method: 'POST',

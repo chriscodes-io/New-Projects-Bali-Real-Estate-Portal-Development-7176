@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import SafeIcon from '../../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
 
-const { FiMapPin, FiMaximize, FiHome, FiTrendingUp, FiArrowRight } = FiIcons;
+const { FiMapPin, FiMaximize, FiHome, FiTrendingUp, FiArrowRight, FiDroplet } = FiIcons;
 
 const DevelopmentCard = ({ development }) => {
   const navigate = useNavigate();
@@ -83,10 +83,14 @@ const DevelopmentCard = ({ development }) => {
         </div>
 
         {/* Features Grid */}
-        <div className="grid grid-cols-3 gap-2 py-4 border-t border-b border-gray-100 mb-4">
+        <div className="grid grid-cols-4 gap-2 py-4 border-t border-b border-gray-100 mb-4">
           <div className="flex flex-col items-center justify-center text-center p-2 bg-premium-slate-50 rounded-lg">
             <SafeIcon icon={FiHome} className="text-premium-blue mb-1" />
             <span className="text-xs font-bold text-premium-black">{beds || '-'} Beds</span>
+          </div>
+          <div className="flex flex-col items-center justify-center text-center p-2 bg-premium-slate-50 rounded-lg">
+            <SafeIcon icon={FiDroplet} className="text-premium-blue mb-1" />
+            <span className="text-xs font-bold text-premium-black">{baths || '-'} Baths</span>
           </div>
           <div className="flex flex-col items-center justify-center text-center p-2 bg-premium-slate-50 rounded-lg">
             <SafeIcon icon={FiMaximize} className="text-premium-blue mb-1" />

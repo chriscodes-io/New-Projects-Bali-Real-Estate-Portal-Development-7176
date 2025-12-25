@@ -30,6 +30,7 @@ const CountUpNumber = ({ end, duration = 2, suffix = '' }) => {
   }, []);
 
   React.useEffect(() => {
+    let animationFrameId;
     if (isVisible) {
       let startTime;
       const animate = (currentTime) => {
@@ -38,13 +39,18 @@ const CountUpNumber = ({ end, duration = 2, suffix = '' }) => {
 
         if (progress < 1) {
           setCount(Math.floor(end * progress));
-          requestAnimationFrame(animate);
+          animationFrameId = requestAnimationFrame(animate);
         } else {
           setCount(end);
         }
       };
-      requestAnimationFrame(animate);
+      animationFrameId = requestAnimationFrame(animate);
     }
+    return () => {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+    };
   }, [isVisible, end, duration]);
 
   return (
