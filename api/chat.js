@@ -90,9 +90,10 @@ const PROJECTS = [
     }
 ];
 
-export const config = {
-    runtime: 'edge',
-};
+// Node.js runtime for stability
+// export const config = {
+//     runtime: 'edge',
+// };
 
 export default async function handler(req) {
     const { messages } = await req.json();

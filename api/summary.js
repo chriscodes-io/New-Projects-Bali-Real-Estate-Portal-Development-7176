@@ -2,9 +2,10 @@ import { google } from '@ai-sdk/google';
 import { generateObject } from 'ai';
 import { z } from 'zod';
 
-export const config = {
-    runtime: 'edge',
-};
+// Node.js runtime is more stable for long-running AI tasks on Vercel
+// export const config = {
+//     runtime: 'edge',
+// };
 
 export default async function handler(req) {
     try {

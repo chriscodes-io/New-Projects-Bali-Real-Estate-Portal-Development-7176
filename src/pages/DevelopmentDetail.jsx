@@ -30,7 +30,7 @@ const DevelopmentDetail = () => {
 
   const generationSteps = [
     { label: "Initializing Gemini 2.5 Flash...", delay: 1200 },
-    { label: `Searching Google for Dec 2025 market data in ${development?.location || 'Bali'}...`, delay: 1800 },
+    { label: `Analyzing premium market database for ${development?.location || 'Bali'}...`, delay: 1800 },
     { label: "Analyzing 2025 price indices and Q1 2026 projections...", delay: 1500 },
     { label: "Grounding investment projections with latest infrastructure news...", delay: 1200 },
     { label: "Finalizing Intelligence Report...", delay: 800 }
