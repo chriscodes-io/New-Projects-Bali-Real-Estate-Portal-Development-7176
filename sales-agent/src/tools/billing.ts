@@ -1,4 +1,5 @@
 import { picaToolExecutor } from '../utils/pica.js';
+import { actionDiscovery } from '../utils/actionDiscovery.js';
 
 export const billingTools = {
     /**
@@ -21,10 +22,16 @@ export const billingTools = {
         }
 
         try {
-            // 1. Create Record
+            // 1. Resolve Action ID
+            const actionId = await actionDiscovery.resolveAction('attio', 'create_record');
+            if (!actionId) {
+                throw new Error("Could not resolve Attio Create Record action");
+            }
+
+            // 2. Create Record
             const createResponse = await picaToolExecutor(
                 '/objects/leads/records', // Assuming 'leads' is the object slug
-                'conn_mod_def::F-w9HcwTIbs::lUVIwquYQgKgOLaB4ULhPQ', // Official Attio Create Record Action ID
+                actionId,
                 connectionKey,
                 {
                     method: 'POST',

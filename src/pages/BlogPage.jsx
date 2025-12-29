@@ -43,12 +43,15 @@ const BlogPage = () => {
   ];
 
   const handleViewPost = (postId) => {
-    navigate(`/blog/${postId}`);
+    navigate(`/ blog / ${postId} `);
     window.scrollTo(0, 0);
   };
 
+  const featuredPost = posts[0];
+  const regularPosts = posts.slice(1);
+
   return (
-    <div className="min-h-screen bg-premium-slate-50 pt-12 pb-24">
+    <div className="min-h-screen bg-premium-slate-50 pt-24 pb-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -77,13 +80,13 @@ const BlogPage = () => {
           className="group relative block w-full rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 mb-16 text-left cursor-pointer bg-transparent border-0 p-0"
         >
           <div className="aspect-w-16 aspect-h-9 md:aspect-h-6 relative h-[400px] md:h-[500px]">
-            <img 
-              src={posts[0].image} 
-              alt={posts[0].title} 
+            <img
+              src={posts[0].image}
+              alt={posts[0].title}
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-            
+
             <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
               <span className="inline-block bg-premium-blue text-white px-4 py-1 rounded-full text-sm font-semibold mb-4">
                 {posts[0].category}
@@ -121,9 +124,9 @@ const BlogPage = () => {
               className="group block bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 h-full flex flex-col border border-gray-100 text-left cursor-pointer p-0"
             >
               <div className="relative h-56 overflow-hidden">
-                <img 
-                  src={post.image} 
-                  alt={post.title} 
+                <img
+                  src={post.image}
+                  alt={post.title}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute top-4 left-4">
@@ -132,7 +135,7 @@ const BlogPage = () => {
                   </span>
                 </div>
               </div>
-              
+
               <div className="p-6 flex-1 flex flex-col">
                 <div className="flex items-center text-xs text-premium-charcoal mb-3 space-x-4">
                   <span className="flex items-center space-x-1">
@@ -144,15 +147,15 @@ const BlogPage = () => {
                     <span>{post.readTime}</span>
                   </span>
                 </div>
-                
+
                 <h3 className="text-xl font-bold text-premium-black mb-3 group-hover:text-premium-blue transition-colors leading-tight">
                   {post.title}
                 </h3>
-                
+
                 <p className="text-premium-charcoal text-sm line-clamp-3 mb-4 flex-1">
                   {post.excerpt}
                 </p>
-                
+
                 <div className="mt-auto flex items-center text-premium-blue font-semibold text-sm group-hover:translate-x-1 transition-transform">
                   <span>Read Article</span>
                   <SafeIcon icon={FiArrowRight} className="ml-2" />

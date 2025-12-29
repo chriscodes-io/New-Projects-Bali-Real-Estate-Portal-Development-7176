@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import SafeIcon from '../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
 
-const { 
+const {
   FiTarget, FiTrendingUp, FiUsers, FiGlobe, FiShield, FiDollarSign,
   FiCheck, FiStar, FiArrowRight, FiBarChart, FiHeadphones, FiLock
 } = FiIcons;
@@ -123,7 +123,7 @@ const AboutPage = () => {
   return (
     <div className="min-h-screen bg-premium-slate-50">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-premium-slate-50 via-white to-blue-50 text-premium-black py-20 border-b border-gray-200">
+      <section className="bg-gradient-to-br from-premium-slate-50 via-white to-blue-50 text-premium-black pt-24 pb-20 border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -135,19 +135,19 @@ const AboutPage = () => {
               <SafeIcon icon={FiStar} className="text-sm" />
               <span className="text-sm font-bold">Premium Lead Generation Platform</span>
             </div>
-            
+
             <h1 className="text-4xl md:text-6xl font-bold mb-6 text-premium-black">
               Why List Your Project
               <span className="bg-gradient-to-r from-premium-blue to-premium-periwinkle bg-clip-text text-transparent">
                 {" "}With Us?
               </span>
             </h1>
-            
+
             <p className="text-xl text-premium-charcoal max-w-3xl mx-auto leading-relaxed mb-8">
-              Connect with serious international investors actively seeking Bali property investments. 
+              Connect with serious international investors actively seeking Bali property investments.
               Our platform delivers qualified leads that convert into sales.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/developer-dashboard"
@@ -156,7 +156,7 @@ const AboutPage = () => {
                 <span>Start Listing Free</span>
                 <SafeIcon icon={FiArrowRight} />
               </Link>
-              
+
               <Link
                 to="/contact"
                 className="bg-white text-premium-black border border-gray-200 hover:border-premium-blue hover:text-premium-blue px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 flex items-center justify-center space-x-2 shadow-sm hover:shadow-md"
@@ -244,11 +244,11 @@ const AboutPage = () => {
                 <div className="w-12 h-12 bg-gradient-to-br from-premium-blue to-premium-periwinkle rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-premium-blue/20">
                   <SafeIcon icon={benefit.icon} className="text-white text-xl" />
                 </div>
-                
+
                 <h3 className="text-xl font-bold text-premium-black mb-4 group-hover:text-premium-blue transition-colors">
                   {benefit.title}
                 </h3>
-                
+
                 <p className="text-premium-charcoal leading-relaxed">
                   {benefit.description}
                 </p>
@@ -289,11 +289,11 @@ const AboutPage = () => {
                 <div className="w-16 h-16 bg-gradient-to-br from-premium-black to-gray-800 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
                   <SafeIcon icon={feature.icon} className="text-white text-2xl" />
                 </div>
-                
+
                 <h3 className="text-xl font-bold text-premium-black mb-4 group-hover:text-premium-blue transition-colors">
                   {feature.title}
                 </h3>
-                
+
                 <p className="text-premium-charcoal leading-relaxed">
                   {feature.description}
                 </p>
@@ -330,11 +330,10 @@ const AboutPage = () => {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
                 whileHover={{ y: -5 }}
-                className={`relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border-2 ${
-                  plan.popular 
-                    ? 'border-premium-blue ring-4 ring-premium-blue/10' 
-                    : 'border-gray-100 hover:border-premium-blue/30'
-                }`}
+                className={`relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border-2 ${plan.popular
+                  ? 'border-premium-blue ring-4 ring-premium-blue/10'
+                  : 'border-gray-100 hover:border-premium-blue/30'
+                  }`}
               >
                 {plan.popular && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
@@ -362,11 +361,10 @@ const AboutPage = () => {
                   ))}
                 </ul>
 
-                <button className={`w-full py-4 px-6 rounded-xl font-bold text-lg transition-all duration-300 ${
-                  plan.popular
-                    ? 'bg-premium-blue hover:bg-blue-600 text-white shadow-lg hover:shadow-xl'
-                    : 'bg-premium-slate-50 hover:bg-gray-100 text-premium-black border border-gray-200'
-                }`}>
+                <button className={`w-full py-4 px-6 rounded-xl font-bold text-lg transition-all duration-300 ${plan.popular
+                  ? 'bg-premium-blue hover:bg-blue-600 text-white shadow-lg hover:shadow-xl'
+                  : 'bg-premium-slate-50 hover:bg-gray-100 text-premium-black border border-gray-200'
+                  }`}>
                   {plan.name === 'Enterprise' ? 'Contact Sales' : 'Get Started'}
                 </button>
               </motion.div>
@@ -388,10 +386,10 @@ const AboutPage = () => {
               Ready to Start Generating Leads?
             </h2>
             <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
-              Join leading developers who are already connecting with international investors 
+              Join leading developers who are already connecting with international investors
               through our platform. List your first project free today.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/developer-dashboard"
@@ -400,7 +398,7 @@ const AboutPage = () => {
                 <span>List Your Project Free</span>
                 <SafeIcon icon={FiArrowRight} />
               </Link>
-              
+
               <Link
                 to="/contact"
                 className="border border-white/20 hover:border-premium-purple text-white hover:text-premium-purple px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 flex items-center justify-center space-x-2 backdrop-blur-sm hover:bg-white/5"

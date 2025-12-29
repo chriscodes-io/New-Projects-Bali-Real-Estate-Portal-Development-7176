@@ -15,7 +15,7 @@ const LoginPage = () => {
 
   const onSubmit = async (data) => {
     setIsLoading(true);
-    
+
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 1000));
 
@@ -42,7 +42,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-premium-slate-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-premium-slate-50 flex items-center justify-center p-4 pt-24">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex items-center space-x-3 mb-6">
@@ -55,7 +55,7 @@ const LoginPage = () => {
           <p className="text-premium-charcoal">Sign in to manage your account</p>
         </div>
 
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8"
@@ -113,19 +113,19 @@ const LoginPage = () => {
 
           {/* Demo Credentials Hint */}
           <div className="mt-8 pt-6 border-t border-gray-100">
-             <p className="text-xs text-center text-gray-400 uppercase tracking-wider mb-4">For Demo Access</p>
-             <div className="grid grid-cols-2 gap-4">
-               <div className="p-3 bg-blue-50 rounded-lg border border-blue-100 text-center">
-                 <p className="text-xs font-bold text-blue-800">Admin</p>
-                 <p className="text-[10px] text-blue-600">admin@newprojectsbali.com</p>
-                 <p className="text-[10px] text-blue-600">Pass: admin123</p>
-               </div>
-               <div className="p-3 bg-purple-50 rounded-lg border border-purple-100 text-center">
-                 <p className="text-xs font-bold text-purple-800">Developer</p>
-                 <p className="text-[10px] text-purple-600">developer@test.com</p>
-                 <p className="text-[10px] text-purple-600">Pass: dev123</p>
-               </div>
-             </div>
+            <p className="text-xs text-center text-gray-400 uppercase tracking-wider mb-4">For Demo Access</p>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="p-3 bg-blue-50 rounded-lg border border-blue-100 text-center">
+                <p className="text-xs font-bold text-blue-800">Admin</p>
+                <p className="text-[10px] text-blue-600">admin@newprojectsbali.com</p>
+                <p className="text-[10px] text-blue-600">Pass: admin123</p>
+              </div>
+              <div className="p-3 bg-purple-50 rounded-lg border border-purple-100 text-center">
+                <p className="text-xs font-bold text-purple-800">Developer</p>
+                <p className="text-[10px] text-purple-600">developer@test.com</p>
+                <p className="text-[10px] text-purple-600">Pass: dev123</p>
+              </div>
+            </div>
           </div>
         </motion.div>
       </div>

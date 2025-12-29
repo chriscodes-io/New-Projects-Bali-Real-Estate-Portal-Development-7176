@@ -1,4 +1,5 @@
 import { picaToolExecutor } from '../utils/pica.js';
+import { actionDiscovery } from '../utils/actionDiscovery.js';
 
 export const notificationTools = {
     /**
@@ -8,9 +9,11 @@ export const notificationTools = {
     async notifySlack(channel: string, message: string) {
         console.log(`[Notify] Sending Slack alert to ${channel}`);
 
+        const actionId = await actionDiscovery.resolveAction('slack', 'post_message') || 'slack_post_message';
+
         return picaToolExecutor(
             '/chat.postMessage',
-            'slack_post_message',
+            actionId,
             process.env.PICA_SLACK_CONNECTION_KEY || '',
             {
                 method: 'POST',
@@ -44,9 +47,11 @@ export const notificationTools = {
             .replace(/\//g, '_')
             .replace(/=+$/, '');
 
+        const actionId = await actionDiscovery.resolveAction('gmail', 'send_email') || 'conn_mod_def::F_JeJ_A_TKg::cc2kvVQQTiiIiLEDauy6zQ';
+
         return picaToolExecutor(
             '/users/me/messages/send',
-            'conn_mod_def::F_JeJ_A_TKg::cc2kvVQQTiiIiLEDauy6zQ', // Official Gmail Action ID
+            actionId,
             process.env.PICA_GMAIL_CONNECTION_KEY || '',
             {
                 method: 'POST',

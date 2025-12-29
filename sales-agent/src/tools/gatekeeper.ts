@@ -22,15 +22,24 @@ export const gatekeeperTools = {
             const result = response.results?.[0];
             if (result?.flagged) {
                 console.warn("[Gatekeeper] Lead FLAGGED:", result.categories);
-                return { valid: false, reason: "Flagged by OpenAI Moderation", categories: result.categories };
+                return {
+                    valid: false,
+                    status: 'rejected',
+                    reason: "Flagged by OpenAI Moderation",
+                    categories: result.categories
+                };
             }
 
-            return { valid: true, score: 0.99 };
+            return { valid: true, status: 'approved', score: 0.99 };
         } catch (error) {
             console.error("[Gatekeeper] Validation failed:", error);
-            // Fail open (allow) if moderation service is down, or closed? 
-            // Safe default for a MVP is to allow but log error.
-            return { valid: true, warning: String(error) };
+            // Recommendation implementation: Grey-list for manual review on service failure
+            return {
+                valid: true,
+                status: 'grey',
+                warning: "Moderation service unreachable. Manual review required.",
+                error: String(error)
+            };
         }
     }
 };

@@ -36,16 +36,23 @@ async function runAgent(mockLead: { name: string; email: string; phone?: string;
 
     // Enrich with public data (simulates Pica Search)
     const enrichment = await enrichmentTools.enrichProspect(mockLead.email, mockLead.name);
-    console.log("   Found:", enrichment.data);
+    console.log("   Enrichment Result:", enrichment.enriched ? "SUCCESS" : "FAILED");
+    if (enrichment.data) {
+        console.log("   Found:", enrichment.data);
+    }
 
     // --- PHASE 3: BILLING SYNC (Attio) ---
     console.log("\n[Step 3] 🔗 Syncing to Internal Billing (Attio)...");
+
+    const company = enrichment.data?.company || "Individual";
+    const jobTitle = enrichment.data?.title || "Investor";
+
     const billing = await billingTools.syncToInternalAttio({
         name: mockLead.name,
         email: mockLead.email,
-        company: enrichment.data.company,
-        job_title: enrichment.data.title,
-        linkedin: enrichment.data.linkedin_url
+        company: company,
+        job_title: jobTitle,
+        linkedin: enrichment.data?.linkedin_url
     });
 
     if (billing.synced) {
@@ -58,10 +65,10 @@ async function runAgent(mockLead: { name: string; email: string; phone?: string;
     console.log("\n[Step 4] 🔔 Notifying Developer...");
 
     // 4a. Slack Alert
-    await notificationTools.notifySlack(
-        process.env.SLACK_CHANNEL_ID || '#leads',
-        `🔥 *New Premium Lead:* ${mockLead.name} (${enrichment.data.title} @ ${enrichment.data.company})`
-    );
+    const slackChannel = process.env.SLACK_CHANNEL_ID || '#leads';
+    const slackMsg = `🔥 *New Premium Lead:* ${mockLead.name} (${jobTitle} @ ${company})`;
+
+    await notificationTools.notifySlack(slackChannel, slackMsg);
 
     // 4b. Email Alert (to Developer)
     /* 

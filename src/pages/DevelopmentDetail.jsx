@@ -29,7 +29,7 @@ const DevelopmentDetail = () => {
   const [aiSummary, setAiSummary] = useState(null);
 
   const generationSteps = [
-    { label: "Initializing Gemini 2.5 Flash...", delay: 1200 },
+    { label: "Initializing Gemini 2.0 Flash Lite...", delay: 1200 },
     { label: `Analyzing premium market database for ${development?.location || 'Bali'}...`, delay: 1800 },
     { label: "Analyzing 2025 price indices and Q1 2026 projections...", delay: 1500 },
     { label: "Grounding investment projections with latest infrastructure news...", delay: 1200 },
@@ -554,13 +554,14 @@ const DevelopmentDetail = () => {
 
       {/* AI Summary Modal */}
       {showAISummary && aiSummary && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200 overflow-y-auto">
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden"
+            className="bg-white rounded-2xl shadow-2xl max-w-lg w-full flex flex-col max-h-[90vh] my-auto"
           >
-            <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-6 text-white flex justify-between items-start">
+            {/* Header - Fixed */}
+            <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-6 text-white flex justify-between items-start shrink-0">
               <div>
                 <div className="flex items-center gap-2 mb-2 opacity-90">
                   <SafeIcon icon={FaRobot} />
@@ -571,12 +572,14 @@ const DevelopmentDetail = () => {
               <button
                 onClick={() => setShowAISummary(false)}
                 className="p-1 hover:bg-white/20 rounded-full transition-colors"
+                aria-label="Close modal"
               >
                 <SafeIcon icon={FaChevronRight} className="rotate-90" />
               </button>
             </div>
 
-            <div className="p-6 space-y-6">
+            {/* Content - Scrollable */}
+            <div className="p-6 space-y-6 overflow-y-auto custom-scrollbar">
               {/* Rental Outlook */}
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600 flex-shrink-0 shadow-sm border border-green-200">
@@ -635,7 +638,7 @@ const DevelopmentDetail = () => {
                 <div className="h-3 w-px bg-gray-300 mx-1" />
                 <div className="text-[9px] font-bold text-gray-700">Google Search Grounding</div>
                 <div className="text-gray-400">•</div>
-                <div className="text-[9px] font-bold text-gray-700">Gemini 2.5 Flash</div>
+                <div className="text-[9px] font-bold text-gray-700">Gemini 2.0 Flash Lite</div>
               </div>
 
               <button

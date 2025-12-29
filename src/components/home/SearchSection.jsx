@@ -23,8 +23,8 @@ const SearchSection = () => {
     '$1M - $2M', '$2M - $5M', 'Above $5M'
   ];
 
-  const propertyTypes = ['Villa', 'Resort', 'Apartment', 'Land'];
-  const statuses = ['Off-plan', 'Under Construction', 'Completed', 'Ready to Move'];
+  const propertyTypes = ['Villa', 'Resort', 'Apartment', 'Land', 'Land Plots'];
+  const statuses = ['Off-plan', 'Under Construction', 'Completed', 'Now Selling', 'Ready to Move'];
 
   const handleSearch = () => {
     const searchParams = new URLSearchParams();

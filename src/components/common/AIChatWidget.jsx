@@ -14,7 +14,7 @@ const AIChatWidget = () => {
   const messagesEndRef = useRef(null);
 
   // Vercel AI SDK Hook
-  const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
+  const { messages, input, handleInputChange, handleSubmit: sdkHandleSubmit, isLoading, error: sdkError } = useChat({
     api: '/api/chat',
     initialMessages: [
       {
@@ -24,10 +24,28 @@ const AIChatWidget = () => {
       }
     ],
     onError: (error) => {
-      console.error("Chat Error:", error);
-      alert(`Chat Error: ${error.message}. \n\nIf you are on localhost, make sure you are running 'npx vercel dev' to support API routes.`);
+      console.error("Chat Error (onError):", error);
+      alert(`Chat Error: ${error.message}`);
     }
   });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("AIChatWidget.handleSubmit triggered. Input:", input, "isLoading:", isLoading);
+
+    if (!input.trim() || isLoading) {
+      console.log("Submission blocked: input empty or already loading.");
+      return;
+    }
+
+    console.log("Calling sdkHandleSubmit...");
+    try {
+      sdkHandleSubmit(e);
+      console.log("sdkHandleSubmit called successfully.");
+    } catch (err) {
+      console.error("handleSubmit Crash:", err);
+    }
+  };
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -38,7 +56,7 @@ const AIChatWidget = () => {
   }, [messages, isOpen]);
 
   return (
-    <div className={`fixed z-50 flex flex-col items-end ${isOpen ? 'inset-0 md:inset-auto md:bottom-6 md:right-6' : 'bottom-6 right-6'}`}>
+    <div className={`fixed z-30 flex flex-col items-end ${isOpen ? 'inset-0 md:inset-auto md:bottom-6 md:right-6' : 'bottom-6 right-6'}`}>
 
       {/* Reassurance Label (Desktop Only) */}
       <AnimatePresence>
@@ -73,7 +91,7 @@ const AIChatWidget = () => {
                 </div>
                 <div>
                   <h3 className="font-bold text-sm">Investment Guide</h3>
-                  <p className="text-xs text-white/80">Powered by Gemini 2.5 Flash</p>
+                  <p className="text-xs text-white/80">Powered by Gemini 2.0 Flash Lite</p>
                 </div>
               </div>
               <button
@@ -119,10 +137,7 @@ const AIChatWidget = () => {
             {/* Input Area */}
             <div className="p-4 bg-white border-t border-gray-100 space-y-3 shrink-0">
               <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  handleSubmit(e);
-                }}
+                onSubmit={handleSubmit}
                 className="relative flex items-end gap-2"
               >
                 <input

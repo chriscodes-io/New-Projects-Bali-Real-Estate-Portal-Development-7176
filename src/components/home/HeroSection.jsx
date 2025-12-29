@@ -27,7 +27,7 @@ const HeroSection = () => {
           alt="Luxury Bali Resort"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-transparent" />
       </div>
 
       {/* Content */}
@@ -38,7 +38,7 @@ const HeroSection = () => {
           transition={{ duration: 0.8 }}
           className="space-y-6"
         >
-          <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-6">
+          <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-6 drop-shadow-[0_8px_8px_rgba(0,0,0,0.8)]">
             Invest in Bali's Most <br />
             <span className="text-blue-400">Exquisite Developments</span>
           </h1>

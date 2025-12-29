@@ -16,15 +16,20 @@ const OptimizedImage = ({ src, alt, className, ...props }) => {
   }
 
   return (
-    <img
-      src={src}
-      alt={alt}
-      className={`${className} ${loaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}
-      onLoad={handleLoad}
-      onError={handleError}
-      loading="lazy"
-      {...props}
-    />
+    <div className={`relative overflow-hidden ${className}`}>
+      {!loaded && !error && (
+        <div className="absolute inset-0 bg-gray-100 animate-pulse" />
+      )}
+      <img
+        src={src}
+        alt={alt}
+        className={`w-full h-full object-cover ${loaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-500`}
+        onLoad={handleLoad}
+        onError={handleError}
+        loading="lazy"
+        {...props}
+      />
+    </div>
   );
 };
 

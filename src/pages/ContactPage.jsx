@@ -5,8 +5,8 @@ import toast from 'react-hot-toast';
 import SafeIcon from '../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
 
-const { 
-  FiMail, FiPhone, FiMapPin, FiClock, FiSend, FiUser, 
+const {
+  FiMail, FiPhone, FiMapPin, FiClock, FiSend, FiUser,
   FiMessageCircle, FiBuilding, FiUsers, FiHelpCircle
 } = FiIcons;
 
@@ -60,7 +60,7 @@ const ContactPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-premium-slate-50 py-20">
+    <div className="min-h-screen bg-premium-slate-50 pt-24 pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -72,7 +72,7 @@ const ContactPage = () => {
             Get in Touch
           </h1>
           <p className="text-xl text-premium-charcoal max-w-3xl mx-auto">
-            Have questions about listing your project or investing in Bali? 
+            Have questions about listing your project or investing in Bali?
             Our expert team is here to help you every step of the way.
           </p>
         </motion.div>
@@ -91,11 +91,11 @@ const ContactPage = () => {
               <div className="w-14 h-14 bg-gradient-to-br from-premium-blue to-premium-periwinkle rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-premium-blue/20">
                 <SafeIcon icon={info.icon} className="text-white text-2xl" />
               </div>
-              
+
               <h3 className="text-lg font-bold text-premium-black mb-2">
                 {info.title}
               </h3>
-              
+
               {info.action ? (
                 <a
                   href={info.action}
@@ -108,7 +108,7 @@ const ContactPage = () => {
                   {info.details}
                 </div>
               )}
-              
+
               <p className="text-premium-charcoal text-sm">
                 {info.description}
               </p>

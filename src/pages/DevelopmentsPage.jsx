@@ -7,8 +7,6 @@ import * as FiIcons from 'react-icons/fi';
 
 const { FiFilter, FiX } = FiIcons;
 
-
-
 import { PROJECTS } from '../constants/projects';
 import { useSearchParams } from 'react-router-dom';
 
@@ -21,7 +19,6 @@ const DevelopmentsPage = () => {
     propertyType: searchParams.get('propertyType') || '',
     status: searchParams.get('status') || ''
   });
-  const [filteredDevelopments, setFilteredDevelopments] = useState(PROJECTS);
 
   // Initialize filters from URL params
   useEffect(() => {
@@ -32,7 +29,6 @@ const DevelopmentsPage = () => {
       status: searchParams.get('status') || ''
     };
     setFilters(newFilters);
-    handleFilterChange(newFilters);
   }, [searchParams]);
 
   // Prevent body scroll when mobile filter is open
@@ -48,40 +44,49 @@ const DevelopmentsPage = () => {
   }, [isFilterOpen]);
 
   // Handle filter changes from sidebar
-  // This wrapper updates both state and applies filtering
-  const onFilterChangeWrapper = (newFilters) => {
-    setFilters(newFilters);
-    handleFilterChange(newFilters);
+  const handleFilterChange = (currentFilters) => {
+    setFilters(currentFilters);
   };
 
-  const handleFilterChange = (currentFilters) => {
-    console.log('Filters applied:', currentFilters);
-
-    // Implement filtering logic here
+  // Recommendation implementation: Memoized Filtering
+  const filteredDevelopments = React.useMemo(() => {
     let results = PROJECTS;
 
-    if (currentFilters.location) {
-      results = results.filter(dev => dev.location.includes(currentFilters.location));
+    if (filters.location) {
+      results = results.filter(dev =>
+        dev.location?.toLowerCase().includes(filters.location.toLowerCase())
+      );
     }
-    if (currentFilters.propertyType) {
-      results = results.filter(dev => dev.type === currentFilters.propertyType);
+
+    if (filters.propertyType) {
+      results = results.filter(dev => {
+        if (!dev.type) return false;
+        const devType = dev.type.toLowerCase();
+        const filterType = filters.propertyType.toLowerCase();
+        return devType.includes(filterType);
+      });
     }
-    if (currentFilters.priceRange) {
-      // Simple price range filtering
+
+    if (filters.status) {
+      results = results.filter(dev => dev.status === filters.status);
+    }
+
+    if (filters.priceRange) {
+      const range = filters.priceRange;
       results = results.filter(dev => {
         const price = dev.price;
-        if (currentFilters.priceRange === 'Under $200k') return price < 200000;
-        if (currentFilters.priceRange === '$200k - $500k') return price >= 200000 && price < 500000;
-        if (currentFilters.priceRange === '$500k - $1M') return price >= 500000 && price < 1000000;
-        if (currentFilters.priceRange === '$1M - $2M') return price >= 1000000 && price < 2000000;
-        if (currentFilters.priceRange === '$2M - $5M') return price >= 2000000 && price < 5000000;
-        if (currentFilters.priceRange === 'Above $5M') return price >= 5000000;
+        if (range === 'Under $200k') return price < 200000;
+        if (range === '$200k - $500k') return price >= 200000 && price < 500000;
+        if (range === '$500k - $1M') return price >= 500000 && price < 1000000;
+        if (range === '$1M - $2M') return price >= 1000000 && price < 2000000;
+        if (range === '$2M - $5M') return price >= 2000000 && price < 5000000;
+        if (range === 'Above $5M') return price >= 5000000;
         return true;
       });
     }
 
-    setFilteredDevelopments(results);
-  };
+    return results;
+  }, [filters]);
 
   return (
     <div className="min-h-screen bg-premium-slate-50 pt-24 pb-12">
@@ -142,13 +147,13 @@ const DevelopmentsPage = () => {
                       onClick={() => setIsFilterOpen(false)}
                       className="p-2 hover:bg-gray-100 rounded-full transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
                     >
-                      <SafeIcon icon={FiX} className="text-xl" />
+                      <SafeIcon icon={FiX} />
                     </button>
                   </div>
                   <div className="p-4 pb-24">
                     <FilterSidebar
                       filters={filters}
-                      onFiltersChange={onFilterChangeWrapper}
+                      onFiltersChange={handleFilterChange}
                       isOpen={isFilterOpen}
                       onClose={() => setIsFilterOpen(false)}
                     />
@@ -187,7 +192,7 @@ const DevelopmentsPage = () => {
               <div className="flex flex-col items-center justify-center py-12 text-center">
                 <p className="text-lg text-premium-charcoal mb-4">No properties match your filters</p>
                 <button
-                  onClick={() => onFilterChangeWrapper({
+                  onClick={() => handleFilterChange({
                     location: '',
                     priceRange: '',
                     propertyType: '',

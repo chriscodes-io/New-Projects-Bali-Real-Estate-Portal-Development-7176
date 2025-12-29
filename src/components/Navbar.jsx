@@ -47,10 +47,10 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 bg-white z-[100] border-b border-premium-powder/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20 md:h-32">
+        <div className="flex justify-between items-center h-16 md:h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center transition-transform hover:scale-105">
-            <img src={logo} alt="New Projects Bali" className="h-12 md:h-24 w-auto object-contain mix-blend-multiply" />
+            <img src={logo} alt="New Projects Bali" className="h-10 md:h-14 w-auto object-contain mix-blend-multiply" />
           </Link>
 
           {/* Desktop Navigation */}
