@@ -77,7 +77,7 @@ const FeaturedDevelopments = () => {
             autoplay={{ delay: 5000, disableOnInteraction: false }}
             lazy={{
               loadPrevNext: true,
-              loadPrevNextAmount: 2
+              loadPrevNextAmount: 1
             }}
             watchSlidesProgress={true}
             breakpoints={{

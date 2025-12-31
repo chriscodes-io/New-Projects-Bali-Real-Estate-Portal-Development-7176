@@ -118,4 +118,9 @@ const DevelopmentCard = ({ development }) => {
   );
 };
 
-export default React.memo(DevelopmentCard);
+// Memoize with custom comparison to optimize re-renders
+// Only re-render if the development object itself changes
+export default React.memo(DevelopmentCard, (prevProps, nextProps) => {
+  return prevProps.development?.id === nextProps.development?.id &&
+         prevProps.development?.title === nextProps.development?.title;
+});

@@ -6,15 +6,15 @@ This document outlines the performance optimizations implemented to improve the 
 
 ### 1. Image Optimization (OptimizedImage.jsx)
 
-**Issue**: Images were not optimized for high-DPI (Retina) displays, resulting in poor quality on modern devices.
+**Issue**: Images were not optimized for high-DPI (Retina) displays, and could block the main thread during decoding.
 
 **Solution**:
-- Added `srcset` attribute support for high-DPI displays
-- Added `decoding="async"` to prevent blocking the main thread
+- Added `decoding="async"` to prevent blocking the main thread during image decode
 - Wrapped component in `React.memo()` to prevent unnecessary re-renders
+- Added TODO comments for future CDN integration with dynamic image resizing
 - Improved rendering performance for image-heavy pages
 
-**Impact**: Better image quality on Retina displays with minimal performance overhead.
+**Impact**: Non-blocking image decoding improves perceived page load performance.
 
 ---
 
@@ -24,7 +24,7 @@ This document outlines the performance optimizations implemented to improve the 
 
 **Solution**: Wrapped frequently rendered components with `React.memo()`:
 - `OptimizedImage` - Prevents re-render when image props haven't changed
-- `DevelopmentCard` - Prevents re-render in property grids
+- `DevelopmentCard` - Custom memo comparison checks only id and title for optimal performance
 - `FeaturedDevelopments` - Prevents re-render of entire carousel
 - `FilterSidebar` - Prevents re-render when filters haven't changed
 
@@ -52,7 +52,7 @@ This document outlines the performance optimizations implemented to improve the 
 **Solution**:
 - Enabled Swiper's lazy loading feature
 - Set `loadPrevNext: true` to preload adjacent slides
-- Set `loadPrevNextAmount: 2` for smooth navigation
+- Set `loadPrevNextAmount: 1` for minimal network overhead while maintaining smooth navigation
 - Added `watchSlidesProgress: true` for better load timing
 
 **Impact**: 40% reduction in initial page load time for homepage.

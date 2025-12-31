@@ -8,16 +8,12 @@ const OptimizedImage = ({ src, alt, className, ...props }) => {
   const handleError = () => setError(true);
 
   // Generate srcset for high-DPI displays (Retina support)
-  // This is a simple implementation that assumes the source can be modified with query params
-  // For production, consider using a CDN that supports automatic image optimization
+  // Note: This is a basic implementation. For production, use a CDN with image optimization
+  // (e.g., Cloudinary, Imgix) that can automatically serve different resolutions
   const generateSrcSet = (src) => {
-    if (!src) return null;
-    // Check if it's an external URL that might support dynamic resizing
-    if (src.includes('wp-content') || src.includes('uploads')) {
-      // For WordPress or similar systems, you can append size params
-      // This is a placeholder - adjust based on your image server capabilities
-      return `${src} 1x, ${src} 2x`;
-    }
+    // Since we don't have dynamic image resizing, we'll skip srcset for now
+    // and rely on the browser's native scaling, which works well for modern displays
+    // TODO: Integrate with CDN that supports ?w=width&dpr=2 query params
     return null;
   };
 
@@ -36,7 +32,6 @@ const OptimizedImage = ({ src, alt, className, ...props }) => {
       )}
       <img
         src={src}
-        srcSet={generateSrcSet(src)}
         alt={alt}
         className={`w-full h-full object-cover ${loaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-500`}
         onLoad={handleLoad}
