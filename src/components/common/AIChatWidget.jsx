@@ -31,17 +31,13 @@ const AIChatWidget = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("AIChatWidget.handleSubmit triggered. Input:", input, "isLoading:", isLoading);
 
     if (!input.trim() || isLoading) {
-      console.log("Submission blocked: input empty or already loading.");
       return;
     }
 
-    console.log("Calling sdkHandleSubmit...");
     try {
       sdkHandleSubmit(e);
-      console.log("sdkHandleSubmit called successfully.");
     } catch (err) {
       console.error("handleSubmit Crash:", err);
     }

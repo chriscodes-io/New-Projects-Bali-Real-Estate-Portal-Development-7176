@@ -12,8 +12,7 @@ const LeadCaptureForm = () => {
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
   const onSubmit = async (data) => {
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    // In production, this would send data to your backend API
     toast.success('Inquiry sent successfully! We will contact you shortly.');
     reset();
   };
