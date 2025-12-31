@@ -251,4 +251,4 @@ const FilterSidebar = ({ isOpen, onClose, filters = {}, onFiltersChange }) => {
   );
 };
 
-export default FilterSidebar;
+export default React.memo(FilterSidebar);

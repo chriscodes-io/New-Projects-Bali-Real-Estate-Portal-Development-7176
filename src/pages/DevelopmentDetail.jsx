@@ -50,9 +50,6 @@ const DevelopmentDetail = () => {
     }, 1500); // Update stage every 1.5 seconds
 
     try {
-      // Simulate network delay for the actual API call
-      await new Promise(resolve => setTimeout(resolve, 3000)); // Minimum 3 seconds for API call
-
       const response = await fetch('/api/summary', {
         method: 'POST',
         headers: {

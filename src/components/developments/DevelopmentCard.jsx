@@ -40,6 +40,7 @@ const DevelopmentCard = ({ development }) => {
       whileHover={{ y: -5 }}
       transition={{ duration: 0.3 }}
       className="group bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-xl hover:shadow-premium-blue/10 transition-all duration-300 flex flex-col h-full"
+      style={{ willChange: 'transform' }}
     >
       {/* Image Container - Aspect Ratio 4:3 */}
       <div className="relative aspect-[4/3] overflow-hidden bg-gray-200">
@@ -117,4 +118,4 @@ const DevelopmentCard = ({ development }) => {
   );
 };
 
-export default DevelopmentCard;
+export default React.memo(DevelopmentCard);

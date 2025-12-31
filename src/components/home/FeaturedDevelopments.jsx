@@ -75,6 +75,11 @@ const FeaturedDevelopments = () => {
               dynamicBullets: true
             }}
             autoplay={{ delay: 5000, disableOnInteraction: false }}
+            lazy={{
+              loadPrevNext: true,
+              loadPrevNextAmount: 2
+            }}
+            watchSlidesProgress={true}
             breakpoints={{
               640: { slidesPerView: 1 },
               768: { slidesPerView: 2 },
@@ -86,6 +91,7 @@ const FeaturedDevelopments = () => {
               <SwiperSlide key={project.id} className="h-auto">
                 <div
                   className="bg-white rounded-2xl shadow-sm hover:shadow-2xl hover:shadow-premium-blue/10 transition-all duration-500 overflow-hidden group border border-gray-100 h-[520px] flex flex-col hover:-translate-y-2 relative"
+                  style={{ willChange: 'transform, box-shadow' }}
                 >
                   <div className="relative h-64 flex-shrink-0 overflow-hidden">
                     <OptimizedImage
@@ -175,4 +181,4 @@ const FeaturedDevelopments = () => {
   );
 };
 
-export default FeaturedDevelopments;
+export default React.memo(FeaturedDevelopments);

@@ -97,18 +97,15 @@ const PROJECTS = [
 
 
 export default async function handler(req, res) {
-    console.log("Chat API Request received:", {
-        method: req.method,
-        hasBody: !!req.body,
-        messageCount: req.body?.messages?.length
-    });
-
     const { messages } = req.body;
 
     if (!messages) {
         return res.status(400).json({ error: "Messages are required" });
     }
 
+    // TODO: For better performance with large inventories (>25 properties),
+    // consider migrating to a vector search solution (e.g., Pinecone, Vercel KV)
+    // to reduce prompt size and improve response times
     const inventoryContext = JSON.stringify(PROJECTS, null, 2);
 
     try {
