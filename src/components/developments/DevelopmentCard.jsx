@@ -118,9 +118,6 @@ const DevelopmentCard = ({ development }) => {
   );
 };
 
-// Memoize with custom comparison to optimize re-renders
-// Only re-render if the development object itself changes
-export default React.memo(DevelopmentCard, (prevProps, nextProps) => {
-  return prevProps.development?.id === nextProps.development?.id &&
-         prevProps.development?.title === nextProps.development?.title;
-});
+// Memoize with shallow comparison of the development prop
+// This works because PROJECTS array is static and development objects don't change reference
+export default React.memo(DevelopmentCard);
