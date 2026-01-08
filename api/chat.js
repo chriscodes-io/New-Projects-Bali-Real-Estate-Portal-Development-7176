@@ -1,6 +1,52 @@
 import { google } from '@ai-sdk/google';
 import { streamText } from 'ai';
 
+// --- RATE LIMITING ---
+// Simple in-memory rate limiter (per-IP)
+// For production scale, consider using Vercel KV or Upstash Redis
+const rateLimitMap = new Map();
+const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
+const MAX_REQUESTS_PER_WINDOW = 10;
+
+/**
+ * Check if the request should be rate limited
+ * @param {string} ip - Client IP address
+ * @returns {{ limited: boolean, remaining: number, resetTime: number }}
+ */
+function checkRateLimit(ip) {
+    const now = Date.now();
+    const clientData = rateLimitMap.get(ip);
+
+    if (!clientData || now > clientData.resetTime) {
+        // First request or window expired - reset
+        rateLimitMap.set(ip, {
+            count: 1,
+            resetTime: now + RATE_LIMIT_WINDOW_MS
+        });
+        return { limited: false, remaining: MAX_REQUESTS_PER_WINDOW - 1, resetTime: now + RATE_LIMIT_WINDOW_MS };
+    }
+
+    if (clientData.count >= MAX_REQUESTS_PER_WINDOW) {
+        // Rate limit exceeded
+        return { limited: true, remaining: 0, resetTime: clientData.resetTime };
+    }
+
+    // Increment counter
+    clientData.count++;
+    rateLimitMap.set(ip, clientData);
+    return { limited: false, remaining: MAX_REQUESTS_PER_WINDOW - clientData.count, resetTime: clientData.resetTime };
+}
+
+// Cleanup old entries every 5 minutes to prevent memory leaks
+setInterval(() => {
+    const now = Date.now();
+    for (const [ip, data] of rateLimitMap.entries()) {
+        if (now > data.resetTime + RATE_LIMIT_WINDOW_MS) {
+            rateLimitMap.delete(ip);
+        }
+    }
+}, 5 * 60 * 1000);
+
 // --- INVENTORY DATA (Context) ---
 // We embed this directly to ensure fast, reliable RAG without external DBs for now.
 const PROJECTS = [
@@ -97,6 +143,26 @@ const PROJECTS = [
 
 
 export default async function handler(req, res) {
+    // --- RATE LIMITING CHECK ---
+    const clientIp = req.headers['x-forwarded-for']?.split(',')[0]?.trim()
+        || req.headers['x-real-ip']
+        || req.socket?.remoteAddress
+        || 'unknown';
+
+    const { limited, remaining, resetTime } = checkRateLimit(clientIp);
+
+    // Set rate limit headers
+    res.setHeader('X-RateLimit-Limit', MAX_REQUESTS_PER_WINDOW);
+    res.setHeader('X-RateLimit-Remaining', remaining);
+    res.setHeader('X-RateLimit-Reset', Math.ceil(resetTime / 1000));
+
+    if (limited) {
+        return res.status(429).json({
+            error: 'Too many requests. Please wait a moment before trying again.',
+            retryAfter: Math.ceil((resetTime - Date.now()) / 1000)
+        });
+    }
+
     console.log("Chat API Request received:", {
         method: req.method,
         hasBody: !!req.body,
