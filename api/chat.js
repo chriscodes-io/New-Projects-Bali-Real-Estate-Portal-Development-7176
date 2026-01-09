@@ -229,8 +229,11 @@ export default async function handler(req, res) {
             model: google('gemini-2.5-flash-preview-05-20'), // Upgraded to Gemini 2.5 Flash
             maxSteps: 10,
 
-            // --- TOOLS: Enable HubSpot lead capture ---
+            // --- TOOLS: Enable Google Search grounding + HubSpot lead capture ---
             tools: {
+                // Google Search for live market data
+                google_search: google.tools.googleSearch({}),
+                // HubSpot CRM integration
                 saveLead: tool({
                     description: 'Save a lead to HubSpot CRM when a user provides their contact information. Call this AFTER the user voluntarily shares their name and email.',
                     parameters: z.object({

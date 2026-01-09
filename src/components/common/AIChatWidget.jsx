@@ -91,7 +91,7 @@ const AIChatWidget = () => {
                 </div>
                 <div>
                   <h3 className="font-bold text-sm">Investment Guide</h3>
-                  <p className="text-xs text-white/80">Powered by Gemini 2.0 Flash Lite</p>
+                  <p className="text-xs text-white/80">Powered by Gemini 2.5 Flash</p>
                 </div>
               </div>
               <button

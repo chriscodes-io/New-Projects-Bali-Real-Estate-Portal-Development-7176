@@ -29,7 +29,7 @@ const DevelopmentDetail = () => {
   const [aiSummary, setAiSummary] = useState(null);
 
   const generationSteps = [
-    { label: "Initializing Gemini 2.0 Flash Lite...", delay: 1200 },
+    { label: "Initializing Gemini 2.5 Flash...", delay: 1200 },
     { label: `Analyzing premium market database for ${development?.location || 'Bali'}...`, delay: 1800 },
     { label: "Analyzing 2025 price indices and Q1 2026 projections...", delay: 1500 },
     { label: "Grounding investment projections with latest infrastructure news...", delay: 1200 },
@@ -561,17 +561,17 @@ const DevelopmentDetail = () => {
             className="bg-white rounded-2xl shadow-2xl max-w-lg w-full flex flex-col max-h-[90vh] my-auto"
           >
             {/* Header - Fixed */}
-            <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-6 text-white flex justify-between items-start shrink-0">
-              <div>
-                <div className="flex items-center gap-2 mb-2 opacity-90">
-                  <SafeIcon icon={FaRobot} />
-                  <span className="text-sm font-bold uppercase tracking-wider">AI Investment Report</span>
+            <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-4 md:p-6 text-white flex justify-between items-start shrink-0">
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1 md:mb-2 opacity-90">
+                  <SafeIcon icon={FaRobot} className="text-sm md:text-base" />
+                  <span className="text-xs md:text-sm font-bold uppercase tracking-wider">AI Investment Report</span>
                 </div>
-                <h3 className="text-2xl font-bold">{development.title}</h3>
+                <h3 className="text-lg md:text-2xl font-bold truncate">{development.title}</h3>
               </div>
               <button
                 onClick={() => setShowAISummary(false)}
-                className="p-1 hover:bg-white/20 rounded-full transition-colors"
+                className="p-2 hover:bg-white/20 rounded-full transition-colors ml-2 min-w-[44px] min-h-[44px] flex items-center justify-center"
                 aria-label="Close modal"
               >
                 <SafeIcon icon={FaChevronRight} className="rotate-90" />
@@ -579,66 +579,66 @@ const DevelopmentDetail = () => {
             </div>
 
             {/* Content - Scrollable */}
-            <div className="p-6 space-y-6 overflow-y-auto custom-scrollbar">
+            <div className="p-4 md:p-6 space-y-4 md:space-y-6 overflow-y-auto custom-scrollbar">
               {/* Rental Outlook */}
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600 flex-shrink-0 shadow-sm border border-green-200">
-                  <SafeIcon icon={FaCheckCircle} className="text-xl" />
+              <div className="flex items-start gap-3 md:gap-4">
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600 flex-shrink-0 shadow-sm border border-green-200">
+                  <SafeIcon icon={FaCheckCircle} className="text-base md:text-xl" />
                 </div>
-                <div>
-                  <h4 className="font-bold text-gray-900 mb-1">Rental Outlook</h4>
-                  <p className="text-sm text-gray-600 leading-relaxed">
+                <div className="flex-1 min-w-0">
+                  <h4 className="font-bold text-gray-900 mb-1 text-sm md:text-base">Rental Outlook</h4>
+                  <p className="text-xs md:text-sm text-gray-600 leading-relaxed">
                     {aiSummary.rentalOutlook}
                   </p>
                 </div>
               </div>
 
               {/* Capital Appreciation */}
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 flex-shrink-0 shadow-sm border border-blue-200">
-                  <SafeIcon icon={FaCalendarAlt} className="text-xl" />
+              <div className="flex items-start gap-3 md:gap-4">
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 flex-shrink-0 shadow-sm border border-blue-200">
+                  <SafeIcon icon={FaCalendarAlt} className="text-base md:text-xl" />
                 </div>
-                <div>
-                  <h4 className="font-bold text-gray-900 mb-1">Capital Appreciation Path</h4>
-                  <p className="text-sm text-gray-600 leading-relaxed">
+                <div className="flex-1 min-w-0">
+                  <h4 className="font-bold text-gray-900 mb-1 text-sm md:text-base">Capital Appreciation Path</h4>
+                  <p className="text-xs md:text-sm text-gray-600 leading-relaxed">
                     {aiSummary.capitalGrowth}
                   </p>
                 </div>
               </div>
 
               {/* Verdict */}
-              <div className="bg-indigo-50/50 rounded-xl p-4 border border-indigo-100 relative group">
-                <div className="absolute top-0 right-0 p-2">
-                  <div className="bg-indigo-600 text-[10px] text-white px-2 py-0.5 rounded-full font-bold shadow-sm">Verified Grounding</div>
+              <div className="bg-indigo-50/50 rounded-xl p-3 md:p-4 border border-indigo-100 relative group">
+                <div className="absolute top-0 right-0 p-1.5 md:p-2">
+                  <div className="bg-indigo-600 text-[8px] md:text-[10px] text-white px-1.5 md:px-2 py-0.5 rounded-full font-bold shadow-sm">Verified Grounding</div>
                 </div>
-                <h4 className="font-bold text-indigo-900 mb-2 text-sm flex items-center gap-2">
+                <h4 className="font-bold text-indigo-900 mb-2 text-xs md:text-sm flex items-center gap-2 mt-4 md:mt-0">
                   <SafeIcon icon={FaRobot} className="text-xs" />
                   Gemini Intelligence Verdict
                 </h4>
-                <p className="text-sm text-indigo-800 italic leading-relaxed">
+                <p className="text-xs md:text-sm text-indigo-800 italic leading-relaxed">
                   "{aiSummary.verdict}"
                 </p>
               </div>
 
               {/* Verified Sources */}
-              <div className="border-t border-gray-100 pt-4">
-                <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3">Intelligence Sources</p>
-                <div className="grid grid-cols-2 gap-2">
+              <div className="border-t border-gray-100 pt-3 md:pt-4">
+                <p className="text-[10px] md:text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-2 md:mb-3">Intelligence Sources</p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   {aiSummary.sources?.map((source, i) => (
-                    <div key={i} className="flex items-center gap-2 text-[10px] text-gray-600 font-medium bg-gray-50 p-2 rounded-lg border border-gray-100/50">
-                      <SafeIcon icon={FaMapMarkerAlt} className="text-[8px] text-indigo-400" />
-                      {source}
+                    <div key={i} className="flex items-center gap-2 text-[9px] md:text-[10px] text-gray-600 font-medium bg-gray-50 p-2 rounded-lg border border-gray-100/50">
+                      <SafeIcon icon={FaMapMarkerAlt} className="text-[8px] text-indigo-400 flex-shrink-0" />
+                      <span className="truncate">{source}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div className="flex items-center justify-center gap-2 pt-2 border-t border-gray-50 grayscale opacity-40">
-                <div className="text-[9px] font-bold text-gray-500 uppercase tracking-widest">Powered By</div>
-                <div className="h-3 w-px bg-gray-300 mx-1" />
-                <div className="text-[9px] font-bold text-gray-700">Google Search Grounding</div>
-                <div className="text-gray-400">•</div>
-                <div className="text-[9px] font-bold text-gray-700">Gemini 2.0 Flash Lite</div>
+              <div className="flex flex-wrap items-center justify-center gap-1 md:gap-2 pt-2 border-t border-gray-50 grayscale opacity-40">
+                <div className="text-[8px] md:text-[9px] font-bold text-gray-500 uppercase tracking-widest">Powered By</div>
+                <div className="h-3 w-px bg-gray-300 mx-1 hidden md:block" />
+                <div className="text-[8px] md:text-[9px] font-bold text-gray-700">Google Search</div>
+                <div className="text-gray-400 hidden md:block">•</div>
+                <div className="text-[8px] md:text-[9px] font-bold text-gray-700">Gemini 2.5 Flash</div>
               </div>
 
               <button
@@ -646,7 +646,7 @@ const DevelopmentDetail = () => {
                   setShowAISummary(false);
                   document.querySelector('input[name="email"]')?.focus();
                 }}
-                className="w-full py-3 bg-premium-purple text-white rounded-xl font-bold hover:bg-purple-600 transition-colors"
+                className="w-full py-3 bg-premium-purple text-white rounded-xl font-bold hover:bg-purple-600 transition-colors text-sm md:text-base min-h-[48px]"
               >
                 Request Detailed Analysis
               </button>

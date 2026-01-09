@@ -19,11 +19,15 @@ export default async function handler(req, res) {
         try {
             result = await generateObject({
                 model: google('gemini-2.5-flash-preview-05-20'),
+                // Enable Google Search grounding for real-time market data
+                tools: {
+                    google_search: google.tools.googleSearch({}),
+                },
                 schema: z.object({
-                    rentalOutlook: z.string().describe("A 2-3 sentence analysis of current rental demand and projected yields for this specific location."),
-                    capitalGrowth: z.string().describe("A 2-3 sentence analysis of recent land value trends and future infrastructure impact on growth."),
+                    rentalOutlook: z.string().describe("A 2-3 sentence analysis of current rental demand and projected yields for this specific location, grounded in recent news or data."),
+                    capitalGrowth: z.string().describe("A 2-3 sentence analysis of recent land value trends and future infrastructure impact on growth, citing any recent news or projects."),
                     verdict: z.string().describe("A concise specific verdict on why this property is a good investment."),
-                    sources: z.array(z.string()).describe("A list of 2-4 real data sources or news outlets used for this analysis (e.g. 'Bali Bureau of Statistics', 'AirDNA').")
+                    sources: z.array(z.string()).describe("A list of 2-4 real data sources, news articles, or official reports used for this analysis.")
                 }),
                 prompt: `
         Analyze the investment potential for this SPECIFIC Bali/Lombok property listing:
@@ -34,12 +38,17 @@ export default async function handler(req, res) {
         Current Yield Claim: ${property.yield}
 
         GOAL:
-        Generate a highly technical, hyper-specific investment report. DO NOT be generic.
+        Generate a highly technical, hyper-specific investment report using LIVE Google Search for the latest data. DO NOT be generic.
         
-        1. rentalOutlook: Focus on the specific micro-location demand. For example, if it's in Uluwatu, mention surf tourism and lack of luxury villa supply. If in Seseh, mention the expansion from Canggu. Cite the specific proximity to landmarks if relevant.
-        2. capitalGrowth: Pinpoint specific infrastructure or regulatory shifts (e.g., changes in Golden Visa, specific road projects, or tourism development zones). Avoid general "Bali is growing" statements.
+        IMPORTANT: Use Google Search to find:
+        - Recent news about ${property.location} infrastructure, tourism, or real estate (within the last 6 months)
+        - Current rental yield data for the area
+        - Any recent government announcements about visas, regulations, or development zones
+        
+        1. rentalOutlook: Focus on the specific micro-location demand. If it's in Uluwatu, search for surf tourism stats. If in Seseh, search for Canggu expansion news. Cite specific data you find.
+        2. capitalGrowth: Search for specific infrastructure projects (new roads, airports, tourism zones) or regulatory changes (Golden Visa updates, foreign ownership rules). Ground your answer in current news.
         3. verdict: A razor-sharp 1-sentence decision. E.g., "High-yield play for aggressive investors" or "Stable capital appreciation asset suitable for long-term holding."
-        4. sources: Cite real, verifiable sources or trends (e.g. 'AirDNA Uluwatu data', 'Bali Sun Tourism Reports Dec 2025').
+        4. sources: Cite the actual sources you found via search (news articles, government sites, data providers).
       `,
             });
         } catch (error) {
