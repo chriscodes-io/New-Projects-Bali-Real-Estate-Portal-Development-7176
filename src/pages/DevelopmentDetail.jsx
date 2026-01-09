@@ -646,7 +646,7 @@ const DevelopmentDetail = () => {
                   setShowAISummary(false);
                   document.querySelector('input[name="email"]')?.focus();
                 }}
-                className="w-full py-3 bg-premium-black text-white rounded-xl font-bold hover:bg-gray-800 transition-colors"
+                className="w-full py-3 bg-premium-purple text-white rounded-xl font-bold hover:bg-purple-600 transition-colors"
               >
                 Request Detailed Analysis
               </button>
@@ -654,6 +654,25 @@ const DevelopmentDetail = () => {
           </motion.div>
         </div>
       )}
+
+      {/* Mobile Sticky CTA Bar */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 md:hidden z-40 shadow-xl">
+        <div className="flex gap-3 max-w-lg mx-auto">
+          <button
+            onClick={() => document.querySelector('input[name="email"]')?.focus()}
+            className="flex-1 bg-premium-purple hover:bg-purple-600 text-white py-3 rounded-xl font-bold transition-colors shadow-lg flex items-center justify-center gap-2"
+          >
+            <SafeIcon icon={FaEnvelope} />
+            <span>Request Info</span>
+          </button>
+          <a
+            href="tel:+62361123456"
+            className="px-4 bg-premium-blue hover:bg-blue-600 text-white py-3 rounded-xl font-bold transition-colors flex items-center justify-center"
+          >
+            <SafeIcon icon={FaPhone} />
+          </a>
+        </div>
+      </div>
 
     </div>
   );

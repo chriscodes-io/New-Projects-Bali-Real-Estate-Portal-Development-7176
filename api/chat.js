@@ -1,5 +1,6 @@
 import { google } from '@ai-sdk/google';
-import { streamText } from 'ai';
+import { streamText, tool } from 'ai';
+import { z } from 'zod';
 
 // --- RATE LIMITING ---
 // Simple in-memory rate limiter (per-IP)
@@ -136,10 +137,56 @@ const PROJECTS = [
     }
 ];
 
-// Node.js runtime for stability
-// export const config = {
-//     runtime: 'edge',
-// };
+// --- HUBSPOT INTEGRATION VIA PICA PASSTHROUGH ---
+/**
+ * Create a HubSpot contact using PicaOS Passthrough API
+ * @param {object} contact - Contact details
+ * @returns {Promise<object>} - Created contact or error
+ */
+async function createHubSpotContact({ email, firstName, lastName, phone, propertyInterest }) {
+    const PICA_SECRET_KEY = process.env.PICA_SECRET_KEY;
+    const PICA_HUBSPOT_CONNECTION_KEY = process.env.PICA_HUBSPOT_CONNECTION_KEY;
+
+    if (!PICA_SECRET_KEY || !PICA_HUBSPOT_CONNECTION_KEY) {
+        console.warn('PicaOS credentials not configured - skipping HubSpot integration');
+        return { success: false, error: 'CRM integration not configured' };
+    }
+
+    try {
+        const response = await fetch('https://api.picaos.com/v1/passthrough/crm/v3/objects/contacts', {
+            method: 'POST',
+            headers: {
+                'x-pica-secret': PICA_SECRET_KEY,
+                'x-pica-connection-key': PICA_HUBSPOT_CONNECTION_KEY,
+                'x-pica-action-id': 'conn_mod_def::GDcIHDalaS8::eEv4pjvCTcuDT-052kCSgg',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                properties: {
+                    email,
+                    firstname: firstName,
+                    lastname: lastName,
+                    phone: phone || '',
+                    // Custom property for property interest (ensure this exists in HubSpot)
+                    message: `Interested in: ${propertyInterest || 'General inquiry'}`
+                }
+            })
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            console.error('HubSpot create contact error:', error);
+            return { success: false, error: error.message || 'Failed to create contact' };
+        }
+
+        const data = await response.json();
+        console.log('HubSpot contact created:', data.id);
+        return { success: true, contactId: data.id };
+    } catch (error) {
+        console.error('HubSpot API error:', error);
+        return { success: false, error: error.message };
+    }
+}
 
 
 export default async function handler(req, res) {
@@ -179,8 +226,33 @@ export default async function handler(req, res) {
 
     try {
         const result = await streamText({
-            model: google('gemini-2.0-flash-lite-preview-02-05'), // Using 2.0 Flash Lite as requested
-            maxSteps: 5,
+            model: google('gemini-2.5-flash-preview-05-20'), // Upgraded to Gemini 2.5 Flash
+            maxSteps: 10,
+
+            // --- TOOLS: Enable HubSpot lead capture ---
+            tools: {
+                saveLead: tool({
+                    description: 'Save a lead to HubSpot CRM when a user provides their contact information. Call this AFTER the user voluntarily shares their name and email.',
+                    parameters: z.object({
+                        email: z.string().email().describe('User email address'),
+                        firstName: z.string().describe('User first name'),
+                        lastName: z.string().optional().describe('User last name (optional)'),
+                        phone: z.string().optional().describe('User phone number (optional)'),
+                        propertyInterest: z.string().optional().describe('Which property or type of property the user is interested in')
+                    }),
+                    execute: async ({ email, firstName, lastName, phone, propertyInterest }) => {
+                        const result = await createHubSpotContact({
+                            email,
+                            firstName,
+                            lastName: lastName || '',
+                            phone,
+                            propertyInterest
+                        });
+                        return result;
+                    }
+                })
+            },
+
             system: `You are the Expert AI Sales Agent for "New Projects Bali", a luxury real estate portal.
     
         1. **YOUR GOAL**: Assist investors naturally and build rapport. Your ultimate goal is to schedule a viewing or send a brochure, BUT you must earn trust first.
@@ -199,11 +271,17 @@ export default async function handler(req, res) {
         
         5. **RULES OF ENGAGEMENT (STRICT)**:
            - **NO GATEKEEPING**: Never refuse to answer a question until you get contact details. Answer first, then *subtly* guide.
-           - **NATURAL FLOW**: Do not ask "What is your name?" or "What is your email?" immediately. generic questions are fine.
+           - **NATURAL FLOW**: Do not ask "What is your name?" or "What is your email?" immediately. Generic questions are fine.
            - **VALUE EXCHANGE**: Only ask for contact details when you have something specific to offer that requires it (e.g., "I can email you the full PDF brochure and floorplans if you'd like?").
            - **RESPECT**: If they decline to give details, accept it gracefully and continue helping.
         
-        6. **GENERAL RULES**:
+        6. **LEAD CAPTURE TOOL**:
+           - You have a tool called "saveLead" that saves user contact info to our CRM.
+           - **ONLY** use this tool when a user VOLUNTARILY provides their name AND email.
+           - NEVER ask for info just to use this tool. Let it happen naturally.
+           - After saving, confirm briefly: "Thanks [Name]! I've noted your details and will send that over."
+        
+        7. **GENERAL RULES**:
            - If the user asks for "ROI" or "Yield", quote the specific % from the inventory.
            - If the user asks for "Price", quote the exact price.
            - Keep answers concise (under 3 paragraphs) unless asked for deep detail.

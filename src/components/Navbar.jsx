@@ -70,7 +70,7 @@ const Navbar = () => {
               <div className="relative ml-4" data-user-menu>
                 <button
                   onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="flex items-center space-x-2 px-4 py-2 bg-premium-black text-white rounded-md font-medium text-sm hover:bg-gray-800 transition-colors"
+                  className="flex items-center space-x-2 px-4 py-2 bg-premium-purple text-white rounded-md font-medium text-sm hover:bg-purple-600 transition-colors"
                 >
                   <User className="w-4 h-4" />
                   <span>{userRole === 'admin' ? 'Admin' : 'Developer'}</span>
@@ -125,7 +125,7 @@ const Navbar = () => {
               /* Login Button */
               <Link
                 to="/login"
-                className="ml-4 px-6 py-2 bg-premium-black text-white rounded-md font-medium text-sm hover:bg-gray-800 transition-colors"
+                className="ml-4 px-6 py-2 bg-premium-purple text-white rounded-md font-medium text-sm hover:bg-purple-600 transition-colors"
               >
                 Login
               </Link>
@@ -208,7 +208,7 @@ const Navbar = () => {
                     <Link
                       to="/login"
                       onClick={() => setIsOpen(false)}
-                      className="block w-full px-4 py-2 bg-premium-black text-white text-center rounded-md font-medium text-sm hover:bg-gray-800 transition-colors"
+                      className="block w-full px-4 py-2 bg-premium-purple text-white text-center rounded-md font-medium text-sm hover:bg-purple-600 transition-colors"
                     >
                       Login
                     </Link>

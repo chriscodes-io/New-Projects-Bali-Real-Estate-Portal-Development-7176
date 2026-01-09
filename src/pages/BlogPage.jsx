@@ -85,7 +85,7 @@ const BlogPage = () => {
               alt={posts[0].title}
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-premium-black/70 via-transparent to-transparent"></div>
 
             <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
               <span className="inline-block bg-premium-blue text-white px-4 py-1 rounded-full text-sm font-semibold mb-4">
