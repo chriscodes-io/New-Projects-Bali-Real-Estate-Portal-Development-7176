@@ -18,7 +18,7 @@ export default async function handler(req, res) {
         let result;
         try {
             result = await generateObject({
-                model: google('gemini-2.5-flash-preview-05-20'),
+                model: google('gemini-2.5-flash'),
                 // Enable Google Search grounding for real-time market data
                 tools: {
                     google_search: google.tools.googleSearch({}),

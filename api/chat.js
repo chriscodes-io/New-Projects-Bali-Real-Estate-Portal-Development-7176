@@ -226,7 +226,7 @@ export default async function handler(req, res) {
 
     try {
         const result = await streamText({
-            model: google('gemini-2.5-flash-preview-05-20'), // Upgraded to Gemini 2.5 Flash
+            model: google('gemini-2.5-flash'),
             maxSteps: 10,
 
             // --- TOOLS: Enable Google Search grounding + HubSpot lead capture ---
