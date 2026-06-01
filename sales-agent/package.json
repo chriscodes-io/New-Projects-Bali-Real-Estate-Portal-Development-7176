@@ -9,7 +9,7 @@
         "build": "tsc"
     },
     "dependencies": {
-        "ai": "^3.0.0",
+        "ai": "^6.0.194",
         "@picahq/mcp": "^1.0.0",
         "dotenv": "^16.4.5",
         "zod": "^3.22.4"
